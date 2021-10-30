@@ -18,6 +18,8 @@ export default new Vuex.Store({
 */
 
 //モジュールモード
+import axios from 'axios'
+
 //stateはdataプロパティと同じ様なもの
 export const state = () => ({
     message: 'Hello Vuex',
@@ -27,6 +29,7 @@ export const state = () => ({
     	    {name: 'Ken', email: 'ken@amazon.com',age:29}
         ],
     count: 0,//カウント初期値
+    t_users: [],
 })
 
 export const getters = {
@@ -43,16 +46,47 @@ export const mutations = {
     
     increment_act: function(state){
         state.count++
+    },
+    
+    setUsers: function(state, posts){
+        state.t_users = posts
     }
     
 }
 
 export const actions = {
     incrementOne: function(context){
-        //console.log(context)
         //mutationsを起動する
         context.commit('increment_act')
+        
+        //非同期テスト 3秒後にカウントが増える
+        setTimeout(() => {
+            context.commit('increment_act')
+        }, 3000)
+    },
+    /*contextの中でcommitしか使わないのであればES6のDestructuringで短縮もできる
+    incrementOne: function({commit}){
+        commit('increment_act')
     }
+    */
+    getUsers:async function({commit}){
+        
+        // @nuxtjs/axiosを使用する場合
+        const posts = await this.$axios.$get('https://jsonplaceholder.typicode.com/users')
+        console.log(posts)
+            commit('setUsers', posts)
+        
+        /*
+        // 通常のaxiosを使用する場合
+        return axios.get('https://jsonplaceholder.typicode.com/users')
+        .then(response  => {
+            commit('setUsers', response.data)
+        })
+        */
+        
+    }
+    
+    
 }
 
 export const modules = {
