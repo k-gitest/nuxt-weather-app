@@ -9,8 +9,10 @@
     </ul>
     <div>
         <button @click="increment">カウントボタン</button>
-        <button @click="increment_act">actionボタン</button>
+        <button @click="increment_act">時間差actionボタン</button>
+        <button @click="textTest">文字追加</button>
         <p>カウント：{{ count }}</p>
+        <p>カウント二乗：{{ double }}</p>
     </div>
     
     <h2>ユーザー一覧</h2>
@@ -22,7 +24,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import StoreX from '@/components/StoreX.vue'
 
 export default {
@@ -54,7 +56,8 @@ export default {
           return this.$store.state.storetest.t_users
       },
       //map
-      ...mapState('storetest', ['sample'])
+      ...mapState('storetest', ['sample']),
+      ...mapGetters('storetest', ['double'])
   },
   methods: {
       increment: function(){
@@ -69,6 +72,7 @@ export default {
           //actionsの呼び出し dispatchを使用する
           this.$store.dispatch('storetest/incrementOne')
       },
+      ...mapActions('storetest', ['textTest'])
   },
   mounted(){
       // 非同期通信で外部apiを呼び出す

@@ -37,6 +37,9 @@ export const state = () => ({
 export const getters = {
   users: function(state){
       return state.users.filter(user => user.age < 30 )
+  },
+  double: function(state){
+      return state.count**2
   }
 }
 
@@ -89,7 +92,9 @@ export const actions = {
             commit('setUsers', response.data)
         })
         */
-        
+    },
+    textTest: function({commit}){
+        commit('mouse')
     }
     
     
