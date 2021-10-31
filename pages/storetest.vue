@@ -2,6 +2,8 @@
   <div id="app">
     <h1>{{ store_msg }}</h1>
     <StoreX />
+    <p>{{ sample }}</p>
+    <button @click="mouse">オス</button>
     <ul>
         <li v-for="user in users">{{ user.name }} {{ user.mail}} {{ user.age }}</li>
     </ul>
@@ -11,6 +13,7 @@
         <p>カウント：{{ count }}</p>
     </div>
     
+    <h2>ユーザー一覧</h2>
     <div v-for="t_user in t_users" :key=t_user.id>
         {{ t_user.name }}
     </div>
@@ -19,10 +22,11 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex'
 import StoreX from '@/components/StoreX.vue'
 
 export default {
-  namespace: true,
+  //namespace: true,
   name: 'app',
   data: function(){
     return {
@@ -48,13 +52,18 @@ export default {
       },
       t_users: function(){
           return this.$store.state.storetest.t_users
-      }
+      },
+      //map
+      ...mapState('storetest', ['sample'])
   },
   methods: {
       increment: function(){
           //mutationの呼び出し commitを使用する 第二引数のpayloadで値を渡す
           this.$store.commit('storetest/increment', 1)
+          
+          //map
       },
+      ...mapMutations('storetest', ['mouse']),
       
       increment_act: function(){
           //actionsの呼び出し dispatchを使用する
@@ -62,6 +71,7 @@ export default {
       },
   },
   mounted(){
+      // 非同期通信で外部apiを呼び出す
       this.$store.dispatch('storetest/getUsers')
   }
 }

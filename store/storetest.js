@@ -30,6 +30,8 @@ export const state = () => ({
         ],
     count: 0,//カウント初期値
     t_users: [],
+    sample: 'sample',
+    mes: 'message'
 })
 
 export const getters = {
@@ -50,6 +52,10 @@ export const mutations = {
     
     setUsers: function(state, posts){
         state.t_users = posts
+    },
+    
+    mouse: function(state){
+        state.sample = state.sample + state.mes
     }
     
 }
@@ -73,7 +79,7 @@ export const actions = {
         
         // @nuxtjs/axiosを使用する場合
         const posts = await this.$axios.$get('https://jsonplaceholder.typicode.com/users')
-        console.log(posts)
+            //console.log(posts)
             commit('setUsers', posts)
         
         /*
