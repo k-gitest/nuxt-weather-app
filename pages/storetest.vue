@@ -20,12 +20,18 @@
         {{ t_user.name }}
     </div>
     
+    <div>
+        <h2>チャート</h2>
+        <TestChart />
+        
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import StoreX from '@/components/StoreX.vue'
+import TestChart from '@/components/TestChart.vue'
 
 export default {
   //namespace: true,
@@ -37,7 +43,8 @@ export default {
   },
   //子コンポーネントからでもstoreにアクセスできる
   components: {
-      StoreX
+      StoreX,
+      TestChart,
   },
   //アクセス名の変更をしてみる
   computed: {
@@ -77,7 +84,8 @@ export default {
   mounted(){
       // 非同期通信で外部apiを呼び出す
       this.$store.dispatch('storetest/getUsers')
-  }
+  },
+  
 }
 
 </script>
