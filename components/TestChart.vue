@@ -1,17 +1,22 @@
 <script>
+// chart.jsはテンプレートを使用しない
+// LineやBarなど使用するチャートの読み込み
 import { Bar } from 'vue-chartjs'
 
 export default {
+  //extendsで使用するチャートの継承
   extends: Bar,
+  
   data() {
     return {
       chartData: {
-        labels: ['January', 'February'],
+        // labalsが横軸
+        labels: ['January', 'February', 'March', 'April'],
         datasets: [
           {
             label: 'Data One',
             backgroundColor: '#f87979',
-            data: [40, 20],
+            data: [40, 20, 10, 35],
           },
         ],
       },
@@ -22,6 +27,7 @@ export default {
     }
   },
   mounted() {
+    //dataとoptionでチャートを描画
     this.renderChart(this.chartData, this.options)
   },
 }

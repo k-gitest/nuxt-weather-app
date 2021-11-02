@@ -44,7 +44,6 @@ export default {
   //子コンポーネントからでもstoreにアクセスできる
   components: {
       StoreX,
-      TestChart,
   },
   //アクセス名の変更をしてみる
   computed: {
