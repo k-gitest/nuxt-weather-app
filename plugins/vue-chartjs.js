@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import { Bar } from 'vue-chartjs'
 
-Vue.component('BarChart', {
+//pluginを使ったチャート表示
+Vue.component('barchart', {
     extends: Bar,
+    //propsでデータを受け渡す
     props: {
         chartdata: {
             type: Object,

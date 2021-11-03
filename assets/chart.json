@@ -11,6 +11,10 @@
         {
             "month": "March",
             "sale": "18"
+        },
+        {
+            "month": "April",
+            "sale": "30"
         }
     ]
 }

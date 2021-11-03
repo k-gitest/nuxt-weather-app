@@ -1,4 +1,5 @@
 <script>
+//jsonデータの読み込み
 import Data from '@/assets/chart.json'
 import { Line } from 'vue-chartjs'
 
@@ -7,6 +8,7 @@ export default {
     data(){
         return {
             chartdata: {
+                //表示データをmapで抽出
                 labels: Data.data.map(data => data.month),
                 datasets: [
                         {

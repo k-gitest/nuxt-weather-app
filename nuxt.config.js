@@ -39,9 +39,22 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    // dartsass設定
+    loaders: {
+      scss: {
+        implementation: require('sass'),
+        sassOptions: {
+          fiber: require('fibers'),
+        },
+      },
+    },
   },
   
   //universalはSSR、spaはSSRではない
   mode: 'universal',
   //mode: 'spa',
+  
+  //loading
+  loading: '@/components/Loading.vue',
+  
 }

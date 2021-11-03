@@ -14,8 +14,11 @@ export default {
         labels: ['January', 'February', 'March', 'April'],
         datasets: [
           {
+            //チャートのタイトル
             label: 'Data One',
+            //グラフのカラー
             backgroundColor: '#f87979',
+            //チャートデータ配列
             data: [40, 20, 10, 35],
           },
         ],
