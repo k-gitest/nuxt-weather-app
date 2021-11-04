@@ -5,6 +5,11 @@
         <input type="text" name="addName" v-model="content" placeholder="タスクを入力してください">
         <button class="btn btn-success" @click="insert">追加</button>
     </div>
+    <div v-if="errors.length">
+    <ul>
+      <li v-for="error in errors" class="text-danger">{{ error }}</li>
+    </ul>
+    </div>
     <div class="pb-3">
         <button class="btn btn-primary" v-bind:class="{'is-active':(!find_flg)}" @click="flag_reset">全て</button>
         <button class="btn btn-primary" v-bind:class="{'is-active':find_flg && (find_state == '作業前')}" @click="find('作業前')">作業前</button>
@@ -46,6 +51,7 @@ import { mapState } from 'vuex'
 
 export default {
   head: {
+    // 外部css設定
     link:[
         {
             rel: 'stylesheet',
@@ -59,40 +65,60 @@ export default {
   data() {
     return {
       content: '',
-      find_state: '',
-      find_flg: false
+      // 絞込み判定用
+      find_state: '', 
+      find_flg: false, // 初期値はfalseで一覧表示
+      
+      errors: [],
     }
   },
   computed: {
+    // store使用
+    // stateをmapingで呼び出す
     ...mapState(['todos']),
+    
+    // data表示
     display_todos: function(){
         if(this.find_flg){
             let arr = []
             let data = this.todos
             data.forEach(element => {
+                // todosデータとボタンのfind_stateを照合
                 if(element.state == this.find_state){
+                    // 合致したらarrに追加
                     arr.push(element)
                 }
             })
             return arr
         } else {
+            // 一覧表示
             return this.todos
         }
     }
   },
   methods: {
+      // 追加
       insert: function() {
+        this.errors = [] //エラー初期化
+        
         if(this.content != ''){
           this.$store.commit('insert', {content: this.content})
           this.content = ''
+        } else {
+            // error処理
+            this.errors.push('タスクを入力してください')
         }
       },
+      // 削除
       remove: function(todo) {
           this.$store.commit('remove', todo)
       },
+      // 状態変化
       changeState: function(todo){
           this.$store.commit('changeState', todo)
       },
+      
+      //絞込み判定用
       find: function(find_state){
           this.find_state = find_state
           this.find_flg = true
