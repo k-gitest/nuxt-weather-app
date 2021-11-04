@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>ユーザID: {{ this.$route.params.id }}</h1>
-        <h2>{{ user.name }}</h2>
+        <h2 v-if="user">{{ user.name }}</h2>
     </div>
 </template>
 

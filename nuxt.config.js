@@ -1,9 +1,9 @@
 export default {
-  // Global page headers: https://go.nuxtjs.dev/config-head
+  // グローバルページヘッダー
   head: {
     title: process.env.npm_package_name || '',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },
@@ -16,30 +16,30 @@ export default {
     ]
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
+  // グローバルCSS
   css: [
   ],
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  // ページをレンダリングする前に実行するプラグイン
   plugins: [
     { src: '@/plugins/vue-chartjs.js', ssr:true },
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
+  // Aコンポーネントの自動インポート
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  // 開発およびビルド用のモジュール（推奨）
   buildModules: [
   ],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
+  // モジュール
   modules: [
       "@nuxtjs/axios",
   ],
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
+  // ビルド構成
   build: {
-    // dartsass設定
+    // dart-sass設定
     loaders: {
       scss: {
         implementation: require('sass'),
@@ -50,11 +50,12 @@ export default {
     },
   },
   
+  //モード切替　
   //universalはSSR、spaはSSRではない
   mode: 'universal',
   //mode: 'spa',
   
-  //loading
+  //loadingコンポーネント
   loading: '@/components/Loading.vue',
   
 }
