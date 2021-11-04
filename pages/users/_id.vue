@@ -7,8 +7,18 @@
 
 <script>
 export default {
+    head(){
+        // user名があったらタイトルをユーザー名
+        if(this.user){
+            return{
+                title: this.user.name,
+            }
+        }
+    },
+    
     data(){
         return {
+            // $route.param.idで_idが取得できる
             id: this.$route.params.id,
             users: [
                 { 
@@ -25,7 +35,8 @@ export default {
     },
     computed:{
         user(){
-            return this.users.find(user => user.id == this.id);
+            // idが同じならfindで配列内の最初の要素の値を返す
+            return this.users.find(user => user.id == this.id)
         } 
     },
     

@@ -25,7 +25,7 @@ export default {
     { src: '@/plugins/vue-chartjs.js', ssr:true },
   ],
 
-  // Aコンポーネントの自動インポート
+  // コンポーネントの自動インポート
   components: true,
 
   // 開発およびビルド用のモジュール（推奨）
