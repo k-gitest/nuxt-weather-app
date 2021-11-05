@@ -1,22 +1,3 @@
-//クラシックモード
-/*
-export default new Vuex.Store({
-    state: {
-        
-    },
-    mutations: {
-        
-    },
-    actions: {
-        
-    },
-    modules: {
-        
-    },
-    
-})
-*/
-
 //モジュールモード
 import axios from 'axios'
 
@@ -103,3 +84,26 @@ export const actions = {
 export const modules = {
 
 }
+
+
+//クラシックモード
+/*
+export default new Vuex.Store({
+    state: {
+        
+    },
+    mutations: {
+        
+    },
+    actions: {
+        
+    },
+    modules: {
+        
+    },
+    
+})
+*/
+
+
+

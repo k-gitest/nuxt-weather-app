@@ -4,6 +4,7 @@
         <TestChart />
         <DataChart />
         <barchart :chartdata="chartdata" />
+        <ChartProps :chartdata="chartdata" />
     </div>
 </template>
 

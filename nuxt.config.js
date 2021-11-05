@@ -51,9 +51,10 @@ export default {
   },
   
   //モード切替　
-  //universalはSSR、spaはSSRではない
-  mode: 'universal',
-  //mode: 'spa',
+  //mode:universalは非推奨、SSRのbooleanで設定する、spaはSSRではない
+  ssr: 'true',
+  //SSGの場合はtargetも設定する
+  //target: 'static',
   
   //loadingコンポーネント
   loading: '@/components/Loading.vue',

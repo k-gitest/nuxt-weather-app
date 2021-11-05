@@ -1,12 +1,12 @@
 export const state = {
     // データ初期値
     // content：タスク名、created：タイムスタンプ、state：タスクの状態
-    // changeState用にoptionを設定する
     todos: [
         {content: 'テスト', created: '2020-04-30 17:00', state: '作業前'}, 
         {content: 'コーディング', created: '2020-04-30 16:00', state: '作業中'},
         {content: '環境構築', created: '2020-04-30 15:30', state: '完了'}
     ],
+    // changeState用にoptionを設定する
     option:[
         {id:0 ,label:'作業前'},
         {id:1 ,label:'作業中'},
@@ -18,11 +18,11 @@ export const mutations = {
     insert: function(state, obj) {
         //タイムスタンプ作成
         var d = new Date();
-        var fmt = d.getFullYear()
-                + '-' + ('00' + (d.getMonth() + 1)).slice(-2)
-                + '-' + ('00' + d.getDate()).slice(-2)
-                + ' ' + ('00' + d.getHours()).slice(-2)
-                + ':' + ('00' + d.getMinutes()).slice(-2);
+        var fmt = d.getFullYear() + '-' + 
+                ('00' + (d.getMonth() + 1)).slice(-2) + '-' + 
+                ('00' + d.getDate()).slice(-2) + ' ' + 
+                ('00' + d.getHours()).slice(-2) + ':' + 
+                ('00' + d.getMinutes()).slice(-2);
         // todos配列にunshiftで先頭に追加
         state.todos.unshift({
           content: obj.content,

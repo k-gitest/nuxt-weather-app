@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>{{ store_msg }}</h1>
+    <p>子コンポーネント読み込み</p>
     <StoreX />
     <p>{{ sample }}</p>
     <button @click="mouse">オス</button>
@@ -30,8 +31,6 @@
 
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-import StoreX from '@/components/StoreX.vue'
-import TestChart from '@/components/TestChart.vue'
 
 export default {
   //namespace: true,
@@ -41,10 +40,7 @@ export default {
       message : ''
     }
   },
-  //子コンポーネントからでもstoreにアクセスできる
-  components: {
-      StoreX,
-  },
+
   //アクセス名の変更をしてみる
   computed: {
       store_msg: function(){
@@ -61,7 +57,9 @@ export default {
       t_users: function(){
           return this.$store.state.storetest.t_users
       },
-      //map
+      //ヘルパー関数でmaping
+      // 第一引数は名前空間、第二引数はstate名やaction名など
+      // ...のSpread Operatorを使用する
       ...mapState('storetest', ['sample']),
       ...mapGetters('storetest', ['double'])
   },
@@ -69,9 +67,8 @@ export default {
       increment: function(){
           //mutationの呼び出し commitを使用する 第二引数のpayloadで値を渡す
           this.$store.commit('storetest/increment', 1)
-          
-          //map
       },
+      //map
       ...mapMutations('storetest', ['mouse']),
       
       increment_act: function(){

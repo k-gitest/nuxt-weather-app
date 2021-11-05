@@ -68,7 +68,7 @@ export default {
       // 絞込み判定用
       find_state: '', 
       find_flg: false, // 初期値はfalseで一覧表示
-      
+      // error処理用
       errors: [],
     }
   },
@@ -130,6 +130,3 @@ export default {
   
 }
 </script>
-<style>
-
-</style>
