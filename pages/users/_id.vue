@@ -41,11 +41,11 @@ export default {
     },
     
     mounted() {
-      console.log(this.$route);
+      //console.log(this.$route);
     },
     
     created() {
-      console.log(this.$route);
+      //console.log(this.$route);
     }
 
 

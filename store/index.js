@@ -1,4 +1,4 @@
-export const state = {
+export const state = () => ({
     // データ初期値
     // content：タスク名、created：タイムスタンプ、state：タスクの状態
     todos: [
@@ -6,13 +6,14 @@ export const state = {
         {content: 'コーディング', created: '2020-04-30 16:00', state: '作業中'},
         {content: '環境構築', created: '2020-04-30 15:30', state: '完了'}
     ],
+    users: [],
     // changeState用にoptionを設定する
     option:[
         {id:0 ,label:'作業前'},
         {id:1 ,label:'作業中'},
         {id:2 ,label:'完了'}
     ]
-}
+})
 
 export const mutations = {
     insert: function(state, obj) {
@@ -62,6 +63,12 @@ export const mutations = {
             }
           }
     },
+}
+
+export const actions = {
+    userData: function(){
+        
+    }
 }
 
 /* クラシックモード
