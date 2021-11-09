@@ -3,6 +3,26 @@
         <h1>About Page</h1>
         <h2>{{ subtitle }}</h2>
         
+        <div>
+            <table border=1>
+                <thead>
+                    <tr>
+                    <template v-for="timeDefine in timeWeathers.timeDefines">
+                        <th>{{ timeDefine }}</th>
+                    </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="area in timeWeathers.areas">
+                        <tr>
+                        <td>{{ area.area.name }}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+
+        
         <ul v-for="(item, no) in items">
             <li>{{ item.publishingOffice }}</li>
             <li>{{ item.reportDatetime }}の発表</li>
@@ -87,8 +107,19 @@ export default{
       
       return await axios.get(url)
       .then(res => {
+          const items = res.data
+          const timeSeries = res.data[0].timeSeries //直近予報
+          const weekSeries = res.data[1].timeSeries //週間予報
+          
+          const timeWeathers = res.data[0].timeSeries[0] //3日間の天気予報
+          const timePops   = res.data[0].timeSeries[1] //6時間毎の降水確率
+          const timeTemps = res.data[0].timeSeries[2] //朝の最低気温と日中の最高気温
+          
+          console.log(timeSeries)
+          console.log(weekSeries)
+          
           //console.log(res.data)
-          return {items: res.data}
+          return {items, timeSeries, weekSeries, timeWeathers, timePops, timeTemps}
           })
           
   },
