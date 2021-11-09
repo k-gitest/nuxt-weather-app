@@ -3,8 +3,59 @@
         <h1>About Page</h1>
         <h2>{{ subtitle }}</h2>
         
-        <ul>
-            <li v-for="item in items">{{ item }}</li>
+        <ul v-for="(item, no) in items">
+            <li>{{ item.publishingOffice }}</li>
+            <li>{{ item.reportDatetime }}の発表</li>
+            <h2 v-if="no === 0">直近の天気予報</h2>
+            <h2 v-if="no === 1">週間予報</h2>
+            <template v-for="(time, n) in item.timeSeries">
+                <h2 v-if="n === 0 && no === 0">直近3日間の天気予報</h2>
+                <h2 v-if="n === 1 && no === 0">直近6時間毎の降水確率</h2>
+                <h2 v-if="n === 2 && no === 0">今日・明日の朝の最低気温と日中の最高気温</h2>
+                <li v-for="(timeItem, index) in time.timeDefines">
+                    <template v-for="areaWeather in time.areas">
+                        {{ areaWeather.area.name }}：{{ timeItem }}：{{ index }}<br>
+                        <template v-for="(weather, num) in areaWeather.weathers">
+                            <template v-if="(num === index)">
+                                天気：{{ weather }}<br>
+                            </template>
+                        </template>
+                        <template v-for="(wind, num) in areaWeather.winds">
+                            <template v-if="(num === index)">
+                                風向き：{{ wind }}<br>
+                            </template>
+                        </template>
+                        <template v-for="(wave, num) in areaWeather.waves">
+                            <template v-if="(num === index)">
+                                波の高さ：{{ wave }}<br>
+                            </template>
+                        </template>
+                        <template v-for="(pop, num) in areaWeather.pops">
+                            <template v-if="(num === index)">
+                                降水確率：{{ pop }}％<br>
+                            </template>
+                        </template>
+                        <template v-for="(temp, num) in areaWeather.temps">
+                            <template v-if="(num === index && num === 0)">
+                                朝の最低気温：{{ temp }}度<br>
+                            </template>
+                            <template v-if="(num === index && num === 1)">
+                                日中の最高気温：{{ temp }}度<br>
+                            </template>
+                        </template>
+                        <template v-for="(tempMin, num) in areaWeather.tempsMin">
+                            <template v-if="(num === index)">
+                                最低気温：{{ tempMin }}度<br>
+                            </template>
+                        </template>
+                        <template v-for="(tempMax, num) in areaWeather.tempsMax">
+                            <template v-if="(num === index)">
+                                最低気温：{{ tempMax }}度<br>
+                            </template>
+                        </template>
+                    </template>
+                </li>
+            </template>
         </ul>
 
         <ul>
@@ -32,7 +83,7 @@ export default{
 
   // asyncDataではthisは不可、propsは可能
   async asyncData(){
-      const url = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/130000.json'
+      const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/130000.json'
       
       return await axios.get(url)
       .then(res => {
