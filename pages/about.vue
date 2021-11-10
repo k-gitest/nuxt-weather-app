@@ -5,20 +5,43 @@
         
         <div>
             <table border=1>
+                <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
                 <thead>
                     <tr>
-                    <template v-for="timeDefine in timeWeathers.timeDefines">
                         <th>{{ timeDefine }}</th>
-                    </template>
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-for="area in timeWeathers.areas">
+                    <template v-for="(area, num) in timeWeathers.areas">
                         <tr>
-                        <td>{{ area.area.name }}</td>
+                            <td>
+                            {{ area.area.name }}<br>
+                            天気：{{ area.weathers[index] }}
+                            風向き：{{ area.winds[index] }}
+                            波の高さ：{{ area.waves[index] }}
+                            
+                                <table border=1>
+                                    <thead>
+                                        <tr>
+                                            <template v-for="timepop in timePops.timeDefines">
+                                            <th>{{ timepop }}</th>
+                                            </template>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <template v-for="area in timePops.areas[num].pops">
+                                            <td>{{ area }}</td>
+                                            </template>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            
+                            </td>
                         </tr>
                     </template>
                 </tbody>
+                </template>
             </table>
         </div>
 
@@ -111,12 +134,25 @@ export default{
           const timeSeries = res.data[0].timeSeries //直近予報
           const weekSeries = res.data[1].timeSeries //週間予報
           
-          const timeWeathers = res.data[0].timeSeries[0] //3日間の天気予報
+          const datetime = timeSeries[0].timeDefines
+          //console.log(datetime)
+          const timedate = datetime.map(e=>{
+              const date = new Date(e)
+              const y = date.getFullYear()
+              const m = date.getMonth()
+              const d = date.getDate()
+              const day = '日月火水木金土'.charAt(date.getDay())
+              const hh = date.getHours()
+              const mm = date.getMinutes()
+              console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
+          })
+          
+          const timeWeathers = timeSeries[0] //3日間の天気予報
           const timePops   = res.data[0].timeSeries[1] //6時間毎の降水確率
           const timeTemps = res.data[0].timeSeries[2] //朝の最低気温と日中の最高気温
           
-          console.log(timeSeries)
-          console.log(weekSeries)
+          //console.log(timeSeries)
+          //console.log(weekSeries)
           
           //console.log(res.data)
           return {items, timeSeries, weekSeries, timeWeathers, timePops, timeTemps}
