@@ -143,8 +143,10 @@ export default{
           
           //console.log(res.data)
           
-          const filtest = timeSeries.filter(f=>{
-              f.timeDefines.map(e=>{
+          /*
+          timeSeries.forEach(e=>{
+              //console.log(e.timeDefines)
+              e.timeDefines = e.timeDefines.map(e=>{
               const date = new Date(e)
               const y = date.getFullYear()
               const m = date.getMonth()+1
@@ -152,12 +154,28 @@ export default{
               const day = '日月火水木金土'.charAt(date.getDay())
               const hh = date.getHours()
               const mm = date.getMinutes()
-              //const hoge = `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
-              console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
+              return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+              //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
               })
-
           })
-          console.log(filtest)
+          */
+          //console.log(timeSeries)
+          
+          timeSeries.filter(f=>{
+              f.timeDefines = f.timeDefines.map(e=>{
+              const date = new Date(e)
+              const y = date.getFullYear()
+              const m = date.getMonth()+1
+              const d = date.getDate()
+              const day = '日月火水木金土'.charAt(date.getDay())
+              const hh = date.getHours()
+              const mm = date.getMinutes()
+              return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+              //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
+              })
+              
+          })
+          console.log(timeSeries)
           
           const datetime = timeSeries[0].timeDefines
           //console.log(datetime)
@@ -172,7 +190,7 @@ export default{
               return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
               //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
           })
-          console.log(timedate)
+          //console.log(timedate)
           
           
           return {items, timeSeries, weekSeries, timeWeathers, timePops, timeTemps}
