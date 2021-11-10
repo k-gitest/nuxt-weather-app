@@ -133,20 +133,7 @@ export default{
           const items = res.data
           const timeSeries = res.data[0].timeSeries //直近予報
           const weekSeries = res.data[1].timeSeries //週間予報
-          
-          const datetime = timeSeries[0].timeDefines
-          //console.log(datetime)
-          const timedate = datetime.map(e=>{
-              const date = new Date(e)
-              const y = date.getFullYear()
-              const m = date.getMonth()
-              const d = date.getDate()
-              const day = '日月火水木金土'.charAt(date.getDay())
-              const hh = date.getHours()
-              const mm = date.getMinutes()
-              console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
-          })
-          
+        
           const timeWeathers = timeSeries[0] //3日間の天気予報
           const timePops   = res.data[0].timeSeries[1] //6時間毎の降水確率
           const timeTemps = res.data[0].timeSeries[2] //朝の最低気温と日中の最高気温
@@ -155,6 +142,39 @@ export default{
           //console.log(weekSeries)
           
           //console.log(res.data)
+          
+          const filtest = timeSeries.filter(f=>{
+              f.timeDefines.map(e=>{
+              const date = new Date(e)
+              const y = date.getFullYear()
+              const m = date.getMonth()+1
+              const d = date.getDate()
+              const day = '日月火水木金土'.charAt(date.getDay())
+              const hh = date.getHours()
+              const mm = date.getMinutes()
+              //const hoge = `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+              console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
+              })
+
+          })
+          console.log(filtest)
+          
+          const datetime = timeSeries[0].timeDefines
+          //console.log(datetime)
+          const timedate = datetime.map(e=>{
+              const date = new Date(e)
+              const y = date.getFullYear()
+              const m = date.getMonth()+1
+              const d = date.getDate()
+              const day = '日月火水木金土'.charAt(date.getDay())
+              const hh = date.getHours()
+              const mm = date.getMinutes()
+              return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+              //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
+          })
+          console.log(timedate)
+          
+          
           return {items, timeSeries, weekSeries, timeWeathers, timePops, timeTemps}
           })
           
