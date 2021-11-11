@@ -16,10 +16,11 @@
                         <tr>
                             <td>
                             {{ area.area.name }}<br>
-                            天気：{{ area.weathers[index] }}
-                            風向き：{{ area.winds[index] }}
-                            波の高さ：{{ area.waves[index] }}
-                            
+                            天気：{{ area.weathers[index] }}<br>
+                            風向き：{{ area.winds[index] }}<br>
+                            波の高さ：{{ area.waves[index] }}<br>
+                            平均最低気温：{{ timeTemps.areas[num].temps[0] }}<br>
+                            平均最高気温：{{ timeTemps.areas[num].temps[1] }}
                                 <table border=1>
                                     <thead>
                                         <tr>
@@ -31,17 +32,65 @@
                                     <tbody>
                                         <tr>
                                             <template v-for="area in timePops.areas[num].pops">
-                                            <td>{{ area }}</td>
+                                            <td>降水確率：{{ area }}％</td>
                                             </template>
                                         </tr>
                                     </tbody>
                                 </table>
-                            
                             </td>
                         </tr>
                     </template>
                 </tbody>
                 </template>
+            </table>
+        </div>
+        
+        <div>
+            <h2>週間天気</h2>
+            <table border=1>
+                
+                <thead>
+                    <tr>
+                        <th>日付</th>
+                        <template v-for="week in weekWeathers.timeDefines">
+                        <th>{{ week }}</th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="(weekArea,num) in weekWeathers.areas">
+                    <tr>
+                        <td>{{ weekArea.area.name }}</td>
+                        <template v-for="(pop,index) in weekArea.pops">
+                        <td>
+                            降水確率：{{ pop }}％<br>
+                            信頼度：{{ weekArea.reliabilities[index] }}<br>
+                            最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>
+                            最低気温：{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）
+                        </td>
+                        </template>
+                    </tr>
+                    </template>
+                </tbody>
+                
+            </table>
+        </div>
+        
+        <div>
+            <h2>降水量と気温の向こう七日間平年値</h2>
+            <table border=1>
+                <thead>
+                    <tr>
+                        <template for="tempAge in tempAverage">
+                        <td v-for="temp in tempAge">{{ temp.area.name }}</td>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
@@ -133,28 +182,47 @@ export default{
           const items = res.data
           const timeSeries = res.data[0].timeSeries //直近予報
           const weekSeries = res.data[1].timeSeries //週間予報
+          const tempAverage = res.data[1].tempAverage //一週間の最低、最高気温の平年値
+          const precipAverage = res.data[1].precipAverage //降水量の一週間（明日から７日先まで）の平年値
+        
+          
         
           const timeWeathers = timeSeries[0] //3日間の天気予報
           const timePops   = res.data[0].timeSeries[1] //6時間毎の降水確率
           const timeTemps = res.data[0].timeSeries[2] //朝の最低気温と日中の最高気温
           
+          const weekWeathers = weekSeries[0] //週間予報（天気、降水確率、信頼度）
+          const weekTemps = weekSeries[1] //週間気温予報（最気温、最低気温の予測下限、上限、最高気温、最高気温の予測下限、上限）
+
+          /*
+          tempsMin:最低気温
+          tempsMinUpper:最低気温上限
+          tempsMinLower:最低気温下限
+          tempsMax:最高気温
+          tempsMaxUpper:最高気温上限
+          tempsMaxLower:最高気温下限
+          */
+          
+          
           //console.log(timeSeries)
           //console.log(weekSeries)
+          //console.log(weekWeathers)
           
           //console.log(res.data)
           
-          /*
+          /*日付時刻フォーマット変換処理
+          //foreach、filter、mapのどれでも取得変換できる
           timeSeries.forEach(e=>{
               //console.log(e.timeDefines)
               e.timeDefines = e.timeDefines.map(e=>{
-              const date = new Date(e)
+              const date = new Date(e) // 文字列フォーマットYYYY-MM-DDTHH:mm:ss.sssZをDateオブジェクトで変換、"T" の文字はデリミタ、'Z'はフォーマット+-hh:mmのタイムゾーンを示す、Dateオブジェクトは1970年1月1日0時0分0秒から経過したミリ秒を出力する
               const y = date.getFullYear()
-              const m = date.getMonth()+1
+              const m = date.getMonth()+1 //月は０始まりなので＋１をする
               const d = date.getDate()
-              const day = '日月火水木金土'.charAt(date.getDay())
+              const day = '日月火水木金土'.charAt(date.getDay()) //getdayの返り値は数字なのでcharAtで文字列に当てはめ表示する
               const hh = date.getHours()
               const mm = date.getMinutes()
-              return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+              return `${y}年${m}月${d}日（${day}）${hh}時${mm}分` //フォーマットを作成する
               //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
               })
           })
@@ -173,10 +241,25 @@ export default{
               return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
               //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
               })
-              
           })
-          console.log(timeSeries)
+          //console.log(timeSeries)
           
+          weekSeries.filter(f=>{
+              f.timeDefines = f.timeDefines.map(e=>{
+              const date = new Date(e)
+              const y = date.getFullYear()
+              const m = date.getMonth()+1
+              const d = date.getDate()
+              const day = '日月火水木金土'.charAt(date.getDay())
+              const hh = date.getHours()
+              const mm = date.getMinutes()
+              return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+              //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
+              })
+              //console.log(f)
+          })
+
+          /*
           const datetime = timeSeries[0].timeDefines
           //console.log(datetime)
           const timedate = datetime.map(e=>{
@@ -191,9 +274,9 @@ export default{
               //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
           })
           //console.log(timedate)
+          */
           
-          
-          return {items, timeSeries, weekSeries, timeWeathers, timePops, timeTemps}
+          return {items, timeSeries, weekSeries, timeWeathers, timePops, timeTemps, weekWeathers, weekTemps, tempAverage, precipAverage}
           })
           
   },
