@@ -81,14 +81,20 @@
             <table border=1>
                 <thead>
                     <tr>
-                        <template for="tempAge in tempAverage">
-                        <td v-for="temp in tempAge">{{ temp.area.name }}</td>
+                        <template v-for="tempArea in tempAverage">
+                        <td>{{ tempArea.area.name }}</td>
                         </template>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
+                        <template v-for="(temps, index) in tempAverage">
+                        <td>
+                            最低気温：{{ temps.min }}<br>
+                            最高気温：{{ temps.max }}<br>
+                            降水量7日間合計：{{ precipAverage[index].min }} - {{ precipAverage[index].max }}mm
+                        </td>
+                        </template>
                     </tr>
                 </tbody>
             </table>
@@ -182,10 +188,10 @@ export default{
           const items = res.data
           const timeSeries = res.data[0].timeSeries //直近予報
           const weekSeries = res.data[1].timeSeries //週間予報
-          const tempAverage = res.data[1].tempAverage //一週間の最低、最高気温の平年値
-          const precipAverage = res.data[1].precipAverage //降水量の一週間（明日から７日先まで）の平年値
+          const tempAverage = res.data[1].tempAverage.areas //一週間の最低、最高気温の平年値
+          const precipAverage = res.data[1].precipAverage.areas //降水量の一週間（明日から７日先まで）合計の平年値
         
-          
+          console.log(tempAverage[0].area)
         
           const timeWeathers = timeSeries[0] //3日間の天気予報
           const timePops   = res.data[0].timeSeries[1] //6時間毎の降水確率
