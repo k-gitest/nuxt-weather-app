@@ -4,6 +4,7 @@
         <h2>{{ subtitle }}</h2>
         
         <div>
+            <h2>{{ items[0].publishingOffice }} {{ items[0].reportDatetime }}発表</h2>
             <table border=1>
                 <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
                 <thead>
@@ -235,6 +236,19 @@ export default{
           */
           //console.log(timeSeries)
           
+          items.filter((f) =>{
+              if(f.reportDatetime){
+                  const date = new Date(f.reportDatetime)
+                  const y = date.getFullYear()
+                  const m = date.getMonth()+1
+                  const d = date.getDate()
+                  const day = '日月火水木金土'.charAt(date.getDay())
+                  const hh = date.getHours()
+                  const mm = date.getMinutes()
+                  f.reportDatetime = `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+              }
+          })
+          
           timeSeries.filter(f=>{
               f.timeDefines = f.timeDefines.map(e=>{
               const date = new Date(e)
@@ -290,7 +304,12 @@ export default{
   // fetchではthisが可能
   async fetch(){
       //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
-      this.weathers = await fetch(this.url + this.area).then(res => res.json())
+      //this.weathers = await fetch(this.url + this.area).then(res => res.json())
+      //axiosでも取得できる
+      this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
+      
+      //storeに格納する場合
+      await $store.dispatch('forecast/forecast')
   },
   methods: {
       are_write: async function(area){
