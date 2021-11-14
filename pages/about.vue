@@ -157,11 +157,7 @@
             </template>
         </ul>
 
-        <ul>
-            <li v-for="weather in weathers">{{ weather }}</li>
-        </ul>
-        <button @click="are_write(`overview_forecast/130000.json`)">東京</button>
-        <button @click="are_write(`overview_forecast/140000.json`)">横浜</button>
+    <Weather />
 
     </div>
 </template>
@@ -174,9 +170,6 @@ export default{
   data(){
       return{
           subtitle: 'この文書はNuxt.jsでの気象庁のデータについて説明しています。',
-          weathers: [],
-          url: 'https://www.jma.go.jp/bosai/forecast/data/',
-          area: 'overview_forecast/130000.json'
       }
   },
 
@@ -192,7 +185,7 @@ export default{
           const tempAverage = res.data[1].tempAverage.areas //一週間の最低、最高気温の平年値
           const precipAverage = res.data[1].precipAverage.areas //降水量の一週間（明日から７日先まで）合計の平年値
         
-          console.log(tempAverage[0].area)
+          //console.log(tempAverage[0].area)
         
           const timeWeathers = timeSeries[0] //3日間の天気予報
           const timePops   = res.data[0].timeSeries[1] //6時間毎の降水確率
@@ -301,22 +294,7 @@ export default{
           
   },
   
-  // fetchではthisが可能
-  async fetch(){
-      //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
-      //this.weathers = await fetch(this.url + this.area).then(res => res.json())
-      //axiosでも取得できる
-      this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
-      
-      //storeに格納する場合
-      await $store.dispatch('forecast/forecast')
-  },
-  methods: {
-      are_write: async function(area){
-          this.area = area
-          this.weathers = await fetch(this.url + this.area).then(res => res.json())
-      },
-  },
+
   
   // headプロパティでtitleやmetaなどを設定できる
   head(){
