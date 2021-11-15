@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <li v-for="forecast in forecasts">{{ forecast }}</li>
+            <li v-for="forecast in forecasts">{{ forecasts }}</li>
         </ul>
         <button @click="change_area(`forecast/130000.json`)">東京詳細</button>
         <button @click="change_area(`overview_forecast/130000.json`)">東京概要</button>
@@ -36,7 +36,7 @@ export default{
   },
   computed:{
       forecasts: function() {
-          return this.$store.state.forecast.forecasts
+          return this.$store.getters['forecast/forecasts']
       }
   },
   methods: {
