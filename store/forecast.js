@@ -17,45 +17,72 @@ export const state = () => ({
 
 export const getters = {
   forecasts: function(state){
-      
-      return state.forecasts.filter(f=>{
-          console.log(f.reportDatetime)
-              if(f.reportDatetime){
-              const date = new Date(f.reportDatetime)
-              const y = date.getFullYear()
-              const m = date.getMonth()+1
-              const d = date.getDate()
-              const day = '日月火水木金土'.charAt(date.getDay())
-              const hh = date.getHours()
-              const mm = date.getMinutes()
-              return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
-              //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
-              }
-          })
-      
-      //return state.forecasts
+      return state.forecasts
   },
+  timeWeathers: function(state){
+      return state.timeWeathers
+  },
+  timeTemps: function(state){
+      return state.timeTemps
+  },
+  timePops: function(state){
+      return state.timePops
+  }
+}
+
+function datefilter(date){
+    const y = date.getFullYear()
+      const m = date.getMonth()+1
+      const d = date.getDate()
+      const day = '日月火水木金土'.charAt(date.getDay())
+      const hh = date.getHours()
+      const mm = date.getMinutes()
+      return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
 }
 
 export const mutations = {
     setForecast: function(state, {param}){
         //console.log(param.timeWeathers)
+        param.items.filter(f=>{
+          if(f.reportDatetime){
+          const date = new Date(f.reportDatetime)
+          f.reportDatetime = datefilter(date)
+          }
+        })
+        
+        param.items[0].timeSeries.map(f=>{
+            //console.log(f.timeDefines)
+            f.timeDefines = f.timeDefines.map(e=>{
+                const date = new Date(e)
+                return datefilter(date)
+            })
+        })
+        
+        param.items[1].timeSeries.map(f=>{
+            //console.log(f.timeDefines)
+            f.timeDefines = f.timeDefines.map(e=>{
+                const date = new Date(e)
+                return datefilter(date)
+            })
+        })
+        
         state.forecasts = param.items
         
-        state.timeSeries = param.timeSeries
-        state.timeWeathers = param.timeWeathers
-        state.timePops = param.timePops
-        state.timeTemps = param.timeTemps
+        state.timeSeries = param.items[0].timeSeries
+        state.timeWeathers = param.items[0].timeSeries[0]
+        state.timePops = param.items[0].timeSeries[1]
+        state.timeTemps = param.items[0].timeSeries[2]
         
         state.weekSeries = param.weekSeries
         state.tempAverage = param.tempAverage
         state.precipAverage = param.precipAverage
     },
+
 }
 
 export const actions = {
     forecast: async function({commit},{url, area}){
-        console.log(commit)
+        //console.log(commit)
         //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
         //const area = 'overview_forecast/130000.json'
         return await axios.get(url + area)
@@ -81,8 +108,6 @@ export const actions = {
                 }
                 commit('setForecast', {param})
             }
-            //console.log(param)
-            //commit('setForecast', {param})
         })
     }
 }
