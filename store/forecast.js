@@ -17,27 +17,39 @@ export const state = () => ({
 
 export const getters = {
   forecasts: function(state){
-      return state.forecasts
+    return state.forecasts
   },
   timeWeathers: function(state){
-      return state.timeWeathers
+    return state.timeWeathers
   },
   timeTemps: function(state){
-      return state.timeTemps
+    return state.timeTemps
   },
   timePops: function(state){
-      return state.timePops
+    return state.timePops
+  },
+  weekWeathers: function(state){
+    return state.weekWeathers
+  },
+  weekTemps: function(state){
+    return state.weekTemps
+  },
+  tempAverage: function(state){
+    return state.tempAverage
+  },
+  precipAverage: function(state){
+    return state.precipAverage
   }
 }
 
 function datefilter(date){
-    const y = date.getFullYear()
-      const m = date.getMonth()+1
-      const d = date.getDate()
-      const day = '日月火水木金土'.charAt(date.getDay())
-      const hh = date.getHours()
-      const mm = date.getMinutes()
-      return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+  const y = date.getFullYear()
+  const m = date.getMonth()+1
+  const d = date.getDate()
+  const day = '日月火水木金土'.charAt(date.getDay())
+  const hh = date.getHours()
+  const mm = date.getMinutes()
+  return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
 }
 
 export const mutations = {
@@ -73,9 +85,12 @@ export const mutations = {
         state.timePops = param.items[0].timeSeries[1]
         state.timeTemps = param.items[0].timeSeries[2]
         
-        state.weekSeries = param.weekSeries
-        state.tempAverage = param.tempAverage
-        state.precipAverage = param.precipAverage
+        state.weekSeries = param.items[1].timeSeries
+        state.weekWeathers = param.items[1].timeSeries[0]
+        state.weekTemps = param.items[1].timeSeries[1]
+        
+        state.tempAverage = param.items[1].tempAverage.areas
+        state.precipAverage = param.items[1].precipAverage.areas
     },
 
 }
@@ -97,6 +112,7 @@ export const actions = {
                 const param = {
                     items:res.data,
                     
+                    /*
                     timeSeries: res.data[0].timeSeries,
                     timeWeathers: res.data[0].timeSeries[0],
                     timePops: res.data[0].timeSeries[1],
@@ -105,6 +121,7 @@ export const actions = {
                     weekSeries: res.data[1].timeSeries,
                     weekWeathers: res.data[1].timeSeries[0],
                     weekTemps: res.data[1].timeSeries[1]
+                    */
                 }
                 commit('setForecast', {param})
             }

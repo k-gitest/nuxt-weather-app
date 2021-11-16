@@ -51,20 +51,55 @@
             </tbody>
             </template>
         </table>
+        
         <h2>週間天気予報</h2>
         <table border=1>
             <thead>
                 <tr>
-                    <th></th>
+                  <th>日付</th>
+                  <template v-for="week in weekWeathers.timeDefines">
+                  <th>{{ week }}</th>
+                  </template>
                 </tr>
             </thead>
             <tbody>
+              <template v-for="(weekArea,num) in weekWeathers.areas">
                 <tr>
-                    <td></td>
+                  <td>{{ weekArea.area.name }}</td>
+                  <template v-for="(pop,index) in weekArea.pops">
+                  <td>
+                    降水確率：{{ pop }}％<br>
+                    信頼度：{{ weekArea.reliabilities[index] }}<br>
+                    最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>
+                    最低気温：{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）
+                  </td>
+                  </template>
                 </tr>
+              </template>
             </tbody>
         </table>
         
+        <h2>降水量と気温の向こう七日間平年値</h2>
+        <table border=1>
+          <thead>
+            <tr>
+              <template v-for="tempArea in tempAverage">
+              <td>{{ tempArea.area.name }}</td>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <template v-for="(temps, index) in tempAverage">
+              <td>
+                  最低気温：{{ temps.min }}<br>
+                  最高気温：{{ temps.max }}<br>
+                  降水量7日間合計：{{ precipAverage[index].min }} - {{ precipAverage[index].max }}mm
+              </td>
+              </template>
+            </tr>
+          </tbody>
+        </table>
     </div>
 </template>
 
@@ -84,6 +119,7 @@ export default{
   async fetch(){
       //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
       //this.weathers = await fetch(this.url + this.area).then(res => res.json())
+      
       //axiosでも取得できる
       this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
       //storeに格納
@@ -101,6 +137,18 @@ export default{
       },
       timePops: function(){
           return this.$store.getters['forecast/timePops']
+      },
+      weekWeathers: function(){
+        return this.$store.getters['forecast/weekWeathers']
+      },
+      weekTemps: function(){
+        return this.$store.getters['forecast/weekTemps']
+      },
+      tempAverage: function(){
+        return this.$store.getters['forecast/tempAverage']
+      },
+      precipAverage: function(){
+        return this.$store.getters['forecast/precipAverage']
       }
   },
   methods: {
@@ -112,12 +160,6 @@ export default{
           this.area_detail = area
           await this.$store.dispatch('forecast/forecast',{url:this.url, area: this.area_detail})
       }
-  },
-  mounted(){
-      //storeに格納する場合
-      //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
-      //const area = 'overview_forecast/130000.json'
-      //this.$store.dispatch('forecast/forecast', {url: this.url, area: this.area})
   }
 
 }
