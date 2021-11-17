@@ -104,9 +104,16 @@
         
     <ul>
       <li v-for="WeatherCode in WeatherCodes">
-        {{ WeatherCode }}
+        {{ WeatherCode[1] }}
       </li>
     </ul>
+    <hr>
+    <ul>
+      <li>
+        <template v-for="fore in forec">{{ fore }},</template>
+      </li>
+    </ul>
+    <button @click="hoge(WeatherCodes)">押す</button>
     </div>
 </template>
 
@@ -118,12 +125,12 @@ export default{
   data(){
       return{
           weathers: [],
+          forec: [],
           WeatherCodes: WeatherCodes,
           url: 'https://www.jma.go.jp/bosai/forecast/data/',
           area: 'overview_forecast/130000.json',
           area_detail: 'forecast/130000.json'
       }
-      //console.log(WeatherCodes)
   },
 
   // fetchではthisが可能
@@ -171,16 +178,18 @@ export default{
           this.area_detail = area
           await this.$store.dispatch('forecast/forecast',{url:this.url, area: this.area_detail})
       },
-      hoge(){
-        //console.log(WeatherCodes)
-        const test = this.WeatherCodes.filter(a=>{console.log('a')})
-        return test
-      }
+      //天気画像コード取得処理
+      hoge: function(samp){
+        samp = Object.entries(samp) // objectを配列に変換
+        samp.map(f=>{
+          const rep = f[1][1].replace('.svg','') //文字列svg削除
+          this.forec.push(rep) //配列に追加
+          this.forec = Array.from(new Set(this.forec)) //重複要素削除
+        })
+      },
+  },
 
-  },
-  created(){
-    this.hoge()
-  },
+
 
 }
 
