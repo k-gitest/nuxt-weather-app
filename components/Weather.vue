@@ -10,46 +10,47 @@
         </ul>
         <button @click="are_write(`overview_forecast/130000.json`)">東京</button>
         <button @click="are_write(`overview_forecast/140000.json`)">横浜</button>
+        
         <h2>今日・明日・明後日の天気予報</h2>
         <table border=1>
-            <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
+          <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
             <thead>
-                <tr>
-                    <th>{{ timeDefine }}</th>
-                </tr>
+              <tr>
+                <th>{{ timeDefine }}</th>
+              </tr>
             </thead>
-            <tbody>
-                <template v-for="(areas, num) in timeWeathers.areas">
-                <tr>
-                    <td>
-                        {{ areas.area.name }}<br>
-                        天気：{{ areas.weathers[index] }}<br>
-                        波：{{ areas.waves[index] }}<br>
-                        風：{{ areas.winds[index] }}<br>
-                        最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
-                        最高気温：{{ timeTemps.areas[num].temps[1] }}度
-                        
-                        <table border=1>
-                            <thead>
-                                <tr>
-                                    <template v-for="timePop in timePops.timeDefines">
-                                    <th>{{ timePop }}</th>
-                                    </template>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <template v-for="pop in timePops.areas[num].pops">
-                                    <td>{{ pop }}%</td>
-                                    </template>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                </template>
-            </tbody>
+          <tbody>
+            <template v-for="(areas, num) in timeWeathers.areas">
+            <tr>
+              <td>
+                {{ areas.area.name }}<br>
+                天気：{{ areas.weathers[index] }}<br>
+                波：{{ areas.waves[index] }}<br>
+                風：{{ areas.winds[index] }}<br>
+                最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
+                最高気温：{{ timeTemps.areas[num].temps[1] }}度
+                
+                <table border=1>
+                  <thead>
+                    <tr>
+                      <template v-for="timePop in timePops.timeDefines">
+                      <th>{{ timePop }}</th>
+                      </template>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <template v-for="pop in timePops.areas[num].pops">
+                      <td>{{ pop }}%</td>
+                      </template>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
             </template>
+          </tbody>
+          </template>
         </table>
         
         <h2>週間天気予報</h2>
@@ -100,21 +101,31 @@
             </tr>
           </tbody>
         </table>
+        
+    <ul>
+      <li v-for="WeatherCode in WeatherCodes">
+        {{ WeatherCode }}
+      </li>
+    </ul>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import WeatherCodes from '@/assets/weatherCodes.json'
 
 export default{
   data(){
       return{
           weathers: [],
+          WeatherCodes: WeatherCodes,
           url: 'https://www.jma.go.jp/bosai/forecast/data/',
           area: 'overview_forecast/130000.json',
           area_detail: 'forecast/130000.json'
       }
+      //console.log(WeatherCodes)
   },
+
   // fetchではthisが可能
   async fetch(){
       //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
@@ -149,7 +160,7 @@ export default{
       },
       precipAverage: function(){
         return this.$store.getters['forecast/precipAverage']
-      }
+      },
   },
   methods: {
       are_write: async function(area){
@@ -159,8 +170,17 @@ export default{
       change_area: async function(area){
           this.area_detail = area
           await this.$store.dispatch('forecast/forecast',{url:this.url, area: this.area_detail})
+      },
+      hoge(){
+        //console.log(WeatherCodes)
+        const test = this.WeatherCodes.filter(a=>{console.log('a')})
+        return test
       }
-  }
+
+  },
+  created(){
+    this.hoge()
+  },
 
 }
 

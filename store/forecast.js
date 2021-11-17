@@ -42,7 +42,7 @@ export const getters = {
   }
 }
 
-function datefilter(date){
+function dateformat(date){
   const y = date.getFullYear()
   const m = date.getMonth()+1
   const d = date.getDate()
@@ -58,7 +58,7 @@ export const mutations = {
         param.items.filter(f=>{
           if(f.reportDatetime){
           const date = new Date(f.reportDatetime)
-          f.reportDatetime = datefilter(date)
+          f.reportDatetime = dateformat(date)
           }
         })
         
@@ -66,7 +66,7 @@ export const mutations = {
             //console.log(f.timeDefines)
             f.timeDefines = f.timeDefines.map(e=>{
                 const date = new Date(e)
-                return datefilter(date)
+                return dateformat(date)
             })
         })
         
@@ -74,7 +74,7 @@ export const mutations = {
             //console.log(f.timeDefines)
             f.timeDefines = f.timeDefines.map(e=>{
                 const date = new Date(e)
-                return datefilter(date)
+                return dateformat(date)
             })
         })
         
