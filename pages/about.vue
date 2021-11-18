@@ -5,7 +5,7 @@
       
       <div class="container">
         <h2>{{ items[0].publishingOffice }} {{ items[0].reportDatetime }}発表</h2>
-        <table border=1>
+        <table border=1 class="table">
           <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
           <thead>
             <tr>
@@ -22,7 +22,7 @@
                 波の高さ：{{ area.waves[index] }}<br>
                 平均最低気温：{{ timeTemps.areas[num].temps[0] }}<br>
                 平均最高気温：{{ timeTemps.areas[num].temps[1] }}
-                  <table border=1>
+                  <table border=1 class="table">
                     <thead>
                       <tr>
                         <template v-for="timepop in timePops.timeDefines">
@@ -46,9 +46,9 @@
         </table>
       </div>
       
-      <div>
+      <div class="container">
         <h2>週間天気</h2>
-        <table border=1>
+        <table border=1 class="table">
           <thead>
             <tr>
               <th>日付</th>
@@ -75,9 +75,9 @@
         </table>
       </div>
       
-      <div>
+      <div class="container">
         <h2>降水量と気温の向こう七日間平年値</h2>
-        <table border=1>
+        <table border=1 class="table">
           <thead>
             <tr>
               <template v-for="tempArea in tempAverage">

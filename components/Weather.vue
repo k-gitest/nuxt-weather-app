@@ -14,6 +14,7 @@
         -->
         
         <h2>今日・明日・明後日の天気予報</h2>
+        <h3>{{ forecasts[0].publishingOffice }} : {{forecasts[0].reportDatetime}}発表</h3>
         <table border=1 class="table">
           <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
             <thead>
@@ -27,7 +28,6 @@
               <td>
                 {{ areas.area.name }}<br>
                 <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
-                コード：{{ areas.weatherCodes[index] }}<br>
                 天気：{{ areas.weathers[index] }}<br>
                 波：{{ areas.waves[index] }}<br>
                 風：{{ areas.winds[index] }}<br>

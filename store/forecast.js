@@ -42,14 +42,21 @@ export const getters = {
   }
 }
 
-function dateformat(date){
+function dateformat(date, long){
   const y = date.getFullYear()
   const m = date.getMonth()+1
   const d = date.getDate()
   const day = '日月火水木金土'.charAt(date.getDay())
   const hh = date.getHours()
   const mm = date.getMinutes()
-  return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+  
+  if(long === 1){
+    return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
+  }else if(long !== 1){
+    return `${m}月${d}日（${day}）${hh}時`
+  }
+  
+  //return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
 }
 
 export const mutations = {
@@ -57,24 +64,26 @@ export const mutations = {
         //console.log(param.timeWeathers)
         param.items.filter(f=>{
           if(f.reportDatetime){
+          f.reportDatetime = f.reportDatetime.replace('+09:00','')
           const date = new Date(f.reportDatetime)
-          f.reportDatetime = dateformat(date)
+          console.log(date)
+          f.reportDatetime = dateformat(date, 1)
           }
         })
         
         param.items[0].timeSeries.map(f=>{
             //console.log(f.timeDefines)
             f.timeDefines = f.timeDefines.map(e=>{
-                const date = new Date(e)
-                return dateformat(date)
+              const date = new Date(e)
+              return dateformat(date)
             })
         })
         
         param.items[1].timeSeries.map(f=>{
             //console.log(f.timeDefines)
             f.timeDefines = f.timeDefines.map(e=>{
-                const date = new Date(e)
-                return dateformat(date)
+              const date = new Date(e)
+              return dateformat(date)
             })
         })
         
