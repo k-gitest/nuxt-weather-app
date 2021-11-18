@@ -24,6 +24,8 @@
             <tr>
               <td>
                 {{ areas.area.name }}<br>
+                <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
+                コード：{{ areas.weatherCodes[index] }}<br>
                 天気：{{ areas.weathers[index] }}<br>
                 波：{{ areas.waves[index] }}<br>
                 風：{{ areas.winds[index] }}<br>
@@ -104,7 +106,7 @@
         
     <ul>
       <li v-for="WeatherCode in WeatherCodes">
-        {{ WeatherCode[1] }}
+        {{ WeatherCode }}
       </li>
     </ul>
     <hr>
@@ -125,7 +127,7 @@ export default{
   data(){
       return{
           weathers: [],
-          forec: [],
+          //forec: [],
           WeatherCodes: WeatherCodes,
           url: 'https://www.jma.go.jp/bosai/forecast/data/',
           area: 'overview_forecast/130000.json',
@@ -168,6 +170,7 @@ export default{
       precipAverage: function(){
         return this.$store.getters['forecast/precipAverage']
       },
+      
   },
   methods: {
       are_write: async function(area){
@@ -179,6 +182,7 @@ export default{
           await this.$store.dispatch('forecast/forecast',{url:this.url, area: this.area_detail})
       },
       //天気画像コード取得処理
+      /*
       hoge: function(samp){
         samp = Object.entries(samp) // objectを配列に変換
         samp.map(f=>{
@@ -187,6 +191,7 @@ export default{
           this.forec = Array.from(new Set(this.forec)) //重複要素削除
         })
       },
+      */
   },
 
 
