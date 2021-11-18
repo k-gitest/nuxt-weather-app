@@ -1,18 +1,20 @@
 <template>
-    <div>
+    <div class="container">
+        <!--
         <ul>
-            <li v-for="forecast in forecasts">{{ forecasts }}</li>
+          <li v-for="forecast in forecasts">{{ forecasts }}</li>
         </ul>
         <button @click="change_area(`forecast/130000.json`)">東京詳細</button>
         <button @click="change_area(`overview_forecast/130000.json`)">東京概要</button>
         <ul>
-            <li v-for="weather in weathers">{{ weather }}</li>
+          <li v-for="weather in weathers">{{ weather }}</li>
         </ul>
         <button @click="are_write(`overview_forecast/130000.json`)">東京</button>
         <button @click="are_write(`overview_forecast/140000.json`)">横浜</button>
+        -->
         
         <h2>今日・明日・明後日の天気予報</h2>
-        <table border=1>
+        <table border=1 class="table">
           <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
             <thead>
               <tr>
@@ -32,7 +34,7 @@
                 最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                 最高気温：{{ timeTemps.areas[num].temps[1] }}度
                 
-                <table border=1>
+                <table border=1 class="table">
                   <thead>
                     <tr>
                       <template v-for="timePop in timePops.timeDefines">
@@ -56,34 +58,34 @@
         </table>
         
         <h2>週間天気予報</h2>
-        <table border=1>
-            <thead>
-                <tr>
-                  <th>日付</th>
-                  <template v-for="week in weekWeathers.timeDefines">
-                  <th>{{ week }}</th>
-                  </template>
-                </tr>
-            </thead>
-            <tbody>
-              <template v-for="(weekArea,num) in weekWeathers.areas">
-                <tr>
-                  <td>{{ weekArea.area.name }}</td>
-                  <template v-for="(pop,index) in weekArea.pops">
-                  <td>
-                    降水確率：{{ pop }}％<br>
-                    信頼度：{{ weekArea.reliabilities[index] }}<br>
-                    最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>
-                    最低気温：{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）
-                  </td>
-                  </template>
-                </tr>
+        <table border=1 class="table">
+          <thead>
+            <tr>
+              <th>日付</th>
+              <template v-for="week in weekWeathers.timeDefines">
+              <th>{{ week }}</th>
               </template>
-            </tbody>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-for="(weekArea,num) in weekWeathers.areas">
+              <tr>
+                <td>{{ weekArea.area.name }}</td>
+                <template v-for="(pop,index) in weekArea.pops">
+                <td>
+                  降水確率：{{ pop }}％<br>
+                  信頼度：{{ weekArea.reliabilities[index] }}<br>
+                  最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>
+                  最低気温：{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）
+                </td>
+                </template>
+              </tr>
+            </template>
+          </tbody>
         </table>
         
         <h2>降水量と気温の向こう七日間平年値</h2>
-        <table border=1>
+        <table border=1 class="table">
           <thead>
             <tr>
               <template v-for="tempArea in tempAverage">
@@ -104,20 +106,15 @@
           </tbody>
         </table>
         
-    <ul>
-      <li v-for="WeatherCode in WeatherCodes">
-        {{ WeatherCode }}
-      </li>
-    </ul>
-    <hr>
-    <ul>
-      <li>
-        <template v-for="fore in forec">{{ fore }},</template>
-      </li>
-    </ul>
-    <button @click="hoge(WeatherCodes)">押す</button>
     </div>
 </template>
+
+<style>
+  .table{
+    word-break: break-all;
+  }
+</style>
+
 
 <script>
 import axios from 'axios'

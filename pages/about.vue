@@ -1,107 +1,105 @@
 <template>
     <div>
-        <h1>About Page</h1>
-        <h2>{{ subtitle }}</h2>
-        
-        <div>
-            <h2>{{ items[0].publishingOffice }} {{ items[0].reportDatetime }}発表</h2>
-            <table border=1>
-                <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
-                <thead>
-                    <tr>
-                        <th>{{ timeDefine }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template v-for="(area, num) in timeWeathers.areas">
-                        <tr>
-                            <td>
-                            {{ area.area.name }}<br>
-                            天気：{{ area.weathers[index] }}<br>
-                            風向き：{{ area.winds[index] }}<br>
-                            波の高さ：{{ area.waves[index] }}<br>
-                            平均最低気温：{{ timeTemps.areas[num].temps[0] }}<br>
-                            平均最高気温：{{ timeTemps.areas[num].temps[1] }}
-                                <table border=1>
-                                    <thead>
-                                        <tr>
-                                            <template v-for="timepop in timePops.timeDefines">
-                                            <th>{{ timepop }}</th>
-                                            </template>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <template v-for="area in timePops.areas[num].pops">
-                                            <td>降水確率：{{ area }}％</td>
-                                            </template>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </template>
-                </tbody>
-                </template>
-            </table>
-        </div>
-        
-        <div>
-            <h2>週間天気</h2>
-            <table border=1>
-                
-                <thead>
-                    <tr>
-                        <th>日付</th>
-                        <template v-for="week in weekWeathers.timeDefines">
-                        <th>{{ week }}</th>
+      <h1>About Page</h1>
+      <h2>{{ subtitle }}</h2>
+      
+      <div class="container">
+        <h2>{{ items[0].publishingOffice }} {{ items[0].reportDatetime }}発表</h2>
+        <table border=1>
+          <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
+          <thead>
+            <tr>
+              <th>{{ timeDefine }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-for="(area, num) in timeWeathers.areas">
+              <tr>
+                <td>
+                {{ area.area.name }}<br>
+                天気：{{ area.weathers[index] }}<br>
+                風向き：{{ area.winds[index] }}<br>
+                波の高さ：{{ area.waves[index] }}<br>
+                平均最低気温：{{ timeTemps.areas[num].temps[0] }}<br>
+                平均最高気温：{{ timeTemps.areas[num].temps[1] }}
+                  <table border=1>
+                    <thead>
+                      <tr>
+                        <template v-for="timepop in timePops.timeDefines">
+                        <th>{{ timepop }}</th>
                         </template>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template v-for="(weekArea,num) in weekWeathers.areas">
-                    <tr>
-                        <td>{{ weekArea.area.name }}</td>
-                        <template v-for="(pop,index) in weekArea.pops">
-                        <td>
-                            降水確率：{{ pop }}％<br>
-                            信頼度：{{ weekArea.reliabilities[index] }}<br>
-                            最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>
-                            最低気温：{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）
-                        </td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <template v-for="area in timePops.areas[num].pops">
+                        <td>降水確率：{{ area }}％</td>
                         </template>
-                    </tr>
-                    </template>
-                </tbody>
-                
-            </table>
-        </div>
-        
-        <div>
-            <h2>降水量と気温の向こう七日間平年値</h2>
-            <table border=1>
-                <thead>
-                    <tr>
-                        <template v-for="tempArea in tempAverage">
-                        <td>{{ tempArea.area.name }}</td>
-                        </template>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <template v-for="(temps, index) in tempAverage">
-                        <td>
-                            最低気温：{{ temps.min }}<br>
-                            最高気温：{{ temps.max }}<br>
-                            降水量7日間合計：{{ precipAverage[index].min }} - {{ precipAverage[index].max }}mm
-                        </td>
-                        </template>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+          </template>
+        </table>
+      </div>
+      
+      <div>
+        <h2>週間天気</h2>
+        <table border=1>
+          <thead>
+            <tr>
+              <th>日付</th>
+              <template v-for="week in weekWeathers.timeDefines">
+              <th>{{ week }}</th>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-for="(weekArea,num) in weekWeathers.areas">
+            <tr>
+              <td>{{ weekArea.area.name }}</td>
+              <template v-for="(pop,index) in weekArea.pops">
+              <td>
+                降水確率：{{ pop }}％<br>
+                信頼度：{{ weekArea.reliabilities[index] }}<br>
+                最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>
+                最低気温：{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）
+              </td>
+              </template>
+            </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+      
+      <div>
+        <h2>降水量と気温の向こう七日間平年値</h2>
+        <table border=1>
+          <thead>
+            <tr>
+              <template v-for="tempArea in tempAverage">
+              <td>{{ tempArea.area.name }}</td>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <template v-for="(temps, index) in tempAverage">
+              <td>
+                  最低気温：{{ temps.min }}<br>
+                  最高気温：{{ temps.max }}<br>
+                  降水量7日間合計：{{ precipAverage[index].min }} - {{ precipAverage[index].max }}mm
+              </td>
+              </template>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        
+        <!--
         <ul v-for="(item, no) in items">
             <li>{{ item.publishingOffice }}</li>
             <li>{{ item.reportDatetime }}の発表</li>
@@ -156,6 +154,7 @@
                 </li>
             </template>
         </ul>
+        -->
 
     <Weather />
 
@@ -167,6 +166,27 @@ import axios from 'axios'
 
 export default{
   layout: 'original',
+  // headプロパティでtitleやmetaなどを設定できる
+  head(){
+    return{
+      title: 'Aboutのページ',
+      meta:[
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Aboutページ説明です'
+        }
+      ],
+      link:[
+        {
+            rel: 'stylesheet',
+            href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css',
+            integrity: 'sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1',
+            crossorigin: 'anonymous'
+        }
+      ],
+    }
+  },
   data(){
       return{
           subtitle: 'この文書はNuxt.jsでの気象庁のデータについて説明しています。',
@@ -202,14 +222,7 @@ export default{
           tempsMaxUpper:最高気温上限
           tempsMaxLower:最高気温下限
           */
-          
-          
-          //console.log(timeSeries)
-          //console.log(weekSeries)
-          //console.log(weekWeathers)
-          
-          //console.log(res.data)
-          
+
           /*日付時刻フォーマット変換処理
           //foreach、filter、mapのどれでも取得変換できる
           timeSeries.forEach(e=>{
@@ -227,8 +240,7 @@ export default{
               })
           })
           */
-          //console.log(timeSeries)
-          
+
           items.filter((f) =>{
               if(f.reportDatetime){
                   const date = new Date(f.reportDatetime)
@@ -255,8 +267,7 @@ export default{
               //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
               })
           })
-          //console.log(timeSeries)
-          
+
           weekSeries.filter(f=>{
               f.timeDefines = f.timeDefines.map(e=>{
               const date = new Date(e)
@@ -271,47 +282,11 @@ export default{
               })
               //console.log(f)
           })
-
-          /*
-          const datetime = timeSeries[0].timeDefines
-          //console.log(datetime)
-          const timedate = datetime.map(e=>{
-              const date = new Date(e)
-              const y = date.getFullYear()
-              const m = date.getMonth()+1
-              const d = date.getDate()
-              const day = '日月火水木金土'.charAt(date.getDay())
-              const hh = date.getHours()
-              const mm = date.getMinutes()
-              return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
-              //console.log(`${y}年${m}月${d}日（${day}）${hh}時${mm}分`)
-          })
-          //console.log(timedate)
-          */
           
           return {items, timeSeries, weekSeries, timeWeathers, timePops, timeTemps, weekWeathers, weekTemps, tempAverage, precipAverage}
           })
           
   },
-  
-
-  
-  // headプロパティでtitleやmetaなどを設定できる
-  head(){
-      return{
-          title: 'Aboutのページ',
-          meta:[
-              {
-                  hid: 'description',
-                  name: 'description',
-                  content: 'Aboutページ説明です'
-              }
-              ]
-      }
-  },
-  
-  
-
   
 }
 </script>
