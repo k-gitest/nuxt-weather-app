@@ -1,8 +1,10 @@
 <template>
+
     <div>
       <h1>About Page</h1>
       <h2>{{ subtitle }}</h2>
       
+      <!--
       <div class="container">
         <h2>{{ items[0].publishingOffice }} {{ items[0].reportDatetime }}発表</h2>
         <table border=1 class="table">
@@ -98,6 +100,8 @@
           </tbody>
         </table>
       </div>
+      
+      -->
 
         <!--
         <ul v-for="(item, no) in items">
@@ -155,7 +159,7 @@
             </template>
         </ul>
         -->
-
+    <Centers />
     <Weather />
 
     </div>

@@ -66,7 +66,7 @@ export const mutations = {
           if(f.reportDatetime){
           f.reportDatetime = f.reportDatetime.replace('+09:00','')
           const date = new Date(f.reportDatetime)
-          console.log(date)
+          //console.log(date)
           f.reportDatetime = dateformat(date, 1)
           }
         })
