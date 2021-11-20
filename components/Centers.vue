@@ -5,10 +5,26 @@
       <li>{{ center.name }}</li>
       <li>{{ center.officeName }}</li>
       <li v-for="item in center.children">
+        <!--
         <a :href="`${ area_name }${ item }.json`" target="_blank">
         <template v-for="(office, area_key) in centers['offices']">
           <template v-if="area_key === item">
-            {{office.name}}：{{ office.officeName}}：{{ area_key }}
+            {{office.name}}：{{ office.officeName}}：{{ area_key }}<br>
+            <template v-for="child in office.children">
+              {{ child }}
+            </template>
+          </template>
+        </template>
+        </a>
+        -->
+        <nuxt-link :to="`forecast/${ item }`">User List</nuxt-link>
+        <a :href="`/forecast/${ item }`">
+        <template v-for="(office, area_key) in centers['offices']">
+          <template v-if="area_key === item">
+            {{office.name}}：{{ office.officeName}}：{{ area_key }}<br>
+            <template v-for="child in office.children">
+              {{ child }}
+            </template>
           </template>
         </template>
         </a>
@@ -38,7 +54,7 @@ export default{
       //axiosでも取得できる
       this.centers = await axios.get(this.url).then(res=>res.data)
       //this.centers = Object.entries(this.centers)
-      console.log(this.centers)
+      //console.log(this.centers)
       //storeに格納
       //await this.$store.dispatch('forecast/forecast', {url: this.url, area: this.area_detail})
   },

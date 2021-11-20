@@ -107,6 +107,7 @@ export const mutations = {
 export const actions = {
     forecast: async function({commit},{url, area}){
         //console.log(commit)
+        //console.log(area_detail)
         //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
         //const area = 'overview_forecast/130000.json'
         return await axios.get(url + area)
