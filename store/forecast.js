@@ -12,10 +12,31 @@ export const state = () => ({
     weekWeathers: [], //週間予報（天気、降水確率、信頼度）
     weekTemps: [], //週間気温予報（最気温、最低気温の予測下限、上限、最高気温、最高気温の予測下限、上限）
     url: '',
-    area: ''
+    area: '',
+    centers:[],
+    offices:[],
+    class10s:[],
+    class15s:[],
+    class20s:[],
 })
 
 export const getters = {
+  centers: function(state){
+    return state.centers
+  },
+  offices: function(state){
+    return state.offices
+  },
+  class10s: function(state){
+    return state.class10s
+  },
+  class15s: function(state){
+    return state.class15s
+  },
+  class20s:function(state){
+    return state.class20s
+  },
+  
   forecasts: function(state){
     return state.forecasts
   },
@@ -60,6 +81,15 @@ function dateformat(date, long){
 }
 
 export const mutations = {
+  setArea: function(state, {areadata}){
+    //console.log(areadata)
+    state.centers = areadata.centers
+    state.offices = areadata.offices
+    state.class10s = areadata.class10s
+    state.class15s = areadata.class15s
+    state.class20s = areadata.class20s
+  },
+  
     setForecast: function(state, {param}){
         //console.log(param.timeWeathers)
         param.items.filter(f=>{
@@ -105,6 +135,15 @@ export const mutations = {
 }
 
 export const actions = {
+  forecastIndex: async function({commit}){
+    const url = 'https://www.jma.go.jp/bosai/common/const/area.json'
+    return await axios.get(url)
+    .then(res => {
+      const areadata = res.data
+      commit('setArea', {areadata})
+    })
+  },
+  
     forecast: async function({commit},{url, area}){
         //console.log(commit)
         //console.log(area_detail)
@@ -136,5 +175,6 @@ export const actions = {
                 commit('setForecast', {param})
             }
         })
-    }
+    },
+    
 }

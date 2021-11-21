@@ -1,18 +1,5 @@
 <template>
     <div class="container">
-        <!--
-        <ul>
-          <li v-for="forecast in forecasts">{{ forecasts }}</li>
-        </ul>
-        <button @click="change_area(`forecast/130000.json`)">東京詳細</button>
-        <button @click="change_area(`overview_forecast/130000.json`)">東京概要</button>
-        <ul>
-          <li v-for="weather in weathers">{{ weather }}</li>
-        </ul>
-        <button @click="are_write(`overview_forecast/130000.json`)">東京</button>
-        <button @click="are_write(`overview_forecast/140000.json`)">横浜</button>
-        -->
-        
         <h2>今日・明日・明後日の天気予報</h2>
         <h3>{{ forecasts[0].publishingOffice }} : {{forecasts[0].reportDatetime}}発表</h3>
         <table border=1 class="table">
@@ -29,8 +16,13 @@
                 {{ areas.area.name }}<br>
                 <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
                 天気：{{ areas.weathers[index] }}<br>
-                波：{{ areas.waves[index] }}<br>
-                風：{{ areas.winds[index] }}<br>
+                <template v-if="areas.waves">
+                  波：{{ areas.waves[index] }}<br>
+                </template>
+                <template v-if="areas.winds">
+                  風：{{ areas.winds[index] }}<br>
+                </template>
+                
                 最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                 最高気温：{{ timeTemps.areas[num].temps[1] }}度
                 
@@ -106,84 +98,108 @@
           </tbody>
         </table>
         
+        <!--
+        <ul>
+          <li v-for="forecast in forecasts">{{ forecasts }}</li>
+        </ul>
+        <button @click="change_area(`forecast/130000.json`)">東京詳細</button>
+        <button @click="change_area(`overview_forecast/130000.json`)">東京概要</button>
+        <ul>
+          <li v-for="weather in weathers">{{ weather }}</li>
+        </ul>
+        <button @click="are_write(`overview_forecast/130000.json`)">東京</button>
+        <button @click="are_write(`overview_forecast/140000.json`)">横浜</button>
+        -->
     </div>
 </template>
-
-<style>
-  .table{
-    word-break: break-all;
-  }
-</style>
-
 
 <script>
 import axios from 'axios'
 import WeatherCodes from '@/assets/weatherCodes.json'
 
 export default{
+  head(){
+    return {
+      title: 'areaの天気予報',
+      meta:[
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'areaの天気予報です'
+        }
+      ],
+      link:[{
+            rel: 'stylesheet',
+            href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css',
+            integrity: 'sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1',
+            crossorigin: 'anonymous'
+      }],
+    }
+  },
   data(){
-      return{
-          //weathers: [],
-          WeatherCodes: WeatherCodes,
-          url: 'https://www.jma.go.jp/bosai/forecast/data/',
-          area: 'overview_forecast/130000.json',
-          area_detail: 'forecast/130000.json'
-      }
+    return{
+      //weathers: [],
+      WeatherCodes: WeatherCodes,
+      url: 'https://www.jma.go.jp/bosai/forecast/data/',
+      area: 'overview_forecast/130000.json',
+      area_detail: 'forecast/130000.json'
+    }
   },
 
   async fetch({store,params}){
     //console.log(params.area)
     //console.log(store)
-    //console.log(this.url)
-      //axiosでも取得できる
-      //this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
-      //storeに格納
-      //paramsやcontextを取得する場合はstoreを使用する、その場合thisは使用できなくなる
-      const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
-      const area = params.area + '.json'
-      await store.dispatch('forecast/forecast', {url, area}) //storeの場合actonsの引数と同じ名前を使用しないと受け渡せない
+    //this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
+    //paramsやcontextを取得する場合はstoreを使用する、その場合thisは使用できなくなる
+    const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
+    const area = params.area + '.json'
+    await store.dispatch('forecast/forecast', {url, area}) //storeの場合actonsの引数と同じ名前を使用しないと受け渡せない
   },
   computed:{
-      forecasts: function() {
-          return this.$store.getters['forecast/forecasts']
-      },
-      timeWeathers: function(){
-          return this.$store.getters['forecast/timeWeathers']
-      },
-      timeTemps: function(){
-          return this.$store.getters['forecast/timeTemps']
-      },
-      timePops: function(){
-          return this.$store.getters['forecast/timePops']
-      },
-      weekWeathers: function(){
-        return this.$store.getters['forecast/weekWeathers']
-      },
-      weekTemps: function(){
-        return this.$store.getters['forecast/weekTemps']
-      },
-      tempAverage: function(){
-        return this.$store.getters['forecast/tempAverage']
-      },
-      precipAverage: function(){
-        return this.$store.getters['forecast/precipAverage']
-      },
+    forecasts: function() {
+        return this.$store.getters['forecast/forecasts']
+    },
+    timeWeathers: function(){
+        return this.$store.getters['forecast/timeWeathers']
+    },
+    timeTemps: function(){
+        return this.$store.getters['forecast/timeTemps']
+    },
+    timePops: function(){
+        return this.$store.getters['forecast/timePops']
+    },
+    weekWeathers: function(){
+      return this.$store.getters['forecast/weekWeathers']
+    },
+    weekTemps: function(){
+      return this.$store.getters['forecast/weekTemps']
+    },
+    tempAverage: function(){
+      return this.$store.getters['forecast/tempAverage']
+    },
+    precipAverage: function(){
+      return this.$store.getters['forecast/precipAverage']
+    },
       
   },
   methods: {
-      are_write: async function(area){
-          this.area = area
-          this.weathers = await fetch(this.url + this.area).then(res => res.json())
-      },
-      change_area: async function(area){
-          this.area_detail = area
-          await this.$store.dispatch('forecast/forecast',{url:this.url, area: this.area_detail})
-      },
+    are_write: async function(area){
+        this.area = area
+        this.weathers = await fetch(this.url + this.area).then(res => res.json())
+    },
+    change_area: async function(area){
+        this.area_detail = area
+        await this.$store.dispatch('forecast/forecast',{url:this.url, area: this.area_detail})
+    },
 
   },
-
-
 
 }
 
 </script>
+
+<style>
+  .table{
+    word-break: break-all;
+  }
+</style>

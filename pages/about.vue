@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div v-cloak>
       <h1>About Page</h1>
       <h2>{{ subtitle }}</h2>
       
@@ -160,7 +160,9 @@
         </ul>
         -->
     <Centers />
+    <!--
     <Weather />
+    -->
 
     </div>
 </template>
@@ -294,3 +296,8 @@ export default{
   
 }
 </script>
+<style>
+    [v-cloak] {
+      display: none;
+    }
+</style>
