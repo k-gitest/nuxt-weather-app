@@ -8,15 +8,18 @@
         <nuxt-link :to="`forecast/${ item }`">
           {{ offices[item].name }}:{{ offices[item].officeName }}<br>
           <template v-for="office_child in offices[item].children">
-            parent:{{ class10s[office_child].parent}}<br>
+            id:{{office_child}}<br>
+            class10sparent:{{ class10s[office_child].parent}}<br>
             {{ class10s[office_child].name }}:{{ class10s[office_child].children}}<br>
             
             <template v-for="class10_child in class10s[office_child].children">
-              parent:{{ class15s[class10_child].parent}}<br>
+              id:{{class10_child}}<br>
+              class15sparent:{{ class15s[class10_child].parent}}<br>
               {{ class15s[class10_child].name }}:{{ class15s[class10_child].children}}<br>
               
               <template v-for="class15_child in class15s[class10_child].children">
-                {{ class20s[class15_child].parent }}<br>
+                id:{{class15_child}}<br>
+                class20sparent:{{ class20s[class15_child].parent }}<br>
                 {{ class20s[class15_child].name }}:{{ class20s[class15_child].children }}<br>
               </template>
             </template>

@@ -11,10 +11,11 @@
             </thead>
           <tbody>
             <template v-for="(areas, num) in timeWeathers.areas">
-            <template v-if="areas.area.code === $route.query.area_detail">
+            <template v-if="areas.area.code === $route.query.area_detail">  
             <tr>
               <td>
                 {{ areas.area.name }}<br>
+                {{ areas.area.code }}
                 <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
                 天気：{{ areas.weathers[index] }}<br>
                 <template v-if="areas.waves">
@@ -142,9 +143,9 @@ export default{
     return{
       //weathers: [],
       WeatherCodes: WeatherCodes,
-      url: 'https://www.jma.go.jp/bosai/forecast/data/',
+      //url: 'https://www.jma.go.jp/bosai/forecast/data/',
       area: 'overview_forecast/130000.json',
-      area_detail: 'forecast/130000.json'
+      //area_detail: 'forecast/130000.json'
     }
   },
 
@@ -154,7 +155,9 @@ export default{
     //this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
     //paramsやcontextを取得する場合はstoreを使用する、その場合thisは使用できなくなる
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
-    const area = params.area + '.json'
+    //const area = '012000' + '.json' + '?area_detail=012020'
+    const area = '120000' + '.json'
+    //console.log(area)
     await store.dispatch('forecast/forecast', {url, area}) //storeの場合actonsの引数と同じ名前を使用しないと受け渡せない
   },
   computed:{
