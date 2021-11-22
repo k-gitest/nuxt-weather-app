@@ -11,8 +11,43 @@
             </thead>
           <tbody>
             <template v-for="(areas, num) in timeWeathers.areas">
-            <template v-if="areas.area.code === $route.query.area_detail">
+            <template v-if="$route.query.area_detail && areas.area.code === $route.query.area_detail">
             <tr>
+              <td>
+                {{ areas.area.name }}<br>
+                <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
+                天気：{{ areas.weathers[index] }}<br>
+                <template v-if="areas.waves">
+                  波：{{ areas.waves[index] }}<br>
+                </template>
+                <template v-if="areas.winds">
+                  風：{{ areas.winds[index] }}<br>
+                </template>
+                
+                最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
+                最高気温：{{ timeTemps.areas[num].temps[1] }}度
+                
+                <table border=1 class="table">
+                  <thead>
+                    <tr>
+                      <template v-for="timePop in timePops.timeDefines">
+                      <th>{{ timePop }}</th>
+                      </template>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <template v-for="pop in timePops.areas[num].pops">
+                      <td>{{ pop }}%</td>
+                      </template>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            </template>
+            <template v-else-if="!$route.query.area_detail">
+              <tr>
               <td>
                 {{ areas.area.name }}<br>
                 <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
@@ -67,6 +102,8 @@
                 <td>{{ weekArea.area.name }}</td>
                 <template v-for="(pop,index) in weekArea.pops">
                 <td>
+                  天気：{{ WeatherCodes[weekArea.weatherCodes[index]][3] }}<br>
+                  <img :src="require(`@/assets/img/`+WeatherCodes[weekArea.weatherCodes[index]][0])" />
                   降水確率：{{ pop }}％<br>
                   信頼度：{{ weekArea.reliabilities[index] }}<br>
                   最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>

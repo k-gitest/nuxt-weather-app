@@ -64,6 +64,8 @@ export const getters = {
 }
 
 function dateformat(date, long){
+  date = date.replace('+09:00','')
+  date = new Date(date)
   const y = date.getFullYear()
   const m = date.getMonth()+1
   const d = date.getDate()
@@ -90,47 +92,49 @@ export const mutations = {
     state.class20s = areadata.class20s
   },
   
-    setForecast: function(state, {param}){
-        //console.log(param.timeWeathers)
-        param.items.filter(f=>{
-          if(f.reportDatetime){
-          f.reportDatetime = f.reportDatetime.replace('+09:00','')
-          const date = new Date(f.reportDatetime)
-          //console.log(date)
-          f.reportDatetime = dateformat(date, 1)
-          }
+  setForecast: function(state, {param}){
+    //console.log(param.timeWeathers)
+    param.items.filter(f=>{
+      if(f.reportDatetime){
+        /*
+      f.reportDatetime = f.reportDatetime.replace('+09:00','')
+      const date = new Date(f.reportDatetime)
+      //console.log(date)
+      */
+      f.reportDatetime = dateformat(f.reportDatetime, 1)
+      }
+    })
+    
+    param.items[0].timeSeries.map(f=>{
+        //console.log(f.timeDefines)
+        f.timeDefines = f.timeDefines.map(e=>{
+          //const date = new Date(e)
+          return dateformat(e)
         })
-        
-        param.items[0].timeSeries.map(f=>{
-            //console.log(f.timeDefines)
-            f.timeDefines = f.timeDefines.map(e=>{
-              const date = new Date(e)
-              return dateformat(date)
-            })
+    })
+    
+    param.items[1].timeSeries.map(f=>{
+        //console.log(f.timeDefines)
+        f.timeDefines = f.timeDefines.map(e=>{
+          //const date = new Date(e)
+          return dateformat(e)
         })
-        
-        param.items[1].timeSeries.map(f=>{
-            //console.log(f.timeDefines)
-            f.timeDefines = f.timeDefines.map(e=>{
-              const date = new Date(e)
-              return dateformat(date)
-            })
-        })
-        
-        state.forecasts = param.items
-        
-        state.timeSeries = param.items[0].timeSeries
-        state.timeWeathers = param.items[0].timeSeries[0]
-        state.timePops = param.items[0].timeSeries[1]
-        state.timeTemps = param.items[0].timeSeries[2]
-        
-        state.weekSeries = param.items[1].timeSeries
-        state.weekWeathers = param.items[1].timeSeries[0]
-        state.weekTemps = param.items[1].timeSeries[1]
-        
-        state.tempAverage = param.items[1].tempAverage.areas
-        state.precipAverage = param.items[1].precipAverage.areas
-    },
+    })
+    
+    state.forecasts = param.items
+    
+    state.timeSeries = param.items[0].timeSeries
+    state.timeWeathers = param.items[0].timeSeries[0]
+    state.timePops = param.items[0].timeSeries[1]
+    state.timeTemps = param.items[0].timeSeries[2]
+    
+    state.weekSeries = param.items[1].timeSeries
+    state.weekWeathers = param.items[1].timeSeries[0]
+    state.weekTemps = param.items[1].timeSeries[1]
+    
+    state.tempAverage = param.items[1].tempAverage.areas
+    state.precipAverage = param.items[1].precipAverage.areas
+  },
 
 }
 
