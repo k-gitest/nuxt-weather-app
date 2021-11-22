@@ -64,8 +64,15 @@ export const getters = {
 }
 
 function dateformat(date, long){
+  const dateweek = date
+  
   date = date.replace('+09:00','')
   date = new Date(date)
+  
+  let dateNow = new Date(Date.now())
+  dateNow = dateNow.toISOString().split('Z')[0] + '+09:00'
+  //console.log(dateNow < dateweek)
+
   const y = date.getFullYear()
   const m = date.getMonth()+1
   const d = date.getDate()
@@ -74,9 +81,11 @@ function dateformat(date, long){
   const mm = date.getMinutes()
   
   if(long === 1){
-    return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
-  }else if(long !== 1){
-    return `${m}月${d}日（${day}）${hh}時`
+    return `${y}年${m}月${d}日（${day}）${hh}時`
+  }else if(long === 2){
+      return `${m}月${d}日（${day}）`
+  }else if(long === 3){
+    return `${d}日（${day}）`
   }
   
   //return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
@@ -109,7 +118,7 @@ export const mutations = {
         //console.log(f.timeDefines)
         f.timeDefines = f.timeDefines.map(e=>{
           //const date = new Date(e)
-          return dateformat(e)
+          return dateformat(e,2)
         })
     })
     
@@ -117,7 +126,7 @@ export const mutations = {
         //console.log(f.timeDefines)
         f.timeDefines = f.timeDefines.map(e=>{
           //const date = new Date(e)
-          return dateformat(e)
+          return dateformat(e,3)
         })
     })
     

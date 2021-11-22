@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <h2>今日・明日・明後日の天気予報</h2>
-        <h3>{{ forecasts[0].publishingOffice }} : {{forecasts[0].reportDatetime}}発表</h3>
+        <h3>{{forecasts[0].reportDatetime}} : {{ forecasts[0].publishingOffice }} 発表</h3>
         <table border=1 class="table">
           <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
             <thead>
@@ -179,9 +179,6 @@ export default{
     return{
       //weathers: [],
       WeatherCodes: WeatherCodes,
-      url: 'https://www.jma.go.jp/bosai/forecast/data/',
-      area: 'overview_forecast/130000.json',
-      area_detail: 'forecast/130000.json'
     }
   },
 
