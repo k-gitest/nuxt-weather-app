@@ -122,8 +122,10 @@ export const mutations = {
     })
     */
     
+    
     param.items[0].timeSeries[0].timeDefines.map(m=>{
-      console.log(m)
+      //console.log(m)
+      const now = []
       m = m.replace('+09:00','')
       const dateNow = new Date(m)
       for(let i=0;i<4;i++){
@@ -131,8 +133,9 @@ export const mutations = {
         dateNow.setMinutes(0)
         dateNow.setSeconds(0)
         dateNow.setMilliseconds(0)
-        state.dateNow.push(dateNow.toISOString().split('.000Z')[0] + '+09:00')
+        now.push(dateNow.toISOString().split('.000Z')[0] + '+09:00')
       }
+      state.dateNow.push(now)
     })
     
     param.items[1].timeSeries.map(f=>{

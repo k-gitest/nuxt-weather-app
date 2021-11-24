@@ -60,8 +60,9 @@
                 </template>
                 
                 最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
-                最高気温：{{ timeTemps.areas[num].temps[1] }}度
-                
+                最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
+                降水確率：
+
                 <table border=1 class="table">
                   <thead>
                     <tr>
@@ -73,24 +74,24 @@
                   </thead>
                   <tbody>
                     <tr>
-                      
-                        <template v-for="(n,poptd) in 4">
-
-                          <template v-if="timePops.timeDefines[poptd] >= timeDefine">
-                           <td>
-                            {{ timePops.areas[num].pops[poptd] }}%<br>
-                            {{timeDefine}}<br>
-                            {{timePops.timeDefines[poptd]}}
-                           </td>
+                      <template v-for="(n,poptd) in 4">
+                        <td>
+                          <template v-for="(timeDef,defin) in timePops.timeDefines">
+                            
+                            <template v-if="dateNow[index][poptd] === timeDef">
+                         
+                              {{ timePops.areas[num].pops[defin] }}%<br>
+                             
+                            </template>
+                            
                           </template>
-                          <template v-else-if="timePops.timeDefines[poptd] <= timeDefine">
-                            <td>
-                            - {{dateNow}}
-                            </td>
+                          
+                          <template v-if="dateNow[index][poptd] < timeDefine">
+                              -
                           </template>
-                        </template>
 
-
+                        </td>
+                      </template>
                     </tr>
                   </tbody>
                 </table>
