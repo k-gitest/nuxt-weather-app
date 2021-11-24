@@ -18,6 +18,7 @@ export const state = () => ({
     class10s:[],
     class15s:[],
     class20s:[],
+    dateNow:[],
 })
 
 export const getters = {
@@ -64,14 +65,9 @@ export const getters = {
 }
 
 function dateformat(date, long){
-  //const dateweek = date
-  
+
   date = date.replace('+09:00','')
   date = new Date(date)
-  
-  let dateNow = new Date(Date.now())
-  state.dateNow = dateNow.toISOString().split('Z')[0] + '+09:00'
-  //console.log(dateNow)
 
   const y = date.getFullYear()
   const m = date.getMonth()+1
@@ -91,6 +87,7 @@ function dateformat(date, long){
 }
 
 export const mutations = {
+
   setArea: function(state, {areadata}){
     //console.log(areadata)
     state.centers = areadata.centers
@@ -109,6 +106,7 @@ export const mutations = {
       const date = new Date(f.reportDatetime)
       //console.log(date)
       */
+      
       f.reportDatetime = dateformat(f.reportDatetime, 1)
       }
     })
@@ -118,10 +116,24 @@ export const mutations = {
         //console.log(f.timeDefines)
         f.timeDefines = f.timeDefines.map(e=>{
           //const date = new Date(e)
+          //state.dateNow.push(popformat(e))
           return dateformat(e,2)
         })
     })
     */
+    
+    param.items[0].timeSeries[0].timeDefines.map(m=>{
+      console.log(m)
+      m = m.replace('+09:00','')
+      const dateNow = new Date(m)
+      for(let i=0;i<4;i++){
+        dateNow.setHours(i*6)
+        dateNow.setMinutes(0)
+        dateNow.setSeconds(0)
+        dateNow.setMilliseconds(0)
+        state.dateNow.push(dateNow.toISOString().split('.000Z')[0] + '+09:00')
+      }
+    })
     
     param.items[1].timeSeries.map(f=>{
         //console.log(f.timeDefines)

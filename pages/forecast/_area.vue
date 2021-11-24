@@ -85,7 +85,7 @@
                           </template>
                           <template v-else-if="timePops.timeDefines[poptd] <= timeDefine">
                             <td>
-                            -
+                            - {{dateNow}}
                             </td>
                           </template>
                         </template>
