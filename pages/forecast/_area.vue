@@ -65,16 +65,32 @@
                 <table border=1 class="table">
                   <thead>
                     <tr>
-                      <template v-for="timePop in timePops.timeDefines">
-                      <th>{{ timePop }}</th>
-                      </template>
+                      <th>00-06</th>
+                      <th>06-12</th>
+                      <th>12-18</th>
+                      <th>18-24</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <template v-for="pop in timePops.areas[num].pops">
-                      <td>{{ pop }}%</td>
-                      </template>
+                      
+                        <template v-for="(n,poptd) in 4">
+
+                          <template v-if="timePops.timeDefines[poptd] >= timeDefine">
+                           <td>
+                            {{ timePops.areas[num].pops[poptd] }}%<br>
+                            {{timeDefine}}<br>
+                            {{timePops.timeDefines[poptd]}}
+                           </td>
+                          </template>
+                          <template v-else-if="timePops.timeDefines[poptd] <= timeDefine">
+                            <td>
+                            -
+                            </td>
+                          </template>
+                        </template>
+
+
                     </tr>
                   </tbody>
                 </table>
@@ -179,6 +195,7 @@ export default{
     return{
       //weathers: [],
       WeatherCodes: WeatherCodes,
+      date:[],
     }
   },
 
@@ -216,6 +233,9 @@ export default{
     precipAverage: function(){
       return this.$store.getters['forecast/precipAverage']
     },
+    dateNow: function(){
+      return this.$store.state.forecast.dateNow
+    }
       
   },
   methods: {

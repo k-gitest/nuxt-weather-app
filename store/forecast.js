@@ -64,14 +64,14 @@ export const getters = {
 }
 
 function dateformat(date, long){
-  const dateweek = date
+  //const dateweek = date
   
   date = date.replace('+09:00','')
   date = new Date(date)
   
   let dateNow = new Date(Date.now())
-  dateNow = dateNow.toISOString().split('Z')[0] + '+09:00'
-  //console.log(dateNow < dateweek)
+  state.dateNow = dateNow.toISOString().split('Z')[0] + '+09:00'
+  //console.log(dateNow)
 
   const y = date.getFullYear()
   const m = date.getMonth()+1
@@ -87,7 +87,6 @@ function dateformat(date, long){
   }else if(long === 3){
     return `${d}日（${day}）`
   }
-  
   //return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
 }
 
@@ -114,6 +113,7 @@ export const mutations = {
       }
     })
     
+    /*
     param.items[0].timeSeries.map(f=>{
         //console.log(f.timeDefines)
         f.timeDefines = f.timeDefines.map(e=>{
@@ -121,6 +121,7 @@ export const mutations = {
           return dateformat(e,2)
         })
     })
+    */
     
     param.items[1].timeSeries.map(f=>{
         //console.log(f.timeDefines)
@@ -135,6 +136,7 @@ export const mutations = {
     state.timeSeries = param.items[0].timeSeries
     state.timeWeathers = param.items[0].timeSeries[0]
     state.timePops = param.items[0].timeSeries[1]
+    
     state.timeTemps = param.items[0].timeSeries[2]
     
     state.weekSeries = param.items[1].timeSeries
