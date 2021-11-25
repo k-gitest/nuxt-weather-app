@@ -19,6 +19,7 @@ export const state = () => ({
     class15s:[],
     class20s:[],
     dateNow:[],
+    timeNow:[],
 })
 
 export const getters = {
@@ -125,6 +126,7 @@ export const mutations = {
     
     param.items[0].timeSeries[0].timeDefines.map(m=>{
       //console.log(m)
+      state.timeNow.push(dateformat(m,2))
       const now = []
       m = m.replace('+09:00','')
       const dateNow = new Date(m)

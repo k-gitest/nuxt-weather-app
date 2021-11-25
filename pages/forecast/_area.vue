@@ -6,7 +6,7 @@
           <template v-for="(timeDefine, index) in timeWeathers.timeDefines">
             <thead>
               <tr>
-                <th>{{ timeDefine }}</th>
+                <th>{{ timeNow[index] }}</th>
               </tr>
             </thead>
           <tbody>
@@ -236,6 +236,9 @@ export default{
     },
     dateNow: function(){
       return this.$store.state.forecast.dateNow
+    },
+    timeNow: function(){
+      return this.$store.state.forecast.timeNow
     }
       
   },
