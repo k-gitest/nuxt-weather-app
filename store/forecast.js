@@ -11,15 +11,13 @@ export const state = () => ({
     timeTemps: [], //朝の最低気温と日中の最高気温
     weekWeathers: [], //週間予報（天気、降水確率、信頼度）
     weekTemps: [], //週間気温予報（最気温、最低気温の予測下限、上限、最高気温、最高気温の予測下限、上限）
-    url: '',
-    area: '',
+    dateNow:[], //降水確率用の配列
+    timeNow:[], //日付時刻用の配列
     centers:[],
     offices:[],
     class10s:[],
     class15s:[],
     class20s:[],
-    dateNow:[],
-    timeNow:[],
 })
 
 export const getters = {
@@ -84,13 +82,11 @@ function dateformat(date, long){
   }else if(long === 3){
     return `${d}日（${day}）`
   }
-  //return `${y}年${m}月${d}日（${day}）${hh}時${mm}分`
 }
 
 export const mutations = {
 
   setArea: function(state, {areadata}){
-    //console.log(areadata)
     state.centers = areadata.centers
     state.offices = areadata.offices
     state.class10s = areadata.class10s
@@ -99,33 +95,19 @@ export const mutations = {
   },
   
   setForecast: function(state, {param}){
-    //console.log(param.timeWeathers)
     param.items.filter(f=>{
       if(f.reportDatetime){
-        /*
+      /*
       f.reportDatetime = f.reportDatetime.replace('+09:00','')
       const date = new Date(f.reportDatetime)
-      //console.log(date)
       */
       
       f.reportDatetime = dateformat(f.reportDatetime, 1)
       }
     })
     
-    /*
-    param.items[0].timeSeries.map(f=>{
-        //console.log(f.timeDefines)
-        f.timeDefines = f.timeDefines.map(e=>{
-          //const date = new Date(e)
-          //state.dateNow.push(popformat(e))
-          return dateformat(e,2)
-        })
-    })
-    */
-    
-    
     param.items[0].timeSeries[0].timeDefines.map(m=>{
-      //console.log(m)
+      console.log(m)
       state.timeNow.push(dateformat(m,2))
       const now = []
       m = m.replace('+09:00','')
@@ -141,9 +123,7 @@ export const mutations = {
     })
     
     param.items[1].timeSeries.map(f=>{
-        //console.log(f.timeDefines)
         f.timeDefines = f.timeDefines.map(e=>{
-          //const date = new Date(e)
           return dateformat(e,3)
         })
     })
@@ -177,13 +157,10 @@ export const actions = {
   },
   
     forecast: async function({commit},{url, area}){
-        //console.log(commit)
-        //console.log(area_detail)
         //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
         //const area = 'overview_forecast/130000.json'
         return await axios.get(url + area)
         .then(res => {
-            //console.log(res.data[0].timeSeries)
             if(area.includes('overview')){
                 const param = {
                     items: res.data,
@@ -192,17 +169,6 @@ export const actions = {
             }else{
                 const param = {
                     items:res.data,
-                    
-                    /*
-                    timeSeries: res.data[0].timeSeries,
-                    timeWeathers: res.data[0].timeSeries[0],
-                    timePops: res.data[0].timeSeries[1],
-                    timeTemps: res.data[0].timeSeries[2],
-                    
-                    weekSeries: res.data[1].timeSeries,
-                    weekWeathers: res.data[1].timeSeries[0],
-                    weekTemps: res.data[1].timeSeries[1]
-                    */
                 }
                 commit('setForecast', {param})
             }

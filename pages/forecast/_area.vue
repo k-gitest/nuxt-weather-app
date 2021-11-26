@@ -11,93 +11,111 @@
             </thead>
           <tbody>
             <template v-for="(areas, num) in timeWeathers.areas">
-            <template v-if="$route.query.area_detail && areas.area.code === $route.query.area_detail">
-            <tr>
-              <td>
-                {{ areas.area.name }}<br>
-                <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
-                天気：{{ areas.weathers[index] }}<br>
-                <template v-if="areas.waves">
-                  波：{{ areas.waves[index] }}<br>
-                </template>
-                <template v-if="areas.winds">
-                  風：{{ areas.winds[index] }}<br>
-                </template>
-                
-                最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
-                最高気温：{{ timeTemps.areas[num].temps[1] }}度
-                
-                <table border=1 class="table">
-                  <thead>
-                    <tr>
-                      <template v-for="timePop in timePops.timeDefines">
-                      <th>{{ timePop }}</th>
-                      </template>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <template v-for="pop in timePops.areas[num].pops">
-                      <td>{{ pop }}%</td>
-                      </template>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-            </template>
-            <template v-else-if="!$route.query.area_detail">
-              <tr>
-              <td>
-                {{ areas.area.name }}<br>
-                <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
-                天気：{{ areas.weathers[index] }}<br>
-                <template v-if="areas.waves">
-                  波：{{ areas.waves[index] }}<br>
-                </template>
-                <template v-if="areas.winds">
-                  風：{{ areas.winds[index] }}<br>
-                </template>
-                
-                最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
-                最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
-                降水確率：
+              
+              <template v-if="$route.query.area_detail && areas.area.code === $route.query.area_detail">
+                <tr>
+                  <td>
+                    {{ areas.area.name }}<br>
+                    <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
+                    天気：{{ areas.weathers[index] }}<br>
+                    <template v-if="areas.waves">
+                      波：{{ areas.waves[index] }}<br>
+                    </template>
+                    <template v-if="areas.winds">
+                      風：{{ areas.winds[index] }}<br>
+                    </template>
+                    
+                    最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
+                    最高気温：{{ timeTemps.areas[num].temps[1] }}度
 
-                <table border=1 class="table">
-                  <thead>
-                    <tr>
-                      <th>00-06</th>
-                      <th>06-12</th>
-                      <th>12-18</th>
-                      <th>18-24</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <template v-for="(n,poptd) in 4">
-                        <td>
-                          <template v-for="(timeDef,defin) in timePops.timeDefines">
-                            
-                            <template v-if="dateNow[index][poptd] === timeDef">
-                         
-                              {{ timePops.areas[num].pops[defin] }}%<br>
+                    <table border=1 class="table">
+                      <thead>
+                        <tr>
+                          <th>00-06</th>
+                          <th>06-12</th>
+                          <th>12-18</th>
+                          <th>18-24</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <template v-for="(n,poptd) in 4">
+                            <td>
+                              <template v-for="(timeDef,defin) in timePops.timeDefines">
+                                
+                                <template v-if="dateNow[index][poptd] === timeDef">
                              
-                            </template>
-                            
+                                  {{ timePops.areas[num].pops[defin] }}%<br>
+                                 
+                                </template>
+                                
+                              </template>
+                              
+                              <template v-if="dateNow[index][poptd] < timeDefine">
+                                  -
+                              </template>
+    
+                            </td>
                           </template>
-                          
-                          <template v-if="dateNow[index][poptd] < timeDefine">
-                              -
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </template>
+              
+              <template v-else-if="!$route.query.area_detail">
+                <tr>
+                  <td>
+                    {{ areas.area.name }}<br>
+                    <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
+                    天気：{{ areas.weathers[index] }}<br>
+                    <template v-if="areas.waves">
+                      波：{{ areas.waves[index] }}<br>
+                    </template>
+                    <template v-if="areas.winds">
+                      風：{{ areas.winds[index] }}<br>
+                    </template>
+                    
+                    最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
+                    最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
+                    降水確率：
+    
+                    <table border=1 class="table">
+                      <thead>
+                        <tr>
+                          <th>00-06</th>
+                          <th>06-12</th>
+                          <th>12-18</th>
+                          <th>18-24</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <template v-for="(n,poptd) in 4">
+                            <td>
+                              <template v-for="(timeDef,defin) in timePops.timeDefines">
+                                
+                                <template v-if="dateNow[index][poptd] === timeDef">
+                             
+                                  {{ timePops.areas[num].pops[defin] }}%<br>
+                                 
+                                </template>
+                                
+                              </template>
+                              
+                              <template v-if="dateNow[index][poptd] < timeDefine">
+                                  -
+                              </template>
+    
+                            </td>
                           </template>
-
-                        </td>
-                      </template>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-            </template>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </template>
             </template>
           </tbody>
           </template>
@@ -153,24 +171,10 @@
             </tr>
           </tbody>
         </table>
-        
-        <!--
-        <ul>
-          <li v-for="forecast in forecasts">{{ forecasts }}</li>
-        </ul>
-        <button @click="change_area(`forecast/130000.json`)">東京詳細</button>
-        <button @click="change_area(`overview_forecast/130000.json`)">東京概要</button>
-        <ul>
-          <li v-for="weather in weathers">{{ weather }}</li>
-        </ul>
-        <button @click="are_write(`overview_forecast/130000.json`)">東京</button>
-        <button @click="are_write(`overview_forecast/140000.json`)">横浜</button>
-        -->
     </div>
 </template>
 
 <script>
-import axios from 'axios'
 import WeatherCodes from '@/assets/weatherCodes.json'
 
 export default{
@@ -194,15 +198,12 @@ export default{
   },
   data(){
     return{
-      //weathers: [],
       WeatherCodes: WeatherCodes,
-      date:[],
     }
   },
 
   async fetch({store,params}){
-    //console.log(params.area)
-    //console.log(store)
+    console.log(params.area)
     //this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
     //paramsやcontextを取得する場合はstoreを使用する、その場合thisは使用できなくなる
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
