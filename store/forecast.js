@@ -106,12 +106,13 @@ export const mutations = {
       }
     })
     
-    param.items[0].timeSeries[0].timeDefines.map(m=>{
-      console.log(m)
+    param.items[0].timeSeries[0].timeDefines.filter(m=>{
+      //console.log(m)
       state.timeNow.push(dateformat(m,2))
       const now = []
-      m = m.replace('+09:00','')
+      //m = m.replace('+09:00','')
       const dateNow = new Date(m)
+      console.log(dateNow)
       for(let i=0;i<4;i++){
         dateNow.setHours(i*6)
         dateNow.setMinutes(0)

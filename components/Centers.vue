@@ -39,11 +39,18 @@
           <template v-for="office_child in offices[item].children">
             <template v-for="class10_child in class10s[office_child].children">
               <h3 class="h4">{{ class15s[class10_child].name }}</h3>
-              <template v-for="class15_child in class15s[class10_child].children">
+              <ul class="list-group list-group-horizontal">
+                <template v-for="class15_child in class15s[class10_child].children">
+                <li class="list-group-item">
+                  
                 <nuxt-link :to="`forecast/${ item }?area_detail=${class15s[class10_child].parent}`">
                   {{ class20s[class15_child].name }}
                 </nuxt-link><br>
-              </template>
+              
+                </li>
+                </template>
+              </ul>
+              
             </template>
           </template>
         </div>

@@ -27,6 +27,8 @@
                     
                     最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                     最高気温：{{ timeTemps.areas[num].temps[1] }}度
+                    {{ dateNow }}<br>
+                    {{ timeNow }}
 
                     <table border=1 class="table">
                       <thead>
@@ -126,6 +128,13 @@
           <thead>
             <tr>
               <th>日付</th>
+              <template v-for="(time,timenum) in timeNow">
+                <template v-if="timenum < 1">
+                <th>
+                  {{ time }}
+                </th>
+                </template>
+              </template>
               <template v-for="week in weekWeathers.timeDefines">
               <th>{{ week }}</th>
               </template>
@@ -135,14 +144,70 @@
             <template v-for="(weekArea,num) in weekWeathers.areas">
               <tr>
                 <td>{{ weekArea.area.name }}</td>
+                
+                <td>
+                  <template v-for="(timeDefine,index) in timeWeathers.timeDefines">
+                    <template v-if="index < 1">
+
+                      <template v-for="(areas, num) in timeWeathers.areas">
+
+                        <template v-for="(code,cnum) in areas.weatherCodes">
+                          
+                          <template v-if="cnum < 1">
+                          天気：{{ WeatherCodes[code][3] }}
+                          
+                          <img :src="require(`@/assets/img/`+WeatherCodes[code][0])" />
+                          </template>
+                        </template>
+                        降水確率：
+                        <template v-for="(n,poptd) in 4">
+                          <template v-for="(timeDef,defin) in timePops.timeDefines">
+                            <template v-if="dateNow[index][poptd] === timeDef">
+                              {{ timePops.areas[num].pops[defin] }}%<br>
+                            </template>
+                          </template>
+                          <template v-if="dateNow[index][poptd] < timeWeathers.timeDefines[index]">-/</template>
+                        </template>
+                      </template>
+                    </template>
+                  </template>
+                  
+                  信頼度：-<br>
+                  最高気温：-<br>
+                  最低気温：-<br>
+                </td>
+                
                 <template v-for="(pop,index) in weekArea.pops">
                 <td>
                   天気：{{ WeatherCodes[weekArea.weatherCodes[index]][3] }}<br>
                   <img :src="require(`@/assets/img/`+WeatherCodes[weekArea.weatherCodes[index]][0])" />
+                  
+                  <template v-if="index === 0">
+                    
+                    <template v-for="(timeDefine,hoge) in timeWeathers.timeDefines">
+                      <template v-if="hoge === 1">
+                        降水確率：
+                        <template v-for="(n,poptd) in 4">
+                          <template v-for="(timeDef,defin) in timePops.timeDefines">
+                            <template v-if="dateNow[hoge][poptd] === timeDef">
+                              {{ timePops.areas[num].pops[defin] }}/
+                            </template>
+                          </template>
+                          <template v-if="dateNow[hoge][poptd] < timeWeathers.timeDefines[hoge]">-/</template>
+                        </template>
+                        <br>
+                        最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
+                        最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
+                      </template>
+  
+                    </template>
+                  </template>
+                  <template v-else>
                   降水確率：{{ pop }}％<br>
                   信頼度：{{ weekArea.reliabilities[index] }}<br>
                   最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>
                   最低気温：{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）
+                  </template>
                 </td>
                 </template>
               </tr>
@@ -203,7 +268,7 @@ export default{
   },
 
   async fetch({store,params}){
-    console.log(params.area)
+    //console.log(params.area)
     //this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
     //paramsやcontextを取得する場合はstoreを使用する、その場合thisは使用できなくなる
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
