@@ -82,6 +82,8 @@
                     最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                     最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
                     降水確率：
+                    {{ dateNow }}<br>
+                    {{ timeNow }}
     
                     <table border=1 class="table">
                       <thead>

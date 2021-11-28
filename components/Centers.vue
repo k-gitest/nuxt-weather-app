@@ -6,7 +6,9 @@
       <li>{{ center.officeName }}</li>
       <li v-for="item in center.children">
         
-        <nuxt-link :to="`forecast/${ item }`">
+        <nuxt-link :to="`forecast/${ item }?area_detail=011000`" no-prefetch>テスト</nuxt-link>
+        
+        <nuxt-link :to="`forecast/${ item }`" no-prefetch>
           {{ offices[item].name }}:{{ offices[item].officeName }}
           
           <!--

@@ -18,6 +18,7 @@ export const state = () => ({
     class10s:[],
     class15s:[],
     class20s:[],
+    now:[]
 })
 
 export const getters = {
@@ -60,7 +61,7 @@ export const getters = {
   },
   precipAverage: function(state){
     return state.precipAverage
-  }
+  },
 }
 
 function dateformat(date, long){
@@ -107,18 +108,31 @@ export const mutations = {
     })
     
     param.items[0].timeSeries[0].timeDefines.filter(m=>{
-      //console.log(m)
       state.timeNow.push(dateformat(m,2))
       const now = []
-      //m = m.replace('+09:00','')
+      m = m.replace('+09:00','')
       const dateNow = new Date(m)
-      console.log(dateNow)
+      //console.log(dateNow)
       for(let i=0;i<4;i++){
+        const y = dateNow.getFullYear()
+        const m = dateNow.getMonth()+1
+        const d = dateNow.getDate()
+        const h = ('0'+dateNow.getHours(dateNow.setHours(i*6))).slice(-2)
+        const mm = ('0'+dateNow.getMinutes(dateNow.setMinutes(0))).slice(-2)
+        const s = ('0'+dateNow.getSeconds(dateNow.setSeconds(0))).slice(-2)
+        
+        /*
+        dateNow.getFullYear()
+        dateNow.getMonth()
+        dateNow.getDate()
         dateNow.setHours(i*6)
         dateNow.setMinutes(0)
         dateNow.setSeconds(0)
         dateNow.setMilliseconds(0)
-        now.push(dateNow.toISOString().split('.000Z')[0] + '+09:00')
+        */
+        now.push(`${y}-${m}-${d}T${h}:${mm}:${s}+09:00`)
+        //console.log(dateNow)
+        //now.push(dateNow.toISOString().split('.000Z')[0] + '+09:00')
       }
       state.dateNow.push(now)
     })
