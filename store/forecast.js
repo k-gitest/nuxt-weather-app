@@ -18,7 +18,6 @@ export const state = () => ({
     class10s:[],
     class15s:[],
     class20s:[],
-    now:[]
 })
 
 export const getters = {
@@ -64,10 +63,13 @@ export const getters = {
   },
 }
 
-function dateformat(date, long){
+function dateformat(date, long, index){
 
   date = date.replace('+09:00','')
   date = new Date(date)
+  
+  const today = new Date(Date.now())
+  const nowHours = today.getHours()+9
 
   const y = date.getFullYear()
   const m = date.getMonth()+1
@@ -79,9 +81,21 @@ function dateformat(date, long){
   if(long === 1){
     return `${y}年${m}月${d}日（${day}）${hh}時`
   }else if(long === 2){
-      return `${m}月${d}日（${day}）`
+    if(nowHours > 17 && index === 0){
+      return `今夜${d}日（${day}）`
+    }else if(index === 1){
+      return `明日${d}日（${day}）`
+    }else if(index === 2){
+      return `明後日${d}日（${day}）`
+    }
   }else if(long === 3){
-    return `${d}日（${day}）`
+    if(index === 0){
+      return `明日${d}日（${day}）`
+    }else if(index === 1){
+      return `明後日${d}日（${day}）`
+    }else{
+      return `${d}日（${day}）`
+    }
   }
 }
 
@@ -98,21 +112,41 @@ export const mutations = {
   setForecast: function(state, {param}){
     param.items.filter(f=>{
       if(f.reportDatetime){
-      /*
-      f.reportDatetime = f.reportDatetime.replace('+09:00','')
-      const date = new Date(f.reportDatetime)
-      */
-      
-      f.reportDatetime = dateformat(f.reportDatetime, 1)
+        f.reportDatetime = dateformat(f.reportDatetime, 1)
       }
     })
     
+    param.items[0].timeSeries.filter((f,index)=>{
+      if(index === 0){
+        state.dateNow = []
+        state.timeNow = []
+        f.timeDefines.map((m,index)=>{
+          state.timeNow.push(dateformat(m,2,index))
+          const now = []
+          m = m.replace('+09:00','')
+          const dateNow = new Date(m)
+          
+          for(let i=0;i<4;i++){
+            const y = dateNow.getFullYear()
+            const m = dateNow.getMonth()+1
+            const d = dateNow.getDate()
+            const h = ('0'+dateNow.getHours(dateNow.setHours(i*6))).slice(-2)
+            const mm = ('0'+dateNow.getMinutes(dateNow.setMinutes(0))).slice(-2)
+            const s = ('0'+dateNow.getSeconds(dateNow.setSeconds(0))).slice(-2)
+            now.push(`${y}-${m}-${d}T${h}:${mm}:${s}+09:00`)
+          }
+          state.dateNow.push(now)
+        })
+      }
+    })
+    
+    /*
     param.items[0].timeSeries[0].timeDefines.filter(m=>{
       state.timeNow.push(dateformat(m,2))
       const now = []
       m = m.replace('+09:00','')
       const dateNow = new Date(m)
-      //console.log(dateNow)
+      
       for(let i=0;i<4;i++){
         const y = dateNow.getFullYear()
         const m = dateNow.getMonth()+1
@@ -120,26 +154,22 @@ export const mutations = {
         const h = ('0'+dateNow.getHours(dateNow.setHours(i*6))).slice(-2)
         const mm = ('0'+dateNow.getMinutes(dateNow.setMinutes(0))).slice(-2)
         const s = ('0'+dateNow.getSeconds(dateNow.setSeconds(0))).slice(-2)
+        now.push(`${y}-${m}-${d}T${h}:${mm}:${s}+09:00`)
         
-        /*
-        dateNow.getFullYear()
-        dateNow.getMonth()
-        dateNow.getDate()
         dateNow.setHours(i*6)
         dateNow.setMinutes(0)
         dateNow.setSeconds(0)
         dateNow.setMilliseconds(0)
-        */
-        now.push(`${y}-${m}-${d}T${h}:${mm}:${s}+09:00`)
-        //console.log(dateNow)
+        
         //now.push(dateNow.toISOString().split('.000Z')[0] + '+09:00')
       }
       state.dateNow.push(now)
     })
+    */
     
     param.items[1].timeSeries.map(f=>{
-        f.timeDefines = f.timeDefines.map(e=>{
-          return dateformat(e,3)
+        f.timeDefines = f.timeDefines.map((e,index)=>{
+          return dateformat(e,3,index)
         })
     })
     

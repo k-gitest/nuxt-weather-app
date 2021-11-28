@@ -27,8 +27,6 @@
                     
                     最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                     最高気温：{{ timeTemps.areas[num].temps[1] }}度
-                    {{ dateNow }}<br>
-                    {{ timeNow }}
 
                     <table border=1 class="table">
                       <thead>
@@ -82,8 +80,6 @@
                     最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                     最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
                     降水確率：
-                    {{ dateNow }}<br>
-                    {{ timeNow }}
     
                     <table border=1 class="table">
                       <thead>
@@ -165,15 +161,19 @@
                         <template v-for="(n,poptd) in 4">
                           <template v-for="(timeDef,defin) in timePops.timeDefines">
                             <template v-if="dateNow[index][poptd] === timeDef">
-                              {{ timePops.areas[num].pops[defin] }}%<br>
+                              {{ timePops.areas[num].pops[defin] }}%
                             </template>
                           </template>
-                          <template v-if="dateNow[index][poptd] < timeWeathers.timeDefines[index]">-/</template>
+                          
+                          <template v-if="dateNow[index][poptd] < timeWeathers.timeDefines[index]">-</template>
+                          <template v-if="poptd < 3">
+                            /
+                          </template>
                         </template>
                       </template>
                     </template>
                   </template>
-                  
+                  <br>
                   信頼度：-<br>
                   最高気温：-<br>
                   最低気温：-<br>
@@ -192,12 +192,16 @@
                         <template v-for="(n,poptd) in 4">
                           <template v-for="(timeDef,defin) in timePops.timeDefines">
                             <template v-if="dateNow[hoge][poptd] === timeDef">
-                              {{ timePops.areas[num].pops[defin] }}/
+                              {{ timePops.areas[num].pops[defin] }}
                             </template>
                           </template>
-                          <template v-if="dateNow[hoge][poptd] < timeWeathers.timeDefines[hoge]">-/</template>
+                          <template v-if="dateNow[hoge][poptd] < timeWeathers.timeDefines[hoge]">-</template>
+                          <template v-if="poptd < 3">
+                            /
+                          </template>
                         </template>
                         <br>
+                        信頼度：-<br>
                         最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                         最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
                       </template>
@@ -206,7 +210,10 @@
                   </template>
                   <template v-else>
                   降水確率：{{ pop }}％<br>
-                  信頼度：{{ weekArea.reliabilities[index] }}<br>
+                  信頼度：
+                  <template v-if="weekArea.reliabilities[index]">{{weekArea.reliabilities[index]}}</template>
+                  <template v-else>-</template>
+                  <br>
                   最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>
                   最低気温：{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）
                   </template>
