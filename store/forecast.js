@@ -68,8 +68,8 @@ function dateformat(date, long, index){
   date = date.replace('+09:00','')
   date = new Date(date)
   
-  const today = new Date(Date.now())
-  const nowHours = today.getHours()+9
+  const today = new Date()
+  const nowHours = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000))
 
   const y = date.getFullYear()
   const m = date.getMonth()+1
@@ -81,7 +81,10 @@ function dateformat(date, long, index){
   if(long === 1){
     return `${y}年${m}月${d}日（${day}）${hh}時`
   }else if(long === 2){
-    if(nowHours > 17 && index === 0){
+    console.log(nowHours)
+    if(17 >= nowHours >= 5 && index === 0){
+      return `今日${d}日（${day}）`
+    }else if(nowHours >= 17 && index === 0){
       return `今夜${d}日（${day}）`
     }else if(index === 1){
       return `明日${d}日（${day}）`
@@ -188,6 +191,10 @@ export const mutations = {
     state.tempAverage = param.items[1].tempAverage.areas
     state.precipAverage = param.items[1].precipAverage.areas
   },
+  
+  setOverview: function(state,{param}){
+    
+  },
 
 }
 
@@ -201,23 +208,34 @@ export const actions = {
     })
   },
   
-    forecast: async function({commit},{url, area}){
-        //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
-        //const area = 'overview_forecast/130000.json'
-        return await axios.get(url + area)
-        .then(res => {
-            if(area.includes('overview')){
-                const param = {
-                    items: res.data,
-                }
-                commit('setForecast', {param})
-            }else{
-                const param = {
-                    items:res.data,
-                }
-                commit('setForecast', {param})
-            }
-        })
-    },
+  forecast: async function({commit},{url, area}){
+      //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
+      //const area = 'overview_forecast/130000.json'
+      return await axios.get(url + area)
+      .then(res => {
+          if(area.includes('overview')){
+              const param = {
+                  items: res.data,
+              }
+              commit('setForecast', {param})
+          }else{
+              const param = {
+                  items:res.data,
+              }
+              commit('setForecast', {param})
+          }
+      })
+  },
+  
+  forecastOverview: async function({commit},{url,area}){
+    return await axios.get(url)
+    .then(res=>{
+      const param = {
+        overview: res.data,
+      }
+      commit('setOverview', {param})
+    })
+  }
+  
     
 }

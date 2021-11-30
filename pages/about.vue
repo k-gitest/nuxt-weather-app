@@ -205,6 +205,7 @@ export default{
       
       return await axios.get(url)
       .then(res => {
+        /*
           const items = res.data
           const timeSeries = res.data[0].timeSeries //直近予報
           const weekSeries = res.data[1].timeSeries //週間予報
@@ -220,7 +221,7 @@ export default{
           const weekWeathers = weekSeries[0] //週間予報（天気、降水確率、信頼度）
           const weekTemps = weekSeries[1] //週間気温予報（最気温、最低気温の予測下限、上限、最高気温、最高気温の予測下限、上限）
 
-          /*
+          
           tempsMin:最低気温
           tempsMinUpper:最低気温上限
           tempsMinLower:最低気温下限
@@ -246,7 +247,7 @@ export default{
               })
           })
           */
-
+          /*
           items.filter((f) =>{
               if(f.reportDatetime){
                   const date = new Date(f.reportDatetime)
@@ -290,7 +291,8 @@ export default{
           })
           
           return {items, timeSeries, weekSeries, timeWeathers, timePops, timeTemps, weekWeathers, weekTemps, tempAverage, precipAverage}
-          })
+          */
+      })
           
   },
   

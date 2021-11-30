@@ -1,14 +1,11 @@
 <template>
-  <div>
+  <div class="container">
     <template v-for="center in centers">
     <ul>
       <li>{{ center.name }}</li>
       <li>{{ center.officeName }}</li>
       <li v-for="item in center.children">
-        
-        <nuxt-link :to="`forecast/${ item }?area_detail=011000`" no-prefetch>テスト</nuxt-link>
-        
-        <nuxt-link :to="`forecast/${ item }`" no-prefetch>
+        <nuxt-link :to="`forecast/${ item }`">
           {{ offices[item].name }}:{{ offices[item].officeName }}
           
           <!--
@@ -36,25 +33,30 @@
           -->
         </nuxt-link><br>
 
-        <button class="btn btn-success" @click="areaMenu(item)">ボタン</button>
+        <button class="btn btn-success" @click="areaMenu(item)">地域</button>
         <div v-if="isActive.indexOf(item) >= 0">
-          <template v-for="office_child in offices[item].children">
-            <template v-for="class10_child in class10s[office_child].children">
-              <h3 class="h4">{{ class15s[class10_child].name }}</h3>
-              <ul class="list-group list-group-horizontal">
-                <template v-for="class15_child in class15s[class10_child].children">
-                <li class="list-group-item">
-                  
-                <nuxt-link :to="`forecast/${ item }?area_detail=${class15s[class10_child].parent}`">
-                  {{ class20s[class15_child].name }}
-                </nuxt-link><br>
-              
-                </li>
-                </template>
-              </ul>
-              
+          <div class="row">
+            <template v-for="office_child in offices[item].children">
+              <template v-for="class10_child in class10s[office_child].children">
+                
+              <div class="col-6">
+                <h3 class="h4">{{ class15s[class10_child].name }}</h3>
+                <ul class="list-group list-group-horizontal row">
+                  <template v-for="class15_child in class15s[class10_child].children">
+                  <li class="col-6">
+                    
+                  <nuxt-link :to="`forecast/${ item }?area_detail=${class15s[class10_child].parent}`">
+                    {{ class20s[class15_child].name }}
+                  </nuxt-link><br>
+                
+                  </li>
+                  </template>
+                </ul>
+              </div>
+
+              </template>
             </template>
-          </template>
+          </div>
         </div>
       </li>
     </ul>
@@ -102,6 +104,10 @@ export default{
     },
     areaMenuDetail:function(item){
       this.areaDetail = item.map(f=>{return this.class20s[f].name})
+    },
+    
+    overview: function({store,params}){
+      
     }
   },
   computed:{
