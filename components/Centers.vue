@@ -96,9 +96,7 @@ export default{
         this.area = this.class10s[f].children.map(m=>{
           this.areaMenuDetail(this.class15s[m].children)
           return this.class15s[m].name
-          
         })
-        
       })
       */
     },
@@ -106,9 +104,6 @@ export default{
       this.areaDetail = item.map(f=>{return this.class20s[f].name})
     },
     
-    overview: function({store,params}){
-      
-    }
   },
   computed:{
     centers: function(){

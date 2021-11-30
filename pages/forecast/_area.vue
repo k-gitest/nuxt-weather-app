@@ -281,8 +281,10 @@ export default{
     //this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
     //paramsやcontextを取得する場合はstoreを使用する、その場合thisは使用できなくなる
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
+    const url_overview = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/'
     const area = params.area + '.json'
     await store.dispatch('forecast/forecast', {url, area}) //storeの場合actonsの引数と同じ名前を使用しないと受け渡せない
+    await store.dispatch('forecast/forecastOverview', {url_overview, area})
   },
   computed:{
     forecasts: function() {

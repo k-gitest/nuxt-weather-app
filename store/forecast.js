@@ -18,6 +18,7 @@ export const state = () => ({
     class10s:[],
     class15s:[],
     class20s:[],
+    overview:[],
 })
 
 export const getters = {
@@ -81,7 +82,7 @@ function dateformat(date, long, index){
   if(long === 1){
     return `${y}年${m}月${d}日（${day}）${hh}時`
   }else if(long === 2){
-    console.log(nowHours)
+    //console.log(nowHours)
     if(17 >= nowHours >= 5 && index === 0){
       return `今日${d}日（${day}）`
     }else if(nowHours >= 17 && index === 0){
@@ -193,7 +194,7 @@ export const mutations = {
   },
   
   setOverview: function(state,{param}){
-    
+    state.overview = param.items
   },
 
 }
@@ -227,11 +228,12 @@ export const actions = {
       })
   },
   
-  forecastOverview: async function({commit},{url,area}){
-    return await axios.get(url)
+  forecastOverview: async function({commit},{url_overview,area}){
+    
+    return await axios.get(url_overview + area)
     .then(res=>{
       const param = {
-        overview: res.data,
+        items: res.data,
       }
       commit('setOverview', {param})
     })
