@@ -68,7 +68,7 @@ export const getters = {
   },
   recentTime: function(state){
     const recentTime = state.recentTime.map(m=>{
-      return  dateformat(m,1)
+      return  dateformat(m,2,0)
     })
     return recentTime
   },
@@ -153,7 +153,8 @@ export const mutations = {
           
           for(let i=0;i<4;i++){
             const y = dateNow.getFullYear()
-            const m = dateNow.getMonth()+1
+            //const m = ('0' + dateNow.getMonth()+1).slice(-2)
+            const m = ('0' + (dateNow.getMonth()+1)).slice(-2)
             const d = ('0' + dateNow.getDate()).slice(-2)
             const h = ('0'+dateNow.getHours(dateNow.setHours(i*6))).slice(-2)
             const mm = ('0'+dateNow.getMinutes(dateNow.setMinutes(0))).slice(-2)

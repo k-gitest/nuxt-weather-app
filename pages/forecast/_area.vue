@@ -11,10 +11,7 @@
       <template v-if="$route.query.area_detail">
         {{ $route.query.area_detail }}
       </template>
-      <br>
-      {{ recentTime }}<br>
-      {{ popTime }}<br>
-      {{ weekTime }}
+
       
       <template v-for="(recent,index) in recentTime">
         <table>
@@ -54,7 +51,6 @@
                       <tr>
                         <template v-for="(n,poptd) in 4">
                           <td>
-
                             <template v-for="(timeDef,defin) in timePops.timeDefines">
                               <template v-if="dateNow[index][poptd] === timeDef">
                                 {{ timePops.areas[num].pops[defin] }}%<br>
@@ -69,11 +65,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  
                 </template>
-                
-                
-                
               </td>
             </tr>
           </tbody>
@@ -225,33 +217,21 @@
                 <td>{{ weekArea.area.name }}</td>
                 
                 <td>
-                  <template v-for="(timeDefine,index) in timeWeathers.timeDefines">
-                    <template v-if="index < 1">
-
-                      <template v-for="(areas, num) in timeWeathers.areas">
-
-                        <template v-for="(code,cnum) in areas.weatherCodes">
-                          
-                          <template v-if="cnum < 1">
-                          天気：{{ WeatherCodes[code][3] }}
-                          
-                          <img :src="require(`@/assets/img/`+WeatherCodes[code][0])" />
-                          </template>
-                        </template>
-                        降水確率：
-                        <template v-for="(n,poptd) in 4">
-                          <template v-for="(timeDef,defin) in timePops.timeDefines">
-                            <template v-if="dateNow[index][poptd] === timeDef">
-                              {{ timePops.areas[num].pops[defin] }}%
-                            </template>
-                          </template>
-                          
-                          <template v-if="dateNow[index][poptd] < timeWeathers.timeDefines[index]">-</template>
-                          <template v-if="poptd < 3">
-                            /
-                          </template>
-                        </template>
+                  
+                  天気：{{ WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][3]}}<br>
+                  <img :src="require(`@/assets/img/`+WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][0])" />
+                  
+                  降水確率：
+                  <template v-for="(n,poptd) in 4">
+                    <template v-for="(timeDef,defin) in timePops.timeDefines">
+                      <template v-if="dateNow[0][poptd] === timeDef">
+                        {{ timePops.areas[num].pops[defin] }}
                       </template>
+                    </template>
+                    
+                    <template v-if="dateNow[0][poptd] < timeWeathers.timeDefines[0]">-</template>
+                    <template v-if="poptd < 3">
+                      /
                     </template>
                   </template>
                   <br>
