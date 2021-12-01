@@ -3,10 +3,9 @@
     <template v-for="center in centers">
     <ul>
       <li>{{ center.name }}</li>
-      <li>{{ center.officeName }}</li>
       <li v-for="item in center.children">
         <nuxt-link :to="`forecast/${ item }`">
-          {{ offices[item].name }}:{{ offices[item].officeName }}
+          {{ offices[item].name }}
           
           <!--
           <template v-for="office_child in offices[item].children">
@@ -40,7 +39,7 @@
               <template v-for="class10_child in class10s[office_child].children">
                 
               <div class="col-6">
-                <h3 class="h4">{{ class15s[class10_child].name }}</h3>
+                <h3 class="h5">{{ class15s[class10_child].name }}</h3>
                 <ul class="list-group list-group-horizontal row">
                   <template v-for="class15_child in class15s[class10_child].children">
                   <li class="col-6">

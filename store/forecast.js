@@ -19,6 +19,10 @@ export const state = () => ({
     class15s:[],
     class20s:[],
     overview:[],
+    
+    recentTime:[],
+    popTime:[],
+    weekTime:[],
 })
 
 export const getters = {
@@ -62,6 +66,23 @@ export const getters = {
   precipAverage: function(state){
     return state.precipAverage
   },
+  recentTime: function(state){
+    const recentTime = state.recentTime.map(m=>{
+      return  dateformat(m,1)
+    })
+    return recentTime
+  },
+  popTime: function(state){
+    return state.popTime
+  },
+  weekTime: function(state){
+    const weekTime = state.weekTime.map(m=>{
+      return m.map(f=>{
+        return dateformat(f,3)
+      })
+    })
+    return weekTime
+  }
 }
 
 function dateformat(date, long, index){
@@ -133,7 +154,7 @@ export const mutations = {
           for(let i=0;i<4;i++){
             const y = dateNow.getFullYear()
             const m = dateNow.getMonth()+1
-            const d = dateNow.getDate()
+            const d = ('0' + dateNow.getDate()).slice(-2)
             const h = ('0'+dateNow.getHours(dateNow.setHours(i*6))).slice(-2)
             const mm = ('0'+dateNow.getMinutes(dateNow.setMinutes(0))).slice(-2)
             const s = ('0'+dateNow.getSeconds(dateNow.setSeconds(0))).slice(-2)
@@ -142,6 +163,15 @@ export const mutations = {
           state.dateNow.push(now)
         })
       }
+    })
+    
+    param.items[0].timeSeries.map((m,index)=>{
+      if(index === 0)state.recentTime = m.timeDefines
+      if(index === 1)state.popTime = m.timeDefines
+    })
+    
+    param.items[1].timeSeries.filter((m,index)=>{
+      state.weekTime[index] = m.timeDefines
     })
     
     /*
@@ -194,6 +224,9 @@ export const mutations = {
   },
   
   setOverview: function(state,{param}){
+    
+    param.items.reportDatetime = dateformat(param.items.reportDatetime,1)
+    
     state.overview = param.items
   },
 

@@ -1,5 +1,86 @@
 <template>
     <div class="container">
+      <template>
+        <nuxt-link to="/about">天気トップページ</nuxt-link>
+      </template>
+      <template v-if="$route.params.area">
+        {{ $route.params.area }}
+        {{ offices[$route.params.area] }}
+      </template>
+      
+      <template v-if="$route.query.area_detail">
+        {{ $route.query.area_detail }}
+      </template>
+      <br>
+      {{ recentTime }}<br>
+      {{ popTime }}<br>
+      {{ weekTime }}
+      
+      <template v-for="(recent,index) in recentTime">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ recent }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <template v-for="(areas, num) in timeWeathers.areas">
+                  <h3 class="h5">{{ areas.area.name }}</h3>
+                  
+                  <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[index]][0])" /><br>
+                  天気：{{ areas.weathers[index] }}<br>
+                  <template v-if="areas.waves">
+                    波：{{ areas.waves[index] }}<br>
+                  </template>
+                  <template v-if="areas.winds">
+                    風：{{ areas.winds[index] }}<br>
+                  </template>
+                  
+                  最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
+                  最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
+                  
+                  <table border=1 class="table">
+                    <thead>
+                      <tr>
+                        <th>00-06</th>
+                        <th>06-12</th>
+                        <th>12-18</th>
+                        <th>18-24</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <template v-for="(n,poptd) in 4">
+                          <td>
+
+                            <template v-for="(timeDef,defin) in timePops.timeDefines">
+                              <template v-if="dateNow[index][poptd] === timeDef">
+                                {{ timePops.areas[num].pops[defin] }}%<br>
+                              </template>
+                            </template>
+                            
+                            <template v-if="dateNow[index][poptd] < timeWeathers.timeDefines[index]">
+                                -
+                            </template>
+                          </td>
+                        </template>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                </template>
+                
+                
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+        
+      
         <h2>今日・明日・明後日の天気予報</h2>
         <h3>{{forecasts[0].reportDatetime}} : {{ forecasts[0].publishingOffice }} 発表</h3>
         <table border=1 class="table">
@@ -245,6 +326,13 @@
             </tr>
           </tbody>
         </table>
+        
+        <h2>{{ overview.targetArea }}の天気概況</h2>
+        <ul>
+          <li>{{ overview.publishingOffice }}：{{ overview.reportDatetime }}発表</li>
+          <li>{{ overview.headlineText }}</li>
+          <li>{{ overview.text }}</li>
+        </ul>
     </div>
 </template>
 
@@ -316,6 +404,33 @@ export default{
     },
     timeNow: function(){
       return this.$store.state.forecast.timeNow
+    },
+    overview: function(){
+      return this.$store.state.forecast.overview
+    },
+    centers: function(){
+      return this.$store.getters['forecast/centers']
+    },
+    offices: function(){
+      return this.$store.getters['forecast/offices']
+    },
+    class10s: function(){
+      return this.$store.getters['forecast/class10s']
+    },
+    class15s: function(){
+      return this.$store.getters['forecast/class15s']
+    },
+    class20s: function(){
+      return this.$store.getters['forecast/class20s']
+    },
+    recentTime: function(){
+      return this.$store.getters['forecast/recentTime']
+    },
+    popTime: function(){
+      return this.$store.getters['forecast/popTime']
+    },
+    weekTime: function(){
+      return this.$store.getters['forecast/weekTime']
     }
       
   },
