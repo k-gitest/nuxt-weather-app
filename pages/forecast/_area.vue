@@ -38,6 +38,7 @@
                   最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                   最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
                   
+                  <template v-if="index < 2">
                   <table border=1 class="table">
                     <thead>
                       <tr>
@@ -65,6 +66,7 @@
                       </tr>
                     </tbody>
                   </table>
+                  </template>
                 </template>
               </td>
             </tr>
@@ -101,6 +103,7 @@
                     最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                     最高気温：{{ timeTemps.areas[num].temps[1] }}度
 
+                    <template v-if="index < 2">
                     <table border=1 class="table">
                       <thead>
                         <tr>
@@ -133,6 +136,7 @@
                         </tr>
                       </tbody>
                     </table>
+                    </template>
                   </td>
                 </tr>
               </template>
