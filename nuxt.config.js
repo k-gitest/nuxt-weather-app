@@ -18,6 +18,7 @@ export default {
 
   // グローバルCSS
   css: [
+    "@/assets/css/style.css"
   ],
 
   // ページをレンダリングする前に実行するプラグイン
