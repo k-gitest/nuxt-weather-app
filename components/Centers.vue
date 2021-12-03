@@ -46,10 +46,8 @@
                     <template v-for="(class15_child,child_code) in class15s[class10_child].children">
                     <li class="col-6">
                       
-                    <nuxt-link :to="`forecast/${ item }?area_detail=${class15s[class10_child].parent}`">
-                      {{ class20s[class15_child].name }}<br>
-                      id:{{ class15_child }}<br>
-                      parent_id:{{ class20s[class15_child].parent }}
+                    <nuxt-link :to="`forecast/${ item }?area_detail=${class15_child}`">
+                      {{ class20s[class15_child].name }}
                     </nuxt-link><br>
                   
                     </li>

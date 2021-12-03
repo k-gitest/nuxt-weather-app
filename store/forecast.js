@@ -48,21 +48,6 @@ export const getters = {
     return state.forecasts
   },
   timeWeathers: function(state){
-    if(state.area_details){
-      
-      //console.log(state.class15s[state.class20s[state.area_details].parent].parent)
-      const class20s_area = state.class15s[state.class20s[state.area_details].parent].parent
-      
-      return state.timeWeathers.areas.filter(f=>{
-        //console.log(f)
-        //console.log(f)1020100
-        if(f.area.code === class20s_area){
-          //console.log(f)
-          return f
-        }
-      })
-      //console.log(state.timeWeathers.areas)
-    }
     return state.timeWeathers
   },
   timeTemps: function(state){
@@ -235,6 +220,32 @@ export const mutations = {
     state.forecasts = param.items
     state.timeSeries = param.items[0].timeSeries
     
+    //console.log(state.class20s)
+    if(state.class20s[state.area_details] ){
+      
+      //const class20s_area = state.class20s[state.area_details].parent.slice(0,-1) + '0'
+      
+      const class20s_area = state.class15s[state.class20s[state.area_details].parent].parent
+      
+      const class10s_area = state.class10s[state.class15s[state.class20s[state.area_details].parent].parent]
+      const area100p = param.area.slice(0,-3)+'100'
+      //console.log(state.class15s[state.class20s[state.area_details].parent].parent)
+      console.log(area100p)
+      param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
+        if(f.area.code === class20s_area){
+          return f
+        }
+      })
+      
+      param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
+        //console.log(f)
+        if(f.area.code === class20s_area || f.area.code === param.area || f.area.code === area100p){
+          return f
+        }
+      })
+      
+    }
+    
     /*
     if(param.area_detail){
       param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
@@ -244,6 +255,7 @@ export const mutations = {
       })
     }
     */
+    
     
     state.timeWeathers = param.items[0].timeSeries[0]
     state.timePops = param.items[0].timeSeries[1]

@@ -3,18 +3,7 @@
       <template>
         <nuxt-link to="/about">天気トップページ</nuxt-link>
       </template>
-      <template v-if="$route.params.area">
-        
-        {{ offices[$route.params.area] }}
-        
-      </template>
-      {{ area_details }}
-      <template v-if="$route.query.area_detail">
-        {{ $route.query.area_detail }}
-        {{ $route.query.area_detail }}
-      </template>
 
-      
       <template v-for="(recent,index) in recentTime">
         <table>
           <thead>
@@ -89,6 +78,7 @@
           <tbody>
             <template v-for="(areas, num) in timeWeathers.areas">
               
+              <!--
               <template v-if="$route.query.area_detail && areas.area.code === $route.query.area_detail">
                 <tr>
                   <td>
@@ -142,8 +132,8 @@
                   </td>
                 </tr>
               </template>
+              -->
               
-              <template v-else-if="!$route.query.area_detail">
                 <tr>
                   <td>
                     {{ areas.area.name }}<br>
@@ -194,7 +184,8 @@
                     </table>
                   </td>
                 </tr>
-              </template>
+              
+              
             </template>
           </tbody>
           </template>
@@ -220,6 +211,8 @@
           <tbody>
             <template v-for="(weekArea,num) in weekWeathers.areas">
               <tr>
+                
+                <!--
                 <template v-if="$route.query.area_detail && $route.query.area_detail === weekArea.area.code">
                 <td>{{ weekArea.area.name }}</td>
                 
@@ -288,9 +281,9 @@
                 </td>
                 </template>
                 </template>
+                -->
                 
                 
-                <template v-if="!$route.query.area_detail">
                 <td>{{ weekArea.area.name }}</td>
                 
                 <td>
@@ -357,7 +350,7 @@
                   </template>
                 </td>
                 </template>
-                </template>
+                
                 
               </tr>
             </template>
@@ -432,9 +425,10 @@ export default{
     const url_overview = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/'
     const area = params.area
     const area_detail = query.area_detail
+    await store.dispatch('forecast/forecastIndex')
     await store.dispatch('forecast/forecast', {url, area, area_detail}) //storeの場合actonsの引数と同じ名前を使用しないと受け渡せない
     await store.dispatch('forecast/forecastOverview', {url_overview, area})
-    await store.dispatch('forecast/forecastIndex')
+    
   },
   computed:{
     forecasts: function() {
