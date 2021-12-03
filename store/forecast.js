@@ -23,6 +23,8 @@ export const state = () => ({
     recentTime:[],
     popTime:[],
     weekTime:[],
+    area:[],
+    area_details:[],
 })
 
 export const getters = {
@@ -46,6 +48,21 @@ export const getters = {
     return state.forecasts
   },
   timeWeathers: function(state){
+    if(state.area_details){
+      
+      //console.log(state.class15s[state.class20s[state.area_details].parent].parent)
+      const class20s_area = state.class15s[state.class20s[state.area_details].parent].parent
+      
+      return state.timeWeathers.areas.filter(f=>{
+        //console.log(f)
+        //console.log(f)1020100
+        if(f.area.code === class20s_area){
+          //console.log(f)
+          return f
+        }
+      })
+      //console.log(state.timeWeathers.areas)
+    }
     return state.timeWeathers
   },
   timeTemps: function(state){
@@ -82,6 +99,9 @@ export const getters = {
       })
     })
     return weekTime
+  },
+  area_details: function(state){
+    return state.area_details
   }
 }
 
@@ -135,6 +155,10 @@ export const mutations = {
   },
   
   setForecast: function(state, {param}){
+    
+    state.area = param.area
+    state.area_details = param.area_detail
+    
     param.items.filter(f=>{
       if(f.reportDatetime){
         f.reportDatetime = dateformat(f.reportDatetime, 1)
@@ -209,8 +233,18 @@ export const mutations = {
     })
     
     state.forecasts = param.items
-    
     state.timeSeries = param.items[0].timeSeries
+    
+    /*
+    if(param.area_detail){
+      param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
+        if(f.area.code === param.area_detail){
+          return f
+        }
+      })
+    }
+    */
+    
     state.timeWeathers = param.items[0].timeSeries[0]
     state.timePops = param.items[0].timeSeries[1]
     
@@ -243,10 +277,10 @@ export const actions = {
     })
   },
   
-  forecast: async function({commit},{url, area}){
+  forecast: async function({commit},{url, area, area_detail}){
       //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
       //const area = 'overview_forecast/130000.json'
-      return await axios.get(url + area)
+      return await axios.get(url + area + '.json')
       .then(res => {
           if(area.includes('overview')){
               const param = {
@@ -256,6 +290,8 @@ export const actions = {
           }else{
               const param = {
                   items:res.data,
+                  area:area,
+                  area_detail:area_detail,
               }
               commit('setForecast', {param})
           }
@@ -264,7 +300,7 @@ export const actions = {
   
   forecastOverview: async function({commit},{url_overview,area}){
     
-    return await axios.get(url_overview + area)
+    return await axios.get(url_overview + area + '.json')
     .then(res=>{
       const param = {
         items: res.data,
