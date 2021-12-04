@@ -69,8 +69,10 @@ export const getters = {
     return state.precipAverage
   },
   recentTime: function(state){
-    const recentTime = state.recentTime.map(m=>{
-      return  dateformat(m,2,0)
+    const recentTime = state.recentTime.map((m,index)=>{
+      if(index === 0)return  dateformat(m,2,0)
+      else if(index === 1) return dateformat(m,2,1)
+      else if(index === 2) return dateformat(m,2,2)
     })
     return recentTime
   },
@@ -255,6 +257,12 @@ export const mutations = {
       })
     }
     */
+    
+    param.items[0].timeSeries[0].areas.map(f=>{
+      f.weathers = f.weathers.map(m=>{
+          return m.replace(/\s+/g, '')
+      })
+    })
     
     
     state.timeWeathers = param.items[0].timeSeries[0]

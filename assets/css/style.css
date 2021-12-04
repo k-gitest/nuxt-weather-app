@@ -1,3 +1,10 @@
+table{
+  font-size:0.85rem;
+}
+  th{
+    font-weight: normal;
+    white-space: nowrap;
+  }
 ul{
   list-style-type: none;
 }

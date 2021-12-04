@@ -4,6 +4,67 @@
         <nuxt-link to="/about">天気トップページ</nuxt-link>
       </template>
 
+      <template v-for="(areas, num) in timeWeathers.areas">
+        <h2 class="h3">{{ areas.area.name }}の3日間天気予報</h2>
+        <p>{{forecasts[0].reportDatetime}} : {{ forecasts[0].publishingOffice }} 発表</p>
+        <table class="table">
+          <thead>
+            <tr>
+              <template v-for="(recent,index) in recentTime">
+              <th>{{ recent }}</th>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <template v-for="(m,id) in recentTime">
+              <td class="col-4">
+                <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[id]][0])" /><br>
+                {{ areas.weathers[id] }}<br>
+
+                最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
+                最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
+                
+                <template v-if="id < 2"><!-- 3日目は表示しない -->
+                  <table border=1 class="table">
+                    <thead>
+                      <tr>
+                        <th>0-6</th>
+                        <th>6-12</th>
+                        <th>12-18</th>
+                        <th>18-24</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <template v-for="(n,poptd) in 4">
+                          <td class="col-3">
+                            <template v-for="(timeDef,defin) in timePops.timeDefines">
+                              <template v-if="dateNow[id][poptd] === timeDef">
+                                {{ timePops.areas[num].pops[defin] }}%<br>
+                              </template>
+                            </template>
+                            
+                            <template v-if="dateNow[id][poptd] < timeWeathers.timeDefines[id]">
+                                -
+                            </template>
+                          </td>
+                        </template>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </template>
+                
+                風：{{ areas.winds[id] }}<br>
+                波：{{ areas.waves[id] }}<br>
+                
+              </td>
+              </template>
+            </tr>
+          </tbody>
+        </table>
+      </template>
+        
       <template v-for="(recent,index) in recentTime">
         <table>
           <thead>
