@@ -20,11 +20,11 @@ export const state = () => ({
     class20s:[],
     overview:[],
     
-    recentTime:[],
-    popTime:[],
-    weekTime:[],
-    area:[],
-    area_details:[],
+    recentTime:[],//日付変換用
+    popTime:[],//降水量変換用
+    weekTime:[],//週間日付変換用
+    area:[],//広域エリア用
+    area_details:[],//詳細地域エリア用
 })
 
 export const getters = {

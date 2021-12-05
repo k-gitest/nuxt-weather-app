@@ -4,23 +4,23 @@
         <nuxt-link to="/about">天気トップページ</nuxt-link>
       </template>
 
-      <template v-for="(areas, num) in timeWeathers.areas">
+      <template v-for="(areas, num) in timeWeathers.areas"><!-- エリア単位で表示 -->
         <h2 class="h3">{{ areas.area.name }}の3日間天気予報</h2>
         <p>{{forecasts[0].reportDatetime}} : {{ forecasts[0].publishingOffice }} 発表</p>
         <table class="table">
           <thead>
             <tr>
-              <template v-for="(recent,index) in recentTime">
+              <template v-for="(recent,index) in recentTime"><!-- 日付表示 -->
               <th>{{ recent }}</th>
               </template>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <template v-for="(m,id) in recentTime">
+              <template v-for="(m,id) in recentTime"><!-- 日付ごとの気象表示 -->
               <td class="col-4">
                 <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[id]][0])" /><br>
-                {{ areas.weathers[id] }}<br>
+                {{ areas.weathers[id] }}<br><!-- 天気コードと合わせる -->
 
                 最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
                 最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
@@ -37,15 +37,15 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <template v-for="(n,poptd) in 4">
+                        <template v-for="(n,poptd) in 4"><!-- 降水量表示 -->
                           <td class="col-3">
                             <template v-for="(timeDef,defin) in timePops.timeDefines">
-                              <template v-if="dateNow[id][poptd] === timeDef">
+                              <template v-if="dateNow[id][poptd] === timeDef"><!-- 時間毎の配列と合わせる  -->
                                 {{ timePops.areas[num].pops[defin] }}%<br>
                               </template>
                             </template>
                             
-                            <template v-if="dateNow[id][poptd] < timeWeathers.timeDefines[id]">
+                            <template v-if="dateNow[id][poptd] < timeWeathers.timeDefines[id]"><!-- 発表日時より過去なら -->
                                 -
                             </template>
                           </td>
