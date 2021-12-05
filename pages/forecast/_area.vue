@@ -3,7 +3,14 @@
       <template>
         <nuxt-link to="/about">天気トップページ</nuxt-link>
       </template>
-
+      <template v-if="area_id && !area_details">
+        > {{ offices[area_id].name }}
+      </template>
+      
+      <template v-if="area_details">
+        > <nuxt-link :to="`./${area_id}`">{{ offices[area_id].name }}</nuxt-link> > {{ class20s[area_details].name }}
+      </template>
+      
       <template v-for="(areas, num) in timeWeathers.areas"><!-- エリア単位で表示 -->
         <h2 class="h3">{{ areas.area.name }}の3日間天気予報</h2>
         <p>{{forecasts[0].reportDatetime}} : {{ forecasts[0].publishingOffice }} 発表</p>
@@ -55,8 +62,13 @@
                   </table>
                   </template>
                 
-                風：{{ areas.winds[id] }}<br>
-                波：{{ areas.waves[id] }}<br>
+                <template v-if="areas.winds">
+                  風：{{ areas.winds[id] }}<br>
+                </template>
+                <template v-if="areas.waves">
+                  波：{{ areas.waves[id] }}<br>
+                </template>
+                  
                 
               </td>
               </template>
@@ -476,7 +488,7 @@ export default{
       WeatherCodes: WeatherCodes,
     }
   },
-
+  watchQuery: ['area_detail'],
   async fetch({store,params,query}){
     //console.log(params.area)
     //console.log(query.area_detail)
@@ -551,6 +563,9 @@ export default{
     },
     area_details: function(){
       return this.$store.getters['forecast/area_details']
+    },
+    area_id: function(){
+      return this.$store.getters['forecast/area_id']
     }
       
   },

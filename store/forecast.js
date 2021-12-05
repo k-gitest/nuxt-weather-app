@@ -13,6 +13,7 @@ export const state = () => ({
     weekTemps: [], //週間気温予報（最気温、最低気温の予測下限、上限、最高気温、最高気温の予測下限、上限）
     dateNow:[], //降水確率用の配列
     timeNow:[], //日付時刻用の配列
+    
     centers:[],
     offices:[],
     class10s:[],
@@ -23,7 +24,7 @@ export const state = () => ({
     recentTime:[],//日付変換用
     popTime:[],//降水量変換用
     weekTime:[],//週間日付変換用
-    area:[],//広域エリア用
+    area_id:[],//広域エリア用
     area_details:[],//詳細地域エリア用
 })
 
@@ -89,6 +90,9 @@ export const getters = {
   },
   area_details: function(state){
     return state.area_details
+  },
+  area_id: function(state){
+    return state.area_id
   }
 }
 
@@ -142,8 +146,9 @@ export const mutations = {
   },
   
   setForecast: function(state, {param}){
-    
-    state.area = param.area
+    state.area_id = []
+    state.area_details = []
+    state.area_id = param.area
     state.area_details = param.area_detail
     
     param.items.filter(f=>{
@@ -232,7 +237,7 @@ export const mutations = {
       const class10s_area = state.class10s[state.class15s[state.class20s[state.area_details].parent].parent]
       const area100p = param.area.slice(0,-3)+'100'
       //console.log(state.class15s[state.class20s[state.area_details].parent].parent)
-      console.log(area100p)
+      //console.log(area100p)
       param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
         if(f.area.code === class20s_area){
           return f
