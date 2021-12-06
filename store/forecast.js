@@ -96,12 +96,13 @@ export const getters = {
   }
 }
 
-function dateformat(date, long, index){
+/*日付変換処理*/
+function dateformat(date, long, index){ //日付配列、変換分岐、昼夜変換分岐
 
   date = date.replace('+09:00','')
   date = new Date(date)
   
-  const today = new Date()
+  //現在時刻の取得
   const nowHours = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000))
 
   const y = date.getFullYear()
@@ -157,9 +158,10 @@ export const mutations = {
       }
     })
     
+    //降水確率表示用の配列作成処理
     param.items[0].timeSeries.filter((f,index)=>{
       if(index === 0){
-        state.dateNow = []
+        state.dateNow = [] //日付配列初期化
         state.timeNow = []
         f.timeDefines.map((m,index)=>{
           state.timeNow.push(dateformat(m,2,index))
@@ -169,8 +171,7 @@ export const mutations = {
           
           for(let i=0;i<4;i++){
             const y = dateNow.getFullYear()
-            //const m = ('0' + dateNow.getMonth()+1).slice(-2)
-            const m = ('0' + (dateNow.getMonth()+1)).slice(-2)
+            const m = ('0' + (dateNow.getMonth()+1)).slice(-2) //sliceで二桁表示
             const d = ('0' + dateNow.getDate()).slice(-2)
             const h = ('0'+dateNow.getHours(dateNow.setHours(i*6))).slice(-2)
             const mm = ('0'+dateNow.getMinutes(dateNow.setMinutes(0))).slice(-2)
@@ -227,7 +228,7 @@ export const mutations = {
     state.forecasts = param.items
     state.timeSeries = param.items[0].timeSeries
     
-    //console.log(state.class20s)
+    //地域詳細ページの処理
     if(state.class20s[state.area_details] ){
       
       //const class20s_area = state.class20s[state.area_details].parent.slice(0,-1) + '0'
@@ -265,7 +266,7 @@ export const mutations = {
     
     param.items[0].timeSeries[0].areas.map(f=>{
       f.weathers = f.weathers.map(m=>{
-          return m.replace(/\s+/g, '')
+          return m.replace(/\s+/g, '') //文章の空白削除
       })
     })
     
