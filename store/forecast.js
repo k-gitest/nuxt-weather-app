@@ -147,6 +147,7 @@ export const mutations = {
   },
   
   setForecast: function(state, {param}){
+    console.log(param)
     state.area_id = []
     state.area_details = []
     state.area_id = param.area
@@ -290,6 +291,20 @@ export const mutations = {
     
     state.overview = param.items
   },
+  
+  setTop: function(state,{param}){
+    
+    param.items[1].timeSeries.filter((m,index)=>{
+      state.weekTime[index] = m.timeDefines
+    })
+    
+    state.weekSeries = param.items[1].timeSeries
+    state.weekWeathers = param.items[1].timeSeries[0]
+    state.weekTemps = param.items[1].timeSeries[1]
+    
+    state.tempAverage = param.items[1].tempAverage.areas
+    state.precipAverage = param.items[1].precipAverage.areas
+  }
 
 }
 
@@ -301,6 +316,66 @@ export const actions = {
       const areadata = res.data
       commit('setArea', {areadata})
     })
+  },
+  
+  forecastTop: async function({commit}){
+    const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
+    const area = [
+      '014100', //釧路
+      '012000', //旭川
+      '016000', //札幌
+      '020000', //青森
+      '050000', //秋田
+      '040000', //仙台
+      '150000', //新潟
+      '170000', //金沢
+      '130000', //東京
+      '090000', //宇都宮
+      '200000', //長野
+      '230000', //名古屋
+      '270000', //大阪
+      '370000', //高松
+      '320000', //松江
+      '340000', //広島
+      '390000', //高知
+      '400000', //福岡
+      '460100', //鹿児島
+      //'460040', //奄美
+      '471000', //那覇
+      '474000', //石垣
+    ]
+    
+    await area.map(async f=>{
+      console.log(f)
+      return await axios.get(url + f + '.json')
+      .then(res=>{
+        const param = {
+                    items:res.data,
+                    area:f,
+                    //area_detail:area_detail,
+                }
+                commit('setForecast', {param})
+      })
+      .catch(e => {
+        // エラー
+        console.log(e,f)
+      })
+    })
+    
+    
+    
+    /*
+    Promise.all(
+      [axios.get(url + url_1), axios.get(url + url_2), axios.get(url + url_3)]
+    ).then(res=>{
+      const param = {
+                  items:res.data,
+                  area:url_1,
+                  area_detail:area_detail,
+              }
+              commit('setForecast', {param})
+    })
+    */
   },
   
   forecast: async function({commit},{url, area, area_detail}){

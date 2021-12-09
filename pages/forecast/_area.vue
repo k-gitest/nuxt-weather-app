@@ -488,6 +488,7 @@ export default{
       WeatherCodes: WeatherCodes,
     }
   },
+  //クエリ文字列を監視し、変更時にコンポーネントメソッドを実行
   watchQuery: ['area_detail'],
   async fetch({store,params,query}){
     //console.log(params.area)
