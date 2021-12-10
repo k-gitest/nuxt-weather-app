@@ -1,7 +1,7 @@
 <template>
   <div class="container">
+    <topWeatherLayoutLayout area="014100" />
     <h2>週間天気予報</h2>
-    {{ topWeathers }}
     <table border=1 class="table">
       <thead>
         <tr>
@@ -109,7 +109,9 @@ export default{
   },
   
   async fetch(){
-    await this.$store.dispatch('forecast/forecastTop')
+    const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
+    const area = '014100'
+    await this.$store.dispatch('forecast/forecast', {url,area})
   },
   
   computed:{
@@ -176,10 +178,6 @@ export default{
     area_id: function(){
       return this.$store.getters['forecast/area_id']
     },
-    topWeathers: function(){
-      return this.$store.getters['forecast/topWeathers']
-    }
-      
   },
 }
 

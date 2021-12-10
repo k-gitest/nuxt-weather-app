@@ -26,6 +26,7 @@ export const state = () => ({
     weekTime:[],//週間日付変換用
     area_id:[],//広域エリア用
     area_details:[],//詳細地域エリア用
+    topWeathers:[]
 })
 
 export const getters = {
@@ -93,6 +94,9 @@ export const getters = {
   },
   area_id: function(state){
     return state.area_id
+  },
+  topWeathers: function(state){
+    return state.topWeathers
   }
 }
 
@@ -147,7 +151,8 @@ export const mutations = {
   },
   
   setForecast: function(state, {param}){
-    console.log(param)
+    //console.log(param)
+    
     state.area_id = []
     state.area_details = []
     state.area_id = param.area
@@ -226,6 +231,7 @@ export const mutations = {
         })
     })
     
+    //state.topWeathers.push(param.items)
     state.forecasts = param.items
     state.timeSeries = param.items[0].timeSeries
     
@@ -283,6 +289,8 @@ export const mutations = {
     
     state.tempAverage = param.items[1].tempAverage.areas
     state.precipAverage = param.items[1].precipAverage.areas
+    
+    state.topWeathers.push(param.items[1])
   },
   
   setOverview: function(state,{param}){
@@ -345,13 +353,13 @@ export const actions = {
       '474000', //石垣
     ]
     
-    await area.map(async f=>{
-      console.log(f)
-      return await axios.get(url + f + '.json')
+    await area.map((f,index)=>{
+      //console.log(f)
+      return axios.get(url + f + '.json')
       .then(res=>{
         const param = {
                     items:res.data,
-                    area:f,
+                    area:f
                     //area_detail:area_detail,
                 }
                 commit('setForecast', {param})
