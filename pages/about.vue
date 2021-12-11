@@ -3,7 +3,7 @@
     <div v-cloak>
       <h1>About Page</h1>
       <h2>{{ subtitle }}</h2>
-      <topWeatherLayout area="test" />
+      
       <!--
       <div class="container">
         <h2>{{ items[0].publishingOffice }} {{ items[0].reportDatetime }}発表</h2>
@@ -160,10 +160,7 @@
         </ul>
         -->
     
-    <!--
     <TopForecast />
-    -->
-    <topWeatherKushiro />
     <Centers />
     <!--
     <Weather />

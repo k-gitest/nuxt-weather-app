@@ -1,7 +1,5 @@
 <template>
   <div class="container">
-    <h2>週間天気予報</h2>
-    {{ topWeathers }}
     <table border=1 class="table">
       <thead>
         <tr>
@@ -109,13 +107,12 @@ export default{
   },
   
   async fetch(){
-    await this.$store.dispatch('forecast/forecastTop')
+    const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
+    const area = '016000'
+    await this.$store.dispatch('forecast/forecast', {url, area})
   },
   
   computed:{
-    forecasts: function() {
-        return this.$store.getters['forecast/forecasts']
-    },
     timeWeathers: function(){
         return this.$store.getters['forecast/timeWeathers']
     },
@@ -131,56 +128,15 @@ export default{
     weekTemps: function(){
       return this.$store.getters['forecast/weekTemps']
     },
-    tempAverage: function(){
-      return this.$store.getters['forecast/tempAverage']
-    },
-    precipAverage: function(){
-      return this.$store.getters['forecast/precipAverage']
-    },
     dateNow: function(){
       return this.$store.state.forecast.dateNow
     },
     timeNow: function(){
       return this.$store.state.forecast.timeNow
     },
-    overview: function(){
-      return this.$store.state.forecast.overview
-    },
-    centers: function(){
-      return this.$store.getters['forecast/centers']
-    },
-    offices: function(){
-      return this.$store.getters['forecast/offices']
-    },
-    class10s: function(){
-      return this.$store.getters['forecast/class10s']
-    },
-    class15s: function(){
-      return this.$store.getters['forecast/class15s']
-    },
-    class20s: function(){
-      return this.$store.getters['forecast/class20s']
-    },
-    recentTime: function(){
-      return this.$store.getters['forecast/recentTime']
-    },
-    popTime: function(){
-      return this.$store.getters['forecast/popTime']
-    },
-    weekTime: function(){
-      return this.$store.getters['forecast/weekTime']
-    },
-    area_details: function(){
-      return this.$store.getters['forecast/area_details']
-    },
-    area_id: function(){
-      return this.$store.getters['forecast/area_id']
-    },
-    topWeathers: function(){
-      return this.$store.getters['forecast/topWeathers']
-    }
-      
   },
 }
 
 </script>
+
+

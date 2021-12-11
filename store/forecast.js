@@ -26,7 +26,31 @@ export const state = () => ({
     weekTime:[],//週間日付変換用
     area_id:[],//広域エリア用
     area_details:[],//詳細地域エリア用
-    topWeathers:[]
+    topWeathers:[],
+    topForecast:[],
+    arraySet:[],
+    
+    akita:[],
+    aomori:[],
+    asahikawa:[],
+    fukkuoka:[],
+    hiroshima:[],
+    ishigaki:[],
+    kagoshima:[],
+    kanazawa:[],
+    kochi:[],
+    kushiro:[],
+    matsue:[],
+    nagano:[],
+    nagoya:[],
+    naha:[],
+    niigata:[],
+    osaka:[],
+    sapporo:[],
+    sendai:[],
+    takamatsu:[],
+    tokyo:[],
+    utsunomiya:[],
 })
 
 export const getters = {
@@ -95,9 +119,6 @@ export const getters = {
   area_id: function(state){
     return state.area_id
   },
-  topWeathers: function(state){
-    return state.topWeathers
-  }
 }
 
 /*日付変換処理*/
@@ -278,6 +299,7 @@ export const mutations = {
     })
     
     
+    
     state.timeWeathers = param.items[0].timeSeries[0]
     state.timePops = param.items[0].timeSeries[1]
     
@@ -290,7 +312,39 @@ export const mutations = {
     state.tempAverage = param.items[1].tempAverage.areas
     state.precipAverage = param.items[1].precipAverage.areas
     
-    state.topWeathers.push(param.items[1])
+    //トップページ用の表示処理
+    let topForecast = {}
+    topForecast[param.area] = {
+      'timeWeathers': param.items[0].timeSeries[0],
+      'timeTemps': param.items[0].timeSeries[2],
+      'timePops': param.items[0].timeSeries[1],
+      'weekWeathers': param.items[1].timeSeries[0],
+      'weekTemps': param.items[1].timeSeries[1]
+    }
+    //console.log(topForecast)
+    state.topWeathers.push(topForecast)
+    
+    // setオブジェクトでの配列作成
+    /*
+    let area = param.area
+    var set = new Set()
+
+    set.add({
+      [area] : 
+      {
+        'timeWeathers': param.items[0].timeSeries[0],
+        'timeTemps': param.items[0].timeSeries[2],
+        'timePops': param.items[0].timeSeries[1],
+        'weekWeathers': param.items[1].timeSeries[0],
+        'weekTemps': param.items[1].timeSeries[1]
+      }
+    })
+    
+    state.arraySet += Array.from(set)
+    console.log(Array.from(set))
+    */
+    
+    
   },
   
   setOverview: function(state,{param}){
@@ -353,9 +407,9 @@ export const actions = {
       '474000', //石垣
     ]
     
-    await area.map((f,index)=>{
+    await area.map(async (f,index)=>{
       //console.log(f)
-      return axios.get(url + f + '.json')
+      return await axios.get(url + f + '.json')
       .then(res=>{
         const param = {
                     items:res.data,
