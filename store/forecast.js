@@ -26,30 +26,7 @@ export const state = () => ({
     weekTime:[],//週間日付変換用
     area_id:[],//広域エリア用
     area_details:[],//詳細地域エリア用
-    topWeathers:[],
-    topForecast:[],
-    
-    akita:[],
-    aomori:[],
-    asahikawa:[],
-    fukkuoka:[],
-    hiroshima:[],
-    ishigaki:[],
-    kagoshima:[],
-    kanazawa:[],
-    kochi:[],
-    kushiro:[],
-    matsue:[],
-    nagano:[],
-    nagoya:[],
-    naha:[],
-    niigata:[],
-    osaka:[],
-    sapporo:[],
-    sendai:[],
-    takamatsu:[],
-    tokyo:[],
-    utsunomiya:[],
+    topWeathers:[],//トップページ用
 })
 
 export const getters = {
@@ -174,7 +151,6 @@ export const mutations = {
   },
   
   setForecast: function(state, {param}){
-    //console.log(param)
     
     state.area_id = []
     state.area_details = []
@@ -254,7 +230,6 @@ export const mutations = {
         })
     })
     
-    //state.topWeathers.push(param.items)
     state.forecasts = param.items
     state.timeSeries = param.items[0].timeSeries
     
@@ -262,13 +237,9 @@ export const mutations = {
     if(state.class20s[state.area_details] ){
       
       //const class20s_area = state.class20s[state.area_details].parent.slice(0,-1) + '0'
-      
       const class20s_area = state.class15s[state.class20s[state.area_details].parent].parent
-      
       const class10s_area = state.class10s[state.class15s[state.class20s[state.area_details].parent].parent]
       const area100p = param.area.slice(0,-3)+'100'
-      //console.log(state.class15s[state.class20s[state.area_details].parent].parent)
-      //console.log(area100p)
       param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
         if(f.area.code === class20s_area){
           return f
@@ -276,7 +247,6 @@ export const mutations = {
       })
       
       param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
-        //console.log(f)
         if(f.area.code === class20s_area || f.area.code === param.area || f.area.code === area100p){
           return f
         }
@@ -300,11 +270,8 @@ export const mutations = {
       })
     })
     
-    
-    
     state.timeWeathers = param.items[0].timeSeries[0]
     state.timePops = param.items[0].timeSeries[1]
-    
     state.timeTemps = param.items[0].timeSeries[2]
     
     state.weekSeries = param.items[1].timeSeries
@@ -315,30 +282,38 @@ export const mutations = {
     state.precipAverage = param.items[1].precipAverage.areas
     
     //トップページ用の表示処理
-    if(state.topWeathers.length < 22){
-      /*
-    let topForecast = {}
-    topForecast[param.area] = {
-      'timeWeathers': param.items[0].timeSeries[0],
-      'timeTemps': param.items[0].timeSeries[2],
-      'timePops': param.items[0].timeSeries[1],
-      'weekWeathers': param.items[1].timeSeries[0],
-      'weekTemps': param.items[1].timeSeries[1]
+    function topAreaName(area){
+      console.log(area)
+      switch(area){
+        case '014100':
+          console.log(param.items[0].timeSeries[0].areas[0].area.name)
+        break
+      }
     }
-    */
     
-    let topForecast
-    topForecast = {
-      'timeWeathers': param.items[0].timeSeries[0],
-      'timeTemps': param.items[0].timeSeries[2],
-      'timePops': param.items[0].timeSeries[1],
-      'weekWeathers': param.items[1].timeSeries[0],
-      'weekTemps': param.items[1].timeSeries[1]
+    if(param.topIndex && state.topWeathers.length < 22){
+      topAreaName(param.area)
+      let topForecast = {
+        'id': param.area,
+        'timeWeathers': param.items[0].timeSeries[0],
+        'timeTemps': param.items[0].timeSeries[2],
+        'timePops': param.items[0].timeSeries[1],
+        'weekWeathers': param.items[1].timeSeries[0],
+        'weekTemps': param.items[1].timeSeries[1]
       }
     
-    console.log(topForecast.timeWeathers)
-    //console.log(param.count)
-    state.topWeathers.push(topForecast)
+      state.topWeathers.push(topForecast)
+      
+      /*
+      let topForecast = {}
+      topForecast[param.area] = {
+        'timeWeathers': param.items[0].timeSeries[0],
+        'timeTemps': param.items[0].timeSeries[2],
+        'timePops': param.items[0].timeSeries[1],
+        'weekWeathers': param.items[1].timeSeries[0],
+        'weekTemps': param.items[1].timeSeries[1]
+      }
+      */
     }
     
     // setオブジェクトでの配列作成
@@ -365,25 +340,9 @@ export const mutations = {
   },
   
   setOverview: function(state,{param}){
-    
     param.items.reportDatetime = dateformat(param.items.reportDatetime,1)
-    
     state.overview = param.items
   },
-  
-  setTop: function(state,{param}){
-    
-    param.items[1].timeSeries.filter((m,index)=>{
-      state.weekTime[index] = m.timeDefines
-    })
-    
-    state.weekSeries = param.items[1].timeSeries
-    state.weekWeathers = param.items[1].timeSeries[0]
-    state.weekTemps = param.items[1].timeSeries[1]
-    
-    state.tempAverage = param.items[1].tempAverage.areas
-    state.precipAverage = param.items[1].precipAverage.areas
-  }
 
 }
 
@@ -423,7 +382,24 @@ export const actions = {
       '471000', //那覇
       '474000', //石垣
     ]
+
+    for(const f of area){
+      await axios.get(url + f + '.json')
+      .then(res=>{
+        const param = {
+          items:res.data,
+          area:f,
+          topIndex:true,
+        }
+        return commit('setForecast', {param})
+      })
+      .catch(e => {
+        // エラー
+        console.log(e,f)
+      })
+    }
     
+    /*
     await area.map(async (f,index)=>{
       //console.log(f)
       return await axios.get(url + f + '.json')
@@ -441,8 +417,7 @@ export const actions = {
         console.log(e,f)
       })
     })
-    
-    
+    */
     
     /*
     Promise.all(
@@ -477,16 +452,23 @@ export const actions = {
               commit('setForecast', {param})
           }
       })
+      .catch(e => {
+        // エラー
+        console.log(e,f)
+      })
   },
   
   forecastOverview: async function({commit},{url_overview,area}){
-    
     return await axios.get(url_overview + area + '.json')
     .then(res=>{
       const param = {
         items: res.data,
       }
       commit('setOverview', {param})
+    })
+    .catch(e => {
+      // エラー
+      console.log(e,f)
     })
   }
   

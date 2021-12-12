@@ -31,7 +31,7 @@ export default{
     const area = '014100'
     await this.$store.dispatch('forecast/forecast', {url, area})
     */
-    await this.$store.dispatch('forecast/forecastTop')
+    //await this.$store.dispatch('forecast/forecastTop')
   },
 
   computed:{
