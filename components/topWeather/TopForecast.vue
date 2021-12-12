@@ -1,16 +1,14 @@
 <template>
   <div class="container">
     <h2>全国天気予報</h2>
-    
-    <template v-for="weather in topWeathers">
-      {{ weather }}
-      <template v-for="num in weather">
-        {{ num.timeWeathers }}
-      </template>
-    </template>
-    
     <!--
+    <template v-for="weather in topWeathers">
+      エリアid:{{ weather.id }}<br>
+    </template>
+    -->
+    
     <topWeatherArea-kushiro />
+    <!--
     <topWeatherArea-Asahikawa />
     -->
   </div>
@@ -28,9 +26,11 @@ export default{
   },
   
   async fetch(){
+    /*
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
     const area = '014100'
     await this.$store.dispatch('forecast/forecast', {url, area})
+    */
     await this.$store.dispatch('forecast/forecastTop')
   },
 
@@ -57,10 +57,7 @@ export default{
       return this.$store.state.forecast.timeNow
     },
     topWeathers: function(){
-      return this.$store.state.forecast.topWeathers
-    },
-    arraySet: function(){
-      return this.$store.state.forecast.arraySet
+      return this.$store.getters['forecast/topWeathers']
     }
   },
   

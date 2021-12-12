@@ -28,7 +28,6 @@ export const state = () => ({
     area_details:[],//詳細地域エリア用
     topWeathers:[],
     topForecast:[],
-    arraySet:[],
     
     akita:[],
     aomori:[],
@@ -119,6 +118,9 @@ export const getters = {
   area_id: function(state){
     return state.area_id
   },
+  topWeathers: function(state){
+    return state.topWeathers
+  }
 }
 
 /*日付変換処理*/
@@ -313,6 +315,8 @@ export const mutations = {
     state.precipAverage = param.items[1].precipAverage.areas
     
     //トップページ用の表示処理
+    if(state.topWeathers.length < 22){
+      /*
     let topForecast = {}
     topForecast[param.area] = {
       'timeWeathers': param.items[0].timeSeries[0],
@@ -321,8 +325,21 @@ export const mutations = {
       'weekWeathers': param.items[1].timeSeries[0],
       'weekTemps': param.items[1].timeSeries[1]
     }
-    //console.log(topForecast)
+    */
+    
+    let topForecast
+    topForecast = {
+      'timeWeathers': param.items[0].timeSeries[0],
+      'timeTemps': param.items[0].timeSeries[2],
+      'timePops': param.items[0].timeSeries[1],
+      'weekWeathers': param.items[1].timeSeries[0],
+      'weekTemps': param.items[1].timeSeries[1]
+      }
+    
+    console.log(topForecast.timeWeathers)
+    //console.log(param.count)
     state.topWeathers.push(topForecast)
+    }
     
     // setオブジェクトでの配列作成
     /*
@@ -413,7 +430,8 @@ export const actions = {
       .then(res=>{
         const param = {
                     items:res.data,
-                    area:f
+                    area:f,
+                    count:index
                     //area_detail:area_detail,
                 }
                 commit('setForecast', {param})

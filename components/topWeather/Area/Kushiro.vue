@@ -1,5 +1,41 @@
 <template>
   <div class="container">
+    <template v-for="topWeather in topWeathers">
+      
+      <template v-for="timeDefine in topWeather.timeWeathers.timeDefines">
+        {{timeDefine}}<br>
+      </template>
+      
+      <template v-for="area in topWeather.timeWeathers.areas">
+        {{area.area.name}}<br>
+        {{area.area.code}}<br>
+        {{area.weatherCodes[2]}}<br>
+        {{area.weathers}}
+      </template>
+
+      <h4>timeWeathers</h4>
+      {{topWeather.timeWeathers.timeDefines}}<br>
+      {{topWeather.timeWeathers.areas}}<br>
+      
+      <h4>timeTemps</h4>
+      {{topWeather.timeTemps.timeDefines}}<br>
+      {{topWeather.timeTemps.areas}}<br>
+      
+      <h4>timePops</h4>
+      {{topWeather.timePops.timeDefines}}<br>
+      {{topWeather.timePops.areas}}<br>
+      
+      <h4>weekWeathers</h4>
+      {{topWeather.weekWeathers.timeDefines}}<br>
+      {{topWeather.weekWeathers.areas}}<br>
+      
+      <h4>weekTemps</h4>
+      {{topWeather.weekTemps.timeDefines}}<br>
+      {{topWeather.weekTemps.areas}}<br>
+      
+    </template>
+    
+    <!--
     <table border=1 class="table">
       <thead>
         <tr>
@@ -92,6 +128,7 @@
         </template>
       </tbody>
     </table>
+    -->
   </div>
 </template>
 
@@ -107,12 +144,16 @@ export default{
   },
   
   async fetch(){
+    /*
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
     const area = '014100'
     await this.$store.dispatch('forecast/forecast', {url, area})
+    */
+    await this.$store.dispatch('forecast/forecastTop')
   },
   
   computed:{
+    /*
     timeWeathers: function(){
         return this.$store.getters['forecast/timeWeathers']
     },
@@ -128,12 +169,16 @@ export default{
     weekTemps: function(){
       return this.$store.getters['forecast/weekTemps']
     },
+    */
     dateNow: function(){
       return this.$store.state.forecast.dateNow
     },
     timeNow: function(){
       return this.$store.state.forecast.timeNow
     },
+    topWeathers: function(){
+      return this.$store.getters['forecast/topWeathers']
+    }
   },
 }
 
