@@ -283,10 +283,77 @@ export const mutations = {
     
     //トップページ用の表示処理
     function topAreaName(area){
-      console.log(area)
+      //area.find(f === '014100' console.log(f))
+      const areaName = param.items[1].timeSeries[0].areas[0].area.name
       switch(area){
         case '014100':
-          console.log(param.items[0].timeSeries[0].areas[0].area.name)
+          param.items[1].timeSeries[0].areas[0].area.name = '釧路'
+        break
+        case '012000':
+          param.items[1].timeSeries[0].areas[0].area.name = '旭川'
+        break
+        case '016000':
+          param.items[1].timeSeries[0].areas[0].area.name = '札幌'
+        break
+        case '020000':
+          param.items[1].timeSeries[0].areas[0].area.name = '青森'
+          param.items[1].timeSeries[0].areas.pop()
+        break
+        case '050000':
+          param.items[1].timeSeries[0].areas[0].area.name = '秋田'
+        break
+        case '040000':
+          param.items[1].timeSeries[0].areas[0].area.name = '仙台'
+          param.items[1].timeSeries[0].areas.pop()
+        break
+        case '150000':
+          param.items[1].timeSeries[0].areas[0].area.name = '新潟'
+        break
+        case '170000':
+          param.items[1].timeSeries[0].areas[0].area.name = '金沢'
+        break
+        case '130000':
+          param.items[1].timeSeries[0].areas[0].area.name = '東京'
+          param.items[1].timeSeries[0].areas.length = 1
+        break
+        case '090000':
+          param.items[1].timeSeries[0].areas[0].area.name = '宇都宮'
+        break
+        case '200000':
+          param.items[1].timeSeries[0].areas[0].area.name = '長野'
+          param.items[1].timeSeries[0].areas.length = 1
+        break
+        case '230000':
+          param.items[1].timeSeries[0].areas[0].area.name = '名古屋'
+        break
+        case '270000':
+          param.items[1].timeSeries[0].areas[0].area.name = '大阪'
+        break
+        case '370000':
+          param.items[1].timeSeries[0].areas[0].area.name = '高松'
+        break
+        case '320000':
+          param.items[1].timeSeries[0].areas[0].area.name = '松江'
+        break
+        case '340000':
+          param.items[1].timeSeries[0].areas[0].area.name = '広島'
+          param.items[1].timeSeries[0].areas.length = 1
+        break
+        case '390000':
+          param.items[1].timeSeries[0].areas[0].area.name = '高知'
+        break
+        case '400000':
+          param.items[1].timeSeries[0].areas[0].area.name = '福岡'
+        break
+        case '460100':
+          param.items[1].timeSeries[0].areas[0].area.name = '鹿児島'
+          param.items[1].timeSeries[0].areas.length = 1
+        break
+        case '471000':
+          param.items[1].timeSeries[0].areas[0].area.name = '那覇'
+        break
+        case '474000':
+          param.items[1].timeSeries[0].areas[0].area.name = '石垣'
         break
       }
     }

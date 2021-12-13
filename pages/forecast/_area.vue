@@ -77,6 +77,7 @@
         </table>
       </template>
         
+      <!--
       <template v-for="(recent,index) in recentTime">
         <table>
           <thead>
@@ -137,8 +138,9 @@
           </tbody>
         </table>
       </template>
+      -->
         
-      
+      <!--
         <h2>今日・明日・明後日の天気予報</h2>
         <h3>{{forecasts[0].reportDatetime}} : {{ forecasts[0].publishingOffice }} 発表</h3>
         <table border=1 class="table">
@@ -151,7 +153,7 @@
           <tbody>
             <template v-for="(areas, num) in timeWeathers.areas">
               
-              <!--
+              
               <template v-if="$route.query.area_detail && areas.area.code === $route.query.area_detail">
                 <tr>
                   <td>
@@ -205,7 +207,7 @@
                   </td>
                 </tr>
               </template>
-              -->
+              
               
                 <tr>
                   <td>
@@ -263,6 +265,7 @@
           </tbody>
           </template>
         </table>
+        -->
         
         <h2>週間天気予報</h2>
         <table border=1 class="table">
