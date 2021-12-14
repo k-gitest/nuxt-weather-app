@@ -68,8 +68,7 @@
                 <template v-if="areas.waves">
                   波：{{ areas.waves[id] }}<br>
                 </template>
-                  
-                
+
               </td>
               </template>
             </tr>
@@ -363,6 +362,7 @@
                 <td>{{ weekArea.area.name }}</td>
                 
                 <td>
+                 
                   
                   天気：{{ WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][3]}}<br>
                   <img :src="require(`@/assets/img/`+WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][0])" />

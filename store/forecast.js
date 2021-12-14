@@ -235,23 +235,76 @@ export const mutations = {
     
     //地域詳細ページの処理
     if(state.class20s[state.area_details] ){
-      
-      //const class20s_area = state.class20s[state.area_details].parent.slice(0,-1) + '0'
+      //console.log(param.area_detail)
+      //class20s_area：class10sの地域コード
+      //param.area：officesの地域コード
+      //area100p：offices地域コードの末尾3桁を100にしたコード
       const class20s_area = state.class15s[state.class20s[state.area_details].parent].parent
       const class10s_area = state.class10s[state.class15s[state.class20s[state.area_details].parent].parent]
       const area100p = param.area.slice(0,-3)+'100'
       
-      param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
+      param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter((f, index)=>{
         if(f.area.code === class20s_area){
+          f.area.index = index
           return f
         }
       })
       
+      //console.log(param.items[0].timeSeries[0].areas)
+      /*
       param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
         if(f.area.code === class20s_area || f.area.code === param.area || f.area.code === area100p){
+          console.log(f)
           return f
         }
       })
+      */
+      //3日天気の地域コードとインデックス
+      const timeCode = param.items[0].timeSeries[0].areas[0].area.code
+      const timeIndex = param.items[0].timeSeries[0].areas[0].area.index
+      //週間天気の表示処理　3日天気の地域・インデックスと合わせる
+      //console.log(param.items[1].timeSeries[0].areas[timeIndex])
+      
+      param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter((f, index)=>{
+        /*
+        if(index === timeIndex)return f
+        if(f.area.code === timeCode)return f
+        if(f.area.code === area100p)return f
+        if(f.area.code === class20s_area)return f
+        if(f.area.code === param.area)return f
+        */
+        switch (f.area.code) {
+        	case timeCode:
+        		return f
+        		break
+        	case area100p:
+        		return f
+        		break
+        	case class20s_area:
+        		return f
+        		break
+        	case param.area:
+        	  return f
+        	  break
+
+        }
+        
+      })
+      
+      
+      /*
+      for(let i = 0; i < param.items[1].timeSeries[0].areas.length; i++){
+        console.log(i)
+        if(i === timeIndex){
+          //param.items[1].timeSeries[0].areas = []
+          return param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas[i]
+          console.log(param.items[1].timeSeries[0].areas)
+          break 
+        }
+      }
+      */
+      
+      
       
     }
     
@@ -559,6 +612,7 @@ export const actions = {
   forecast: async function({commit},{url, area, area_detail}){
       //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
       //const area = 'overview_forecast/130000.json'
+      if(area === '014030')area = '014100'
       return await axios.get(url + area + '.json')
       .then(res => {
           if(area.includes('overview')){
@@ -582,6 +636,7 @@ export const actions = {
   },
   
   forecastOverview: async function({commit},{url_overview,area}){
+    if(area === '014030')area = '014100'
     return await axios.get(url_overview + area + '.json')
     .then(res=>{
       const param = {
