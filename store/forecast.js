@@ -240,6 +240,7 @@ export const mutations = {
       const class20s_area = state.class15s[state.class20s[state.area_details].parent].parent
       const class10s_area = state.class10s[state.class15s[state.class20s[state.area_details].parent].parent]
       const area100p = param.area.slice(0,-3)+'100'
+      
       param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
         if(f.area.code === class20s_area){
           return f
@@ -280,6 +281,67 @@ export const mutations = {
     
     state.tempAverage = param.items[1].tempAverage.areas
     state.precipAverage = param.items[1].precipAverage.areas
+ 
+  },
+  
+  setOverview: function(state,{param}){
+    param.items.reportDatetime = dateformat(param.items.reportDatetime,1)
+    state.overview = param.items
+  },
+  
+  setTop: function(state,{param}){
+    
+    param.items.filter(f=>{
+      if(f.reportDatetime){
+        f.reportDatetime = dateformat(f.reportDatetime, 1)
+      }
+    })
+    
+    //降水確率表示用の配列作成処理
+    param.items[0].timeSeries.filter((f,index)=>{
+      if(index === 0){
+        state.dateNow = [] //日付配列初期化
+        state.timeNow = []
+        f.timeDefines.map((m,index)=>{
+          state.timeNow.push(dateformat(m,2,index))
+          const now = []
+          m = m.replace('+09:00','')
+          const dateNow = new Date(m)
+          
+          for(let i=0;i<4;i++){
+            const y = dateNow.getFullYear()
+            const m = ('0' + (dateNow.getMonth()+1)).slice(-2) //sliceで二桁表示
+            const d = ('0' + dateNow.getDate()).slice(-2)
+            const h = ('0'+dateNow.getHours(dateNow.setHours(i*6))).slice(-2)
+            const mm = ('0'+dateNow.getMinutes(dateNow.setMinutes(0))).slice(-2)
+            const s = ('0'+dateNow.getSeconds(dateNow.setSeconds(0))).slice(-2)
+            now.push(`${y}-${m}-${d}T${h}:${mm}:${s}+09:00`)
+          }
+          state.dateNow.push(now)
+        })
+      }
+    })
+    
+    param.items[0].timeSeries.map((m,index)=>{
+      if(index === 0)state.recentTime = m.timeDefines
+      if(index === 1)state.popTime = m.timeDefines
+    })
+    
+    param.items[1].timeSeries.filter((m,index)=>{
+      state.weekTime[index] = m.timeDefines
+    })
+    
+    param.items[1].timeSeries.map(f=>{
+        f.timeDefines = f.timeDefines.map((e,index)=>{
+          return dateformat(e,3,index)
+        })
+    })
+    
+    param.items[0].timeSeries[0].areas.map(f=>{
+      f.weathers = f.weathers.map(m=>{
+          return m.replace(/\s+/g, '') //文章の空白削除
+      })
+    })
     
     //トップページ用の表示処理
     function topAreaName(area){
@@ -358,7 +420,7 @@ export const mutations = {
       }
     }
     
-    if(param.topIndex && state.topWeathers.length < 22){
+    if(param.topIndex && state.topWeathers.length < 21){
       topAreaName(param.area)
       let topForecast = {
         'id': param.area,
@@ -402,14 +464,7 @@ export const mutations = {
     state.arraySet += Array.from(set)
     console.log(Array.from(set))
     */
-    
-    
-  },
-  
-  setOverview: function(state,{param}){
-    param.items.reportDatetime = dateformat(param.items.reportDatetime,1)
-    state.overview = param.items
-  },
+  }
 
 }
 
@@ -450,6 +505,7 @@ export const actions = {
       '474000', //石垣
     ]
 
+    
     for(const f of area){
       await axios.get(url + f + '.json')
       .then(res=>{
@@ -458,7 +514,7 @@ export const actions = {
           area:f,
           topIndex:true,
         }
-        return commit('setForecast', {param})
+        return commit('setTop', {param})
       })
       .catch(e => {
         // エラー
@@ -466,18 +522,18 @@ export const actions = {
       })
     }
     
+
     /*
     await area.map(async (f,index)=>{
-      //console.log(f)
       return await axios.get(url + f + '.json')
       .then(res=>{
         const param = {
                     items:res.data,
                     area:f,
-                    count:index
+                    topIndex:true
                     //area_detail:area_detail,
                 }
-                commit('setForecast', {param})
+                commit('setTop', {param})
       })
       .catch(e => {
         // エラー
@@ -485,7 +541,7 @@ export const actions = {
       })
     })
     */
-    
+
     /*
     Promise.all(
       [axios.get(url + url_1), axios.get(url + url_2), axios.get(url + url_3)]
@@ -521,7 +577,7 @@ export const actions = {
       })
       .catch(e => {
         // エラー
-        console.log(e,f)
+        console.log(e)
       })
   },
   
@@ -535,7 +591,7 @@ export const actions = {
     })
     .catch(e => {
       // エラー
-      console.log(e,f)
+      console.log(e)
     })
   }
   
