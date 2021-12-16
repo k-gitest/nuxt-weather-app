@@ -242,70 +242,72 @@ export const mutations = {
       const class20s_area = state.class15s[state.class20s[state.area_details].parent].parent
       const class10s_area = state.class10s[state.class15s[state.class20s[state.area_details].parent].parent]
       const area100p = param.area.slice(0,-3)+'100'
-      
+      const timeArea = param.items[0].timeSeries[0].areas.map(m=>m.area.code)
+      //console.log(timeArea)
       param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter((f, index)=>{
         if(f.area.code === class20s_area){
-          f.area.index = index
+          //f.area.index = index
           return f
         }
       })
       
-      //console.log(param.items[0].timeSeries[0].areas)
-      /*
-      param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
-        if(f.area.code === class20s_area || f.area.code === param.area || f.area.code === area100p){
-          console.log(f)
-          return f
-        }
-      })
-      */
       //3日天気の地域コードとインデックス
       const timeCode = param.items[0].timeSeries[0].areas[0].area.code
-      const timeIndex = param.items[0].timeSeries[0].areas[0].area.index
+      //const timeIndex = param.items[0].timeSeries[0].areas[0].area.index
       //週間天気の表示処理　3日天気の地域・インデックスと合わせる
-      //console.log(param.items[1].timeSeries[0].areas[timeIndex])
-      
-      param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter((f, index)=>{
-        /*
-        if(index === timeIndex)return f
-        if(f.area.code === timeCode)return f
-        if(f.area.code === area100p)return f
-        if(f.area.code === class20s_area)return f
-        if(f.area.code === param.area)return f
-        */
-        switch (f.area.code) {
-        	case timeCode:
-        		return f
-        		break
-        	case area100p:
-        		return f
-        		break
-        	case class20s_area:
-        		return f
-        		break
-        	case param.area:
-        	  return f
-        	  break
-
-        }
-        
-      })
-      
-      
-      /*
-      for(let i = 0; i < param.items[1].timeSeries[0].areas.length; i++){
-        console.log(i)
-        if(i === timeIndex){
-          //param.items[1].timeSeries[0].areas = []
-          return param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas[i]
-          console.log(param.items[1].timeSeries[0].areas)
-          break 
-        }
+      const timeLength = timeArea.length
+      const weekLength = param.items[1].timeSeries[0].areas.length
+      console.log(weekLength)
+      const weekArea = param.items[1].timeSeries[0].areas.map(m=>m.area.code)
+      const noneWeek = timeArea.filter(f=>weekArea.indexOf(f))
+      const isWeek = timeArea.filter(f=>weekArea.indexOf(f) === 0)
+      //console.log(noneWeek, isWeek)
+      if(timeLength === weekLength || weekLength === 1){
+        param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
+          if(f.area.code === timeCode)return f
+          if(f.area.code === param.area)return f
+        })
       }
-      */
       
-      
-      
+      if(timeLength !== weekLength && weekLength > 1){
+        console.log(timeLength, weekLength)
+        noneWeek.map((m,index)=>{
+          /*
+          param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
+            if(timeCode.indexOf(m) === 0){
+              console.log(m)
+              if(f.area.code === area100p){
+                
+                return f
+              }
+            }
+            
+            if(timeCode.indexOf(m) === -1){
+              //console.log(m)
+              if(f.area.code === timeCode)return f
+            }
+          })
+          */
+            
+          
+          if(timeCode.indexOf(m) === 0){
+            //console.log(m)
+            param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
+              if(f.area.code === area100p){return f}
+            })
+          }
+          
+          if(timeCode.indexOf(m) === -1 && timeCode.indexOf(isWeek) === 0){
+            //console.log(m)
+            param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
+              if(f.area.code === timeCode)return f
+            })
+          }
+          
+          
+          
+        })
+      }
     }
     
     /*
