@@ -237,31 +237,32 @@ export const mutations = {
     if(state.class20s[state.area_details] ){
       //console.log(param.area_detail)
       //class20s_area：class10sの地域コード
-      //param.area：officesの地域コード
+      //param.area：officesの地域コード 広域全体エリアなので必ず1つ
       //area100p：offices地域コードの末尾3桁を100にしたコード
+      //長崎、鹿児島、福島、青森、長野、岩手
+      //timeArea：直近天気にあるエリアコード
       const class20s_area = state.class15s[state.class20s[state.area_details].parent].parent
       const class10s_area = state.class10s[state.class15s[state.class20s[state.area_details].parent].parent]
       const area100p = param.area.slice(0,-3)+'100'
       const timeArea = param.items[0].timeSeries[0].areas.map(m=>m.area.code)
-      //console.log(timeArea)
+
       param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter((f, index)=>{
         if(f.area.code === class20s_area){
-          //f.area.index = index
           return f
         }
       })
       
-      //3日天気の地域コードとインデックス
+      //直近天気の地域コード
       const timeCode = param.items[0].timeSeries[0].areas[0].area.code
-      //const timeIndex = param.items[0].timeSeries[0].areas[0].area.index
-      //週間天気の表示処理　3日天気の地域・インデックスと合わせる
+      //週間天気の表示処理　直近天気の地域と合わせる
       const timeLength = timeArea.length
       const weekLength = param.items[1].timeSeries[0].areas.length
-      console.log(weekLength)
+
       const weekArea = param.items[1].timeSeries[0].areas.map(m=>m.area.code)
-      const noneWeek = timeArea.filter(f=>weekArea.indexOf(f))
-      const isWeek = timeArea.filter(f=>weekArea.indexOf(f) === 0)
-      //console.log(noneWeek, isWeek)
+      const noneWeek = timeArea.filter(f=>weekArea.indexOf(f)) //週間天気にないエリア
+      const isWeek = timeArea.filter(f=>weekArea.indexOf(f) === 0) //共通エリア
+      console.log(isWeek)
+      //直近と週間のエリア数が同じもしくは週間エリア数が１の場合
       if(timeLength === weekLength || weekLength === 1){
         param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
           if(f.area.code === timeCode)return f
@@ -269,26 +270,10 @@ export const mutations = {
         })
       }
       
+      //直近と週間のエリア数が異なるもしくは週間エリア数が１より多い場合
       if(timeLength !== weekLength && weekLength > 1){
         console.log(timeLength, weekLength)
         noneWeek.map((m,index)=>{
-          /*
-          param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
-            if(timeCode.indexOf(m) === 0){
-              console.log(m)
-              if(f.area.code === area100p){
-                
-                return f
-              }
-            }
-            
-            if(timeCode.indexOf(m) === -1){
-              //console.log(m)
-              if(f.area.code === timeCode)return f
-            }
-          })
-          */
-            
           
           if(timeCode.indexOf(m) === 0){
             //console.log(m)
@@ -298,14 +283,28 @@ export const mutations = {
           }
           
           if(timeCode.indexOf(m) === -1 && timeCode.indexOf(isWeek) === 0){
-            //console.log(m)
+            console.log(m)
             param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
               if(f.area.code === timeCode)return f
             })
           }
           
-          
-          
+          /*
+          param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
+            if(timeCode.indexOf(m) === 0){
+              console.log(m)
+              if(f.area.code === area100p){
+                return f
+              }
+            }
+            
+            if(timeCode.indexOf(m) === -1 && timeCode.indexOf(isWeek) === 0){
+              //console.log(m)
+              if(f.area.code === timeCode)return f
+            }
+          })
+          */
+
         })
       }
     }
