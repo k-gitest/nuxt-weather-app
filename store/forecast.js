@@ -259,9 +259,15 @@ export const mutations = {
       const weekLength = param.items[1].timeSeries[0].areas.length
 
       const weekArea = param.items[1].timeSeries[0].areas.map(m=>m.area.code)
-      const noneWeek = timeArea.filter(f=>weekArea.indexOf(f)) //週間天気にないエリア
-      const isWeek = timeArea.filter(f=>weekArea.indexOf(f) === 0) //共通エリア
-      console.log(isWeek)
+      const noneWeek = timeArea.filter(f=>weekArea.indexOf(f) === -1) //週間天気にないエリア
+      const isWeek = timeArea.map(f=>{
+                        
+                        if(weekArea.indexOf(f) === 0){
+                          console.log(f)
+                          return f
+                        }
+                      }) //共通エリア
+      console.log(isWeek, noneWeek, timeArea, weekArea )
       //直近と週間のエリア数が同じもしくは週間エリア数が１の場合
       if(timeLength === weekLength || weekLength === 1){
         param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
@@ -272,7 +278,7 @@ export const mutations = {
       
       //直近と週間のエリア数が異なるもしくは週間エリア数が１より多い場合
       if(timeLength !== weekLength && weekLength > 1){
-        console.log(timeLength, weekLength)
+        //console.log(timeLength, weekLength)
         noneWeek.map((m,index)=>{
           
           if(timeCode.indexOf(m) === 0){
@@ -283,7 +289,7 @@ export const mutations = {
           }
           
           if(timeCode.indexOf(m) === -1 && timeCode.indexOf(isWeek) === 0){
-            console.log(m)
+            //console.log(m)
             param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
               if(f.area.code === timeCode)return f
             })
