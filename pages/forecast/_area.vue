@@ -28,9 +28,11 @@
               <td class="col-4">
                 <img :src="require(`@/assets/img/`+WeatherCodes[areas.weatherCodes[id]][0])" /><br>
                 {{ areas.weathers[id] }}<br><!-- 天気コードと合わせる -->
-
-                最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
-                最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
+                
+                最低気温：<template v-if="id === 1">{{ timeTemps.areas[num].temps[0] }}度<br></template>
+                <template v-else>-<br></template>
+                最高気温：<template v-if="id === 1">{{ timeTemps.areas[num].temps[1] }}度<br></template>
+                <template v-else>-<br></template>
                 
                 <template v-if="id < 2"><!-- 3日目は表示しない -->
                   <table border=1 class="table">
@@ -363,10 +365,10 @@
                 
                 <td>
                  
-                  
+                  <!--
                   天気：{{ WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][3]}}<br>
                   <img :src="require(`@/assets/img/`+WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][0])" />
-                  
+                  -->
                   降水確率：
                   <template v-for="(n,poptd) in 4">
                     <template v-for="(timeDef,defin) in timePops.timeDefines">

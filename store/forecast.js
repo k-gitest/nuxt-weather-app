@@ -259,17 +259,24 @@ export const mutations = {
       const weekLength = param.items[1].timeSeries[0].areas.length
 
       const weekArea = param.items[1].timeSeries[0].areas.map(m=>m.area.code)
-      const noneWeek = timeArea.filter(f=>weekArea.indexOf(f) === -1) //週間天気にないエリア
-      const isWeek = timeArea.map(f=>{
-                        
-                        if(weekArea.indexOf(f) === 0){
-                          console.log(f)
-                          return f
-                        }
-                      }) //共通エリア
-      console.log(isWeek, noneWeek, timeArea, weekArea )
+      const noneWeek = timeArea.filter(f=>{if(weekArea.indexOf(f) === -1)return f}) //週間天気にないエリア
+      const arrsUnique = timeArea.concat(weekArea)
+      //共通エリア
+      const isWeek = arrsUnique.filter((f,index,arr)=>{
+        return arr.indexOf(f) == index && index !== arr.lastIndexOf(f)
+      })
+      /*
+      const isWeek = timeArea.filter(f=>{
+        //console.log(f) 
+        if(weekArea.indexOf(f) === 0)return f
+      })
+      */
+      
+      //console.log(isWeek, noneWeek, timeArea, weekArea )
+      
       //直近と週間のエリア数が同じもしくは週間エリア数が１の場合
       if(timeLength === weekLength || weekLength === 1){
+        //console.log('yes')
         param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
           if(f.area.code === timeCode)return f
           if(f.area.code === param.area)return f
@@ -620,6 +627,7 @@ export const actions = {
       //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
       //const area = 'overview_forecast/130000.json'
       if(area === '014030')area = '014100'
+      if(area === '460040')area = '460100'
       return await axios.get(url + area + '.json')
       .then(res => {
           if(area.includes('overview')){
@@ -644,6 +652,7 @@ export const actions = {
   
   forecastOverview: async function({commit},{url_overview,area}){
     if(area === '014030')area = '014100'
+    if(area === '460040')area = '460100'
     return await axios.get(url_overview + area + '.json')
     .then(res=>{
       const param = {
