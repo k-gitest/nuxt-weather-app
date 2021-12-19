@@ -257,29 +257,27 @@ export const mutations = {
       //週間天気の表示処理　直近天気の地域と合わせる
       const timeLength = timeArea.length
       const weekLength = param.items[1].timeSeries[0].areas.length
-
+      
+      //週間天気エリアコード
       const weekArea = param.items[1].timeSeries[0].areas.map(m=>m.area.code)
-      const noneWeek = timeArea.filter(f=>{if(weekArea.indexOf(f) === -1)return f}) //週間天気にないエリア
-      const arrsUnique = timeArea.concat(weekArea)
+      //週間天気にないエリアコード
+      const noneWeek = timeArea.filter(f=>{if(weekArea.indexOf(f) === -1)return f})
       //共通エリア
+      const arrsUnique = timeArea.concat(weekArea)
       const isWeek = arrsUnique.filter((f,index,arr)=>{
         return arr.indexOf(f) == index && index !== arr.lastIndexOf(f)
       })
-      /*
-      const isWeek = timeArea.filter(f=>{
-        //console.log(f) 
-        if(weekArea.indexOf(f) === 0)return f
-      })
-      */
       
-      //console.log(isWeek, noneWeek, timeArea, weekArea )
+      console.log(isWeek, noneWeek, timeArea, weekArea )
       
       //直近と週間のエリア数が同じもしくは週間エリア数が１の場合
       if(timeLength === weekLength || weekLength === 1){
         //console.log('yes')
         param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
+          console.log(f.area.code, timeCode, param.area)
           if(f.area.code === timeCode)return f
           if(f.area.code === param.area)return f
+          if(f.area.code === '014000')return f
         })
       }
       
@@ -301,22 +299,6 @@ export const mutations = {
               if(f.area.code === timeCode)return f
             })
           }
-          
-          /*
-          param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
-            if(timeCode.indexOf(m) === 0){
-              console.log(m)
-              if(f.area.code === area100p){
-                return f
-              }
-            }
-            
-            if(timeCode.indexOf(m) === -1 && timeCode.indexOf(isWeek) === 0){
-              //console.log(m)
-              if(f.area.code === timeCode)return f
-            }
-          })
-          */
 
         })
       }
