@@ -671,9 +671,12 @@ export const actions = {
       if(area === '014030' && area_detail){
         area = '014100'
       }
-      if(area === '460040'){
+      if(area === '460040' && !area_detail){
         area = '460100'
         area_detail = '460040'
+      }
+      if(area === '460040' && area_detail){
+        area = '460100'
       }
       return await axios.get(url + area + '.json')
       .then(res => {

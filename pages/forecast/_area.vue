@@ -3,20 +3,25 @@
       <template>
         <nuxt-link to="/about">天気トップページ</nuxt-link>
       </template>
-      <template v-if="area_id && !area_details && $route.params.area !== '014030'">
+      <template v-if="area_id && !area_details && $route.params.area !== '014030' && $route.params.area !== '460040'">
         > {{ offices[area_id].name }}
       </template>
-      <template v-if="$route.params.area === '014030' && !$route.query">
+      <template v-if="$route.params.area === '014030' && !$route.query.area_detail">
         > {{ offices['014030'].name }}
       </template>
+      <template v-if="$route.params.area === '460040' && !$route.query.area_detail">
+        > {{ offices['460040'].name }}
+      </template>
       
-      <template v-if="area_details && $route.params.area !== '014030'">
+      <template v-if="area_details && $route.params.area !== '014030' && $route.params.area !== '460040'">
         > <nuxt-link :to="`./${area_id}`">{{ offices[area_id].name }}</nuxt-link> > {{ class20s[area_details].name }}
       </template>
       <template v-if="area_details && $route.params.area === '014030'">
-        > <nuxt-link :to="`./${area_id}`">{{ offices['014030'].name }}</nuxt-link> > {{ class20s[area_details].name }}
+        > <nuxt-link :to="`./014030`">{{ offices['014030'].name }}</nuxt-link> > {{ class20s[area_details].name }}
       </template>
-      
+      <template v-if="area_details && $route.params.area === '460040'">
+        > <nuxt-link :to="`./${460040}`">{{ offices['460040'].name }}</nuxt-link> > {{ class20s[area_details].name }}
+      </template>
       
       <template v-for="(areas, num) in timeWeathers.areas"><!-- エリア単位で表示 -->
         <h2 class="h3">{{ areas.area.name }}の3日間天気予報</h2>
