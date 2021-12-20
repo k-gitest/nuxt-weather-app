@@ -34,7 +34,18 @@ export const getters = {
     return state.centers
   },
   offices: function(state){
+    /*
+    console.log(state.area_details)
+    if(state.area_details === '014030' || state.area === '014100'){
+      state.offices.filter(f=>{
+          return state.area_id['014100'] === state.area_id['014030']
+      })
+    }else{
+      return state.offices
+    }
+    */
     return state.offices
+    
   },
   class10s: function(state){
     return state.class10s
@@ -152,6 +163,7 @@ export const mutations = {
   
   setForecast: function(state, {param}){
     
+    //初期化
     state.area_id = []
     state.area_details = []
     state.area_id = param.area
@@ -165,7 +177,7 @@ export const mutations = {
         }
       })
     }
-    if(param.area_detail === '014030' && param.area_detail){
+    if(param.area_detail === '014030'){
       state.area_details = ''
       param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
         if(f.area.code === '014030'){
@@ -185,7 +197,7 @@ export const mutations = {
         }
       })
     }
-    if(param.area_detail === '460040' && param.area_detail){
+    if(param.area_detail === '460040'){
       state.area_details = ''
       param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
         if(f.area.code === '460040'){
@@ -199,7 +211,7 @@ export const mutations = {
       })
     }
     
-    
+    //気象庁の発表時刻処理
     param.items.filter(f=>{
       if(f.reportDatetime){
         f.reportDatetime = dateformat(f.reportDatetime, 1)
@@ -652,9 +664,12 @@ export const actions = {
   forecast: async function({commit},{url, area, area_detail}){
       //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
       //const area = 'overview_forecast/130000.json'
-      if(area === '014030'){
+      if(area === '014030' && !area_detail){
         area = '014100'
         area_detail = '014030'
+      }
+      if(area === '014030' && area_detail){
+        area = '014100'
       }
       if(area === '460040'){
         area = '460100'

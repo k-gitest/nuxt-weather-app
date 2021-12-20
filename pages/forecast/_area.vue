@@ -3,13 +3,20 @@
       <template>
         <nuxt-link to="/about">天気トップページ</nuxt-link>
       </template>
-      <template v-if="area_id && !area_details">
+      <template v-if="area_id && !area_details && $route.params.area !== '014030'">
         > {{ offices[area_id].name }}
       </template>
+      <template v-if="$route.params.area === '014030' && !$route.query">
+        > {{ offices['014030'].name }}
+      </template>
       
-      <template v-if="area_details">
+      <template v-if="area_details && $route.params.area !== '014030'">
         > <nuxt-link :to="`./${area_id}`">{{ offices[area_id].name }}</nuxt-link> > {{ class20s[area_details].name }}
       </template>
+      <template v-if="area_details && $route.params.area === '014030'">
+        > <nuxt-link :to="`./${area_id}`">{{ offices['014030'].name }}</nuxt-link> > {{ class20s[area_details].name }}
+      </template>
+      
       
       <template v-for="(areas, num) in timeWeathers.areas"><!-- エリア単位で表示 -->
         <h2 class="h3">{{ areas.area.name }}の3日間天気予報</h2>
@@ -238,6 +245,7 @@ export default{
     const url_overview = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/'
     const area = params.area
     const area_detail = query.area_detail
+    
     await store.dispatch('forecast/forecastIndex')
     await store.dispatch('forecast/forecast', {url, area, area_detail}) //storeの場合actonsの引数と同じ名前を使用しないと受け渡せない
     await store.dispatch('forecast/forecastOverview', {url_overview, area})
