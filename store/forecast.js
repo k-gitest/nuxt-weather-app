@@ -157,6 +157,49 @@ export const mutations = {
     state.area_id = param.area
     state.area_details = param.area_detail
     
+    //十勝エリアと奄美エリアの分岐処理
+    if(param.area === '014100' && !param.area_detail){
+      param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
+        if(f.area.code !== '014030'){
+          return f
+        }
+      })
+    }
+    if(param.area_detail === '014030' && param.area_detail){
+      state.area_details = ''
+      param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
+        if(f.area.code === '014030'){
+          return f
+        }
+      })
+    }
+    if(param.area === '460100' && !param.area_detail){
+      param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
+        if(f.area.code !== '460040'){
+          return f
+        }
+      })
+      param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
+        if(f.area.code !== '460040'){
+          return f
+        }
+      })
+    }
+    if(param.area_detail === '460040' && param.area_detail){
+      state.area_details = ''
+      param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
+        if(f.area.code === '460040'){
+          return f
+        }
+      })
+      param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
+        if(f.area.code === '460040'){
+          return f
+        }
+      })
+    }
+    
+    
     param.items.filter(f=>{
       if(f.reportDatetime){
         f.reportDatetime = dateformat(f.reportDatetime, 1)
@@ -263,6 +306,7 @@ export const mutations = {
       //週間天気にないエリアコード
       const noneWeek = timeArea.filter(f=>{if(weekArea.indexOf(f) === -1)return f})
       //共通エリア
+      //複数配列を統合して重複要素を取得する
       const arrsUnique = timeArea.concat(weekArea)
       const isWeek = arrsUnique.filter((f,index,arr)=>{
         return arr.indexOf(f) == index && index !== arr.lastIndexOf(f)
@@ -608,8 +652,14 @@ export const actions = {
   forecast: async function({commit},{url, area, area_detail}){
       //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
       //const area = 'overview_forecast/130000.json'
-      if(area === '014030')area = '014100'
-      if(area === '460040')area = '460100'
+      if(area === '014030'){
+        area = '014100'
+        area_detail = '014030'
+      }
+      if(area === '460040'){
+        area = '460100'
+        area_detail = '460040'
+      }
       return await axios.get(url + area + '.json')
       .then(res => {
           if(area.includes('overview')){
