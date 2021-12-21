@@ -3,6 +3,7 @@
       <template>
         <nuxt-link to="/about">天気トップページ</nuxt-link>
       </template>
+      
       <!-- Breadcrumb -->
       <template v-if="area_id && !area_details && $route.params.area !== '014030' && $route.params.area !== '460040'">
         > {{ offices[area_id].name }}
@@ -76,7 +77,7 @@
                     </tbody>
                   </table>
                   </template>
-                
+                <!-- 風と波はない場合があるので値確認する -->
                 <template v-if="areas.winds">
                   風：{{ areas.winds[id] }}<br>
                 </template>
@@ -96,6 +97,7 @@
           <thead>
             <tr>
               <th>日付</th>
+              <!-- 今日明日の日付 -->
               <template v-for="(time,timenum) in timeNow">
                 <template v-if="timenum < 1">
                 <th>
@@ -113,9 +115,10 @@
               <tr>
 
                 <td>{{ weekArea.area.name }}</td>
+                <!--今日の週間天気分は今日明日天気から取得-->
                 <td>
                   天気：{{ WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][3]}}<br>
-                  <img :src="require(`@/assets/img/`+WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][0])" />
+                  <img :src="require(`@/assets/img/`+WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][0])" /><br>
                   
                   降水確率：
                   <template v-for="(n,poptd) in 4">
@@ -139,9 +142,9 @@
                 <template v-for="(pop,index) in weekArea.pops">
                 <td>
                   天気：{{ WeatherCodes[weekArea.weatherCodes[index]][3] }}<br>
-                  <img :src="require(`@/assets/img/`+WeatherCodes[weekArea.weatherCodes[index]][0])" />
+                  <img :src="require(`@/assets/img/`+WeatherCodes[weekArea.weatherCodes[index]][0])" /><br>
                   
-                  <template v-if="index === 0">
+                  <template v-if="index === 0"><!-- 明日の週間天気分も今日明日天気から取得 -->
                     
                     <template v-for="(timeDefine,hoge) in timeWeathers.timeDefines">
                       <template v-if="hoge === 1">
@@ -165,7 +168,7 @@
   
                     </template>
                   </template>
-                  <template v-else>
+                  <template v-else><!-- 明後日から週間天気より取得する -->
                   降水確率：{{ pop }}％<br>
                   信頼度：
                   <template v-if="weekArea.reliabilities[index]">{{weekArea.reliabilities[index]}}</template>
@@ -243,10 +246,6 @@ export default{
   //クエリ文字列を監視し、変更時にコンポーネントメソッドを実行
   watchQuery: ['area_detail'],
   async fetch({store,params,query}){
-    //console.log(params.area)
-    //console.log(query.area_detail)
-    //this.weathers = await axios.get(this.url + this.area).then(res=>res.data)
-    //paramsやcontextを取得する場合はstoreを使用する、その場合thisは使用できなくなる
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
     const url_overview = 'https://www.jma.go.jp/bosai/forecast/data/overview_forecast/'
     const area = params.area

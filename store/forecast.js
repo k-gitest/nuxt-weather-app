@@ -34,18 +34,7 @@ export const getters = {
     return state.centers
   },
   offices: function(state){
-    /*
-    console.log(state.area_details)
-    if(state.area_details === '014030' || state.area === '014100'){
-      state.offices.filter(f=>{
-          return state.area_id['014100'] === state.area_id['014030']
-      })
-    }else{
-      return state.offices
-    }
-    */
     return state.offices
-    
   },
   class10s: function(state){
     return state.class10s
@@ -130,7 +119,6 @@ function dateformat(date, long, index){ //日付配列、変換分岐、昼夜�
   if(long === 1){
     return `${y}年${m}月${d}日（${day}）${hh}時`
   }else if(long === 2){
-    //console.log(nowHours)
     if(17 >= nowHours >= 5 && index === 0){
       return `今日${d}日（${day}）`
     }else if(nowHours >= 17 && index === 0){
@@ -252,33 +240,6 @@ export const mutations = {
       state.weekTime[index] = m.timeDefines
     })
     
-    /*
-    param.items[0].timeSeries[0].timeDefines.filter(m=>{
-      state.timeNow.push(dateformat(m,2))
-      const now = []
-      m = m.replace('+09:00','')
-      const dateNow = new Date(m)
-      
-      for(let i=0;i<4;i++){
-        const y = dateNow.getFullYear()
-        const m = dateNow.getMonth()+1
-        const d = dateNow.getDate()
-        const h = ('0'+dateNow.getHours(dateNow.setHours(i*6))).slice(-2)
-        const mm = ('0'+dateNow.getMinutes(dateNow.setMinutes(0))).slice(-2)
-        const s = ('0'+dateNow.getSeconds(dateNow.setSeconds(0))).slice(-2)
-        now.push(`${y}-${m}-${d}T${h}:${mm}:${s}+09:00`)
-        
-        dateNow.setHours(i*6)
-        dateNow.setMinutes(0)
-        dateNow.setSeconds(0)
-        dateNow.setMilliseconds(0)
-        
-        //now.push(dateNow.toISOString().split('.000Z')[0] + '+09:00')
-      }
-      state.dateNow.push(now)
-    })
-    */
-    
     param.items[1].timeSeries.map(f=>{
         f.timeDefines = f.timeDefines.map((e,index)=>{
           return dateformat(e,3,index)
@@ -290,7 +251,6 @@ export const mutations = {
     
     //地域詳細ページの処理
     if(state.class20s[state.area_details] ){
-      //console.log(param.area_detail)
       //class20s_area：class10sの地域コード
       //param.area：officesの地域コード 広域全体エリアなので必ず1つ
       //area100p：offices地域コードの末尾3桁を100にしたコード
@@ -339,18 +299,15 @@ export const mutations = {
       
       //直近と週間のエリア数が異なるもしくは週間エリア数が１より多い場合
       if(timeLength !== weekLength && weekLength > 1){
-        //console.log(timeLength, weekLength)
         noneWeek.map((m,index)=>{
           
           if(timeCode.indexOf(m) === 0){
-            //console.log(m)
             param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
               if(f.area.code === area100p){return f}
             })
           }
           
           if(timeCode.indexOf(m) === -1 && timeCode.indexOf(isWeek) === 0){
-            //console.log(m)
             param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
               if(f.area.code === timeCode)return f
             })
@@ -359,16 +316,6 @@ export const mutations = {
         })
       }
     }
-    
-    /*
-    if(param.area_detail){
-      param.items[0].timeSeries[0].areas = param.items[0].timeSeries[0].areas.filter(f=>{
-        if(f.area.code === param.area_detail){
-          return f
-        }
-      })
-    }
-    */
     
     param.items[0].timeSeries[0].areas.map(f=>{
       f.weathers = f.weathers.map(m=>{
@@ -450,7 +397,6 @@ export const mutations = {
     
     //トップページ用の表示処理
     function topAreaName(area){
-      //area.find(f === '014100' console.log(f))
       const areaName = param.items[1].timeSeries[0].areas[0].area.name
       switch(area){
         case '014100':
@@ -537,38 +483,8 @@ export const mutations = {
       }
     
       state.topWeathers.push(topForecast)
-      
-      /*
-      let topForecast = {}
-      topForecast[param.area] = {
-        'timeWeathers': param.items[0].timeSeries[0],
-        'timeTemps': param.items[0].timeSeries[2],
-        'timePops': param.items[0].timeSeries[1],
-        'weekWeathers': param.items[1].timeSeries[0],
-        'weekTemps': param.items[1].timeSeries[1]
-      }
-      */
-    }
-    
-    // setオブジェクトでの配列作成
-    /*
-    let area = param.area
-    var set = new Set()
 
-    set.add({
-      [area] : 
-      {
-        'timeWeathers': param.items[0].timeSeries[0],
-        'timeTemps': param.items[0].timeSeries[2],
-        'timePops': param.items[0].timeSeries[1],
-        'weekWeathers': param.items[1].timeSeries[0],
-        'weekTemps': param.items[1].timeSeries[1]
-      }
-    })
-    
-    state.arraySet += Array.from(set)
-    console.log(Array.from(set))
-    */
+    }
   }
 
 }
@@ -626,44 +542,10 @@ export const actions = {
         console.log(e,f)
       })
     }
-    
-
-    /*
-    await area.map(async (f,index)=>{
-      return await axios.get(url + f + '.json')
-      .then(res=>{
-        const param = {
-                    items:res.data,
-                    area:f,
-                    topIndex:true
-                    //area_detail:area_detail,
-                }
-                commit('setTop', {param})
-      })
-      .catch(e => {
-        // エラー
-        console.log(e,f)
-      })
-    })
-    */
-
-    /*
-    Promise.all(
-      [axios.get(url + url_1), axios.get(url + url_2), axios.get(url + url_3)]
-    ).then(res=>{
-      const param = {
-                  items:res.data,
-                  area:url_1,
-                  area_detail:area_detail,
-              }
-              commit('setForecast', {param})
-    })
-    */
   },
   
   forecast: async function({commit},{url, area, area_detail}){
-      //const url = 'https://www.jma.go.jp/bosai/forecast/data/'
-      //const area = 'overview_forecast/130000.json'
+
       if(area === '014030' && !area_detail){
         area = '014100'
         area_detail = '014030'
@@ -678,6 +560,7 @@ export const actions = {
       if(area === '460040' && area_detail){
         area = '460100'
       }
+      
       return await axios.get(url + area + '.json')
       .then(res => {
           if(area.includes('overview')){
