@@ -474,7 +474,7 @@ export const mutations = {
     if(param.topIndex && state.topWeathers.length < 21){
       topAreaName(param.area)
       let topForecast = {
-        'id': param.area,
+        id: param.area,
         'timeWeathers': param.items[0].timeSeries[0],
         'timeTemps': param.items[0].timeSeries[2],
         'timePops': param.items[0].timeSeries[1],

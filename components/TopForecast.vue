@@ -21,6 +21,58 @@
         <tbody>
           <template v-for="(weekArea,num) in topWeather.weekWeathers.areas">
             <tr>
+              <td>{{ weekArea.area.name }}</td>
+              <td>
+                <img :src="require(`@/assets/img/`+WeatherCodes[topWeather.timeWeathers.areas[num].weatherCodes[0]][0])" /><br>
+                <span class="text-primary">-</span>
+                /
+                <span class="text-danger">-</span>
+              </td>
+              
+              <template v-for="(pop,index) in weekArea.pops">
+              <td>
+                <img :src="require(`@/assets/img/`+WeatherCodes[weekArea.weatherCodes[index]][0])" /><br>
+                
+                <template v-if="index === 0">
+                  <span class="text-primary">{{ topWeather.timeTemps.areas[num].temps[0] }}</span>
+                  /
+                  <span class="text-danger">{{ topWeather.timeTemps.areas[num].temps[1] }}</span>
+                </template>
+                <template v-else>
+                  <span class="text-primary">{{ topWeather.weekTemps.areas[num].tempsMin[index] }}</span>
+                  /
+                  <span class="text-danger">{{ topWeather.weekTemps.areas[num].tempsMax[index] }}</span>
+                </template>
+              </td>
+              </template>
+
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </template>
+
+    
+    <template v-for="topWeather in topWeathers">
+      <table border=1 class="table">
+        <thead>
+          <tr>
+            <th>日付</th>
+            <template v-for="(time,timenum) in timeNow">
+              <template v-if="timenum < 1">
+              <th>
+                {{ time }}
+              </th>
+              </template>
+            </template>
+            <template v-for="week in topWeather.weekWeathers.timeDefines">
+            <th>{{ week }}</th>
+            </template>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-for="(weekArea,num) in topWeather.weekWeathers.areas">
+            <tr>
   
               <td>{{ weekArea.area.name }}</td>
               

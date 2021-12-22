@@ -181,9 +181,194 @@
                 </template>
                 
               </tr>
+              <tr>
+                <td>
+                  降水確率
+                </td>
+                
+                <td>
+
+                  <template v-for="(n,poptd) in 4">
+                    <template v-for="(timeDef,defin) in timePops.timeDefines">
+                      <template v-if="dateNow[0][poptd] === timeDef">
+                        {{ timePops.areas[num].pops[defin] }}
+                      </template>
+                    </template>
+                    
+                    <template v-if="dateNow[0][poptd] < timeWeathers.timeDefines[0]">-</template>
+                    <template v-if="poptd < 3">
+                      /
+                    </template>
+                  </template>
+
+                </td>
+                
+                <template v-for="(pop,index) in weekArea.pops">
+                <td>
+                  <template v-if="index === 0"><!-- 明日の週間天気分も今日明日天気から取得 -->
+                    
+                    <template v-for="(timeDefine,hoge) in timeWeathers.timeDefines">
+                      <template v-if="hoge === 1">
+                        <template v-for="(n,poptd) in 4">
+                          <template v-for="(timeDef,defin) in timePops.timeDefines">
+                            <template v-if="dateNow[hoge][poptd] === timeDef">
+                              {{ timePops.areas[num].pops[defin] }}
+                            </template>
+                          </template>
+                          <template v-if="dateNow[hoge][poptd] < timeWeathers.timeDefines[hoge]">-</template>
+                          <template v-if="poptd < 3">
+                            /
+                          </template>
+                        </template>
+                        <br>
+                      </template>
+  
+                    </template>
+                  </template>
+                  <template v-else><!-- 明後日から週間天気より取得する -->
+                  {{ pop }}％
+                  </template>
+                </td>
+                </template>
+                
+              </tr>
+              <tr>
+                <td>信頼度</td>
+                
+                <td>-</td>
+                <template v-for="(pop,index) in weekArea.pops">
+                <td>
+                  
+                <!-- 明後日から週間天気より取得する -->
+                  <template v-if="weekArea.reliabilities[index]">{{weekArea.reliabilities[index]}}</template>
+                  <template v-else>-</template>
+                </td>
+                </template>
+              </tr>
+              <tr>
+                <td>気温</td>
+                <td>-</td>
+                
+                <template v-for="(pop,index) in weekArea.pops">
+                <td>
+                  <template v-if="index === 0"><!-- 明日の週間天気分も今日明日天気から取得 -->
+                    
+                    <template v-for="(timeDefine,hoge) in timeWeathers.timeDefines">
+                      <template v-if="hoge === 1">
+                        <span class="text-primary">{{ timeTemps.areas[num].temps[0] }}</span>
+                        /
+                        <span class="text-danger">{{ timeTemps.areas[num].temps[1] }}</span>
+                      </template>
+  
+                    </template>
+                  </template>
+                  <template v-else><!-- 明後日から週間天気より取得する -->
+                  <span class="text-primary">{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）</span>
+                  /
+                  <span class="text-danger">{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）</span>
+                  </template>
+                </td>
+                </template>
+                
+              </tr>
             </template>
           </tbody>
         </table>
+        
+        
+        <h2>週間天気予報</h2>
+        <table border=1 class="table">
+          <thead>
+            <tr>
+              <th>日付</th>
+              <!-- 今日明日の日付 -->
+              <template v-for="(time,timenum) in timeNow">
+                <template v-if="timenum < 1">
+                <th>
+                  {{ time }}
+                </th>
+                </template>
+              </template>
+              <template v-for="week in weekWeathers.timeDefines">
+              <th>{{ week }}</th>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <template v-for="(weekArea,num) in weekWeathers.areas">
+              <tr>
+
+                <td>{{ weekArea.area.name }}</td>
+                <!--今日の週間天気分は今日明日天気から取得-->
+                <td>
+                  天気：{{ WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][3]}}<br>
+                  <img :src="require(`@/assets/img/`+WeatherCodes[timeWeathers.areas[num].weatherCodes[0]][0])" /><br>
+                  
+                  降水確率：
+                  <template v-for="(n,poptd) in 4">
+                    <template v-for="(timeDef,defin) in timePops.timeDefines">
+                      <template v-if="dateNow[0][poptd] === timeDef">
+                        {{ timePops.areas[num].pops[defin] }}
+                      </template>
+                    </template>
+                    
+                    <template v-if="dateNow[0][poptd] < timeWeathers.timeDefines[0]">-</template>
+                    <template v-if="poptd < 3">
+                      /
+                    </template>
+                  </template>
+                  <br>
+                  信頼度：-<br>
+                  最高気温：-<br>
+                  最低気温：-<br>
+                </td>
+                
+                <template v-for="(pop,index) in weekArea.pops">
+                <td>
+                  天気：{{ WeatherCodes[weekArea.weatherCodes[index]][3] }}<br>
+                  <img :src="require(`@/assets/img/`+WeatherCodes[weekArea.weatherCodes[index]][0])" /><br>
+                  
+                  <template v-if="index === 0"><!-- 明日の週間天気分も今日明日天気から取得 -->
+                    
+                    <template v-for="(timeDefine,hoge) in timeWeathers.timeDefines">
+                      <template v-if="hoge === 1">
+                        降水確率：
+                        <template v-for="(n,poptd) in 4">
+                          <template v-for="(timeDef,defin) in timePops.timeDefines">
+                            <template v-if="dateNow[hoge][poptd] === timeDef">
+                              {{ timePops.areas[num].pops[defin] }}
+                            </template>
+                          </template>
+                          <template v-if="dateNow[hoge][poptd] < timeWeathers.timeDefines[hoge]">-</template>
+                          <template v-if="poptd < 3">
+                            /
+                          </template>
+                        </template>
+                        <br>
+                        信頼度：-<br>
+                        最低気温：{{ timeTemps.areas[num].temps[0] }}度<br>
+                        最高気温：{{ timeTemps.areas[num].temps[1] }}度<br>
+                      </template>
+  
+                    </template>
+                  </template>
+                  <template v-else><!-- 明後日から週間天気より取得する -->
+                  降水確率：{{ pop }}％<br>
+                  信頼度：
+                  <template v-if="weekArea.reliabilities[index]">{{weekArea.reliabilities[index]}}</template>
+                  <template v-else>-</template>
+                  <br>
+                  最高気温：{{ weekTemps.areas[num].tempsMax[index] }}（{{ weekTemps.areas[num].tempsMaxLower[index] }}～{{ weekTemps.areas[num].tempsMaxUpper[index] }}）<br>
+                  最低気温：{{ weekTemps.areas[num].tempsMin[index] }}（{{ weekTemps.areas[num].tempsMinLower[index] }}～{{ weekTemps.areas[num].tempsMinUpper[index] }}）
+                  </template>
+                </td>
+                </template>
+                
+              </tr>
+            </template>
+          </tbody>
+        </table>
+        
         
         <h2>降水量と気温の向こう七日間平年値</h2>
         <table border=1 class="table">
