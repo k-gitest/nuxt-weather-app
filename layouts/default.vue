@@ -1,6 +1,5 @@
 <template>
   <div>
-      this is not default layout !!!!
       <nav-bar />
     <nuxt />
   </div>
