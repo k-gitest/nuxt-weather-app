@@ -1,10 +1,10 @@
 <template>
     <div class="container">
+      <!-- Breadcrumb -->
       <template>
         <nuxt-link to="/about">天気トップページ</nuxt-link>
       </template>
       
-      <!-- Breadcrumb -->
       <template v-if="area_id && !area_details && $route.params.area !== '014030' && $route.params.area !== '460040'">
         > {{ offices[area_id].name }}
       </template>
