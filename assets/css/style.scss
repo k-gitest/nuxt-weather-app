@@ -26,6 +26,19 @@ th{
     background-color:#fff;
   }
 }
+.nav_top_tab{
+  display: flex;
+  text-align: center;
+  
+  li {
+    background-color: gray;
+    color: white;
+    width: 140px;
+    height: 50px;
+    border: 1px solid white;
+    padding: 10px;
+  }
+}
 ul{
   list-style-type: none;
 }

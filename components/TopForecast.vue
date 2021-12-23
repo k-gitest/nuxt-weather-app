@@ -1,5 +1,52 @@
 <template>
   <div class="container">
+    {{topWeathers}}
+    <div>
+      <ul class="nav_top_tab">
+        
+          <template v-for="(time,timenum) in timeNow">
+            <template v-if="timenum < 1">
+              <li :class="{ clickBtn: tab === 0 }" @click="day = 0">{{ time }}</li>
+            </template>
+          </template>
+          
+          <template v-for="(weekTime,index) in weekTimes[0]">
+            <li :class="{ clickBtn: tab === index+1 }" @click="day = index+1">{{ weekTime }}</li>
+          </template>
+
+      </ul>
+      <div class="content">
+        <div v-show="tab === 0" class="content-item">
+          <p>お気に入りのコンテンツです</p>
+          
+           
+          
+        </div>
+        <div v-show="tab === 1" class="content-item">
+          <p>設定の画面です</p>
+          
+          <template v-for="(weekArea,num) in topWeathers">
+          
+          {{topWeathers[num].timeWeathers.areas[0].area.name}}<br>
+          <template v-if="day === 0">
+            <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
+          </template>
+          <template v-if="day !== 0">
+            <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[0].weekWeathers.areas[0].weatherCodes[day-1]][0])" /><br>
+          </template>
+          
+          </template>
+          
+        </div>
+        <div v-show="tab === 2" class="content-item">
+          <p>サブスクのコンテンツです</p>
+        </div>
+        <div v-show="tab === 3" class="content-item">
+          <p>視聴履歴です</p>
+        </div>
+      </div>
+    </div>
+    
     
     <template v-for="topWeather in topWeathers">
       <table border=1 class="table">
@@ -23,6 +70,7 @@
             <tr>
               <td>{{ weekArea.area.name }}</td>
               <td>
+                
                 <img :src="require(`@/assets/img/`+WeatherCodes[topWeather.timeWeathers.areas[num].weatherCodes[0]][0])" /><br>
                 <span class="text-primary">-</span>
                 /
@@ -103,6 +151,7 @@
               <template v-for="(pop,index) in weekArea.pops">
               <td>
                 天気：{{ WeatherCodes[weekArea.weatherCodes[index]][3] }}<br>
+                天気：{{ WeatherCodes[weekArea.weatherCodes[index]][3] }}<br>
                 <img :src="require(`@/assets/img/`+WeatherCodes[weekArea.weatherCodes[index]][0])" /><br>
                 
                 <template v-if="index === 0">
@@ -158,6 +207,8 @@ export default{
   data(){
     return{
       WeatherCodes: WeatherCodes,
+      tab:1,
+      day:0,
     }
   },
   
@@ -174,6 +225,9 @@ export default{
     },
     topWeathers: function(){
       return this.$store.getters['forecast/topWeathers']
+    },
+    weekTimes: function(){
+      return this.$store.getters['forecast/weekTime']
     }
   },
 }

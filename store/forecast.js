@@ -473,7 +473,22 @@ export const mutations = {
     
     if(param.topIndex && state.topWeathers.length < 21){
       topAreaName(param.area)
+      //console.log(Array.isArray(param.items[0].timeSeries[0]))
+      /*
+      let topForecast = [
+
+        {id: param.area},
+        {timeWeathers: param.items[0].timeSeries[0]},
+        {timeTemps: param.items[0].timeSeries[2]},
+        {timePops: param.items[0].timeSeries[1]},
+        {weekWeathers: param.items[1].timeSeries[0]},
+        {weekTemps: param.items[1].timeSeries[1]}
+      ]
+      */
+      
+      
       let topForecast = {
+
         id: param.area,
         'timeWeathers': param.items[0].timeSeries[0],
         'timeTemps': param.items[0].timeSeries[2],
@@ -481,7 +496,8 @@ export const mutations = {
         'weekWeathers': param.items[1].timeSeries[0],
         'weekTemps': param.items[1].timeSeries[1]
       }
-    
+      
+      console.log(Array.isArray(topForecast.id))
       state.topWeathers.push(topForecast)
 
     }
