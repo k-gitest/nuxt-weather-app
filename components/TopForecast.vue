@@ -4,18 +4,18 @@
     <div>
       <ul class="nav_top_tab">
         
-          <template v-for="(time,timenum) in timeNow">
-            <template v-if="timenum < 1">
-              <li :class="{ clickBtn: tab === 0 }" @click="day = 0">{{ time }}</li>
-            </template>
+        <template v-for="(time,timenum) in timeNow">
+          <template v-if="timenum < 1">
+            <li :class="{ clickBtn: day === 0 }" @click="day = 0">{{ time }}</li>
           </template>
-          
-          <template v-for="(weekTime,index) in weekTimes[0]">
-            <li :class="{ clickBtn: tab === index+1 }" @click="day = index+1">{{ weekTime }}</li>
-          </template>
+        </template>
+        
+        <template v-for="(weekTime,index) in weekTimes[0]">
+          <li :class="{ clickBtn: day === index+1 }" @click="day = index+1">{{ weekTime }}</li>
+        </template>
 
       </ul>
-      <div class="content container">
+      <div class="nav_top_content container">
         <div v-show="tab === 0" class="content-item row">
 
           <template v-for="(weekArea,num) in topWeathers">
@@ -24,24 +24,25 @@
                 <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
                 <template v-if="day === 0">
                   <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
-                  <p>
-                  <span class="text-primary">-</span>
-                  /
-                  <span class="text-danger">-</span>
-                  </p>
+                  <ul class="temp">
+                    <li><span class="text-primary">-</span></li>
+                    <li><span class="text-danger">-</span></li>
+                  </ul>
                 </template>
                 <template v-if="day !== 0">
                   <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].weekWeathers.areas[0].weatherCodes[day-1]][0])" /><br>
                   
                   <template v-if="day === 1">
-                  <span class="text-primary">{{ topWeathers[num].timeTemps.areas[0].temps[0] }}</span>
-                  /
-                  <span class="text-danger">{{ topWeathers[num].timeTemps.areas[0].temps[1] }}</span>
+                    <ul class="temp">
+                      <li><span class="text-primary">{{ topWeathers[num].timeTemps.areas[0].temps[0] }}</span></li>
+                      <li><span class="text-danger">{{ topWeathers[num].timeTemps.areas[0].temps[1] }}</span></li>
+                    </ul>
                   </template>
                   <template v-else>
-                    <span class="text-primary">{{ topWeathers[num].weekTemps.areas[0].tempsMin[day-1] }}</span>
-                    /
-                    <span class="text-danger">{{ topWeathers[num].weekTemps.areas[0].tempsMax[day-1] }}</span>
+                    <ul class="temp">
+                      <li><span class="text-primary">{{ topWeathers[num].weekTemps.areas[0].tempsMin[day-1] }}</span></li>
+                      <li><span class="text-danger">{{ topWeathers[num].weekTemps.areas[0].tempsMax[day-1] }}</span></li>
+                    </ul>
                   </template>
                   
                 </template>
@@ -50,12 +51,6 @@
             
           </template>
 
-        </div>
-        <div v-show="tab === 2" class="content-item">
-          <p>サブスクのコンテンツです</p>
-        </div>
-        <div v-show="tab === 3" class="content-item">
-          <p>視聴履歴です</p>
         </div>
       </div>
     </div>
@@ -113,7 +108,7 @@
       </table>
     </template>
     -->
-    
+    <!--
     <template v-for="topWeather in topWeathers">
       <table border=1 class="table">
         <thead>
@@ -209,6 +204,8 @@
         </tbody>
       </table>
     </template>
+    -->
+    
   </div>
 </template>
 

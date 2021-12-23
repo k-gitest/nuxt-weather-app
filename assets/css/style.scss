@@ -31,12 +31,18 @@ th{
   text-align: center;
   margin:0;
   padding:0;
+  overflow-x: auto;
   
   li {
     background-color: gray;
+    width: 100%;
     color: white;
     //border: 1px solid white;
     padding: .5rem;
+    cursor:pointer;
+  }
+  .clickBtn {
+    background-color: rgb(168, 168, 168);
   }
 }
 .nav_top_map{
@@ -47,19 +53,44 @@ th{
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  
+  p{
+    font-size: 70%;
+    margin: 0;
+    white-space: nowrap;
+  }
+  img{
+    width: 70%;
+    //max-width: 70%;
+  }
+  span{
+    padding: 0 .3rem;
+  }
+  .temp{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    
+    li{
+      font-size: 80%;
+    }
+    li:first-child:after{
+      content: '/';
+    }
+  }
 }
-.content {
+.nav_top_content {
   width: 100%;
   border:1px solid #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  
+  .content-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
 }
-.content-item{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 ul{
   list-style-type: none;
 }

@@ -497,7 +497,7 @@ export const mutations = {
         'weekTemps': param.items[1].timeSeries[1]
       }
       
-      console.log(Array.isArray(topForecast.id))
+      //console.log(Array.isArray(topForecast.id))
       state.topWeathers.push(topForecast)
 
     }
