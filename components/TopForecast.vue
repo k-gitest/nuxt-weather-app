@@ -15,9 +15,9 @@
           </template>
 
       </ul>
-      <div class="content">
-        <div v-show="tab === 0" class="content-item">
-          <div class="row">
+      <div class="content container">
+        <div v-show="tab === 0" class="content-item row">
+
           <template v-for="(weekArea,num) in topWeathers">
             
               <div class="nav_top_map col-2">
@@ -49,7 +49,7 @@
               </div>
             
           </template>
-          </div>
+
         </div>
         <div v-show="tab === 2" class="content-item">
           <p>サブスクのコンテンツです</p>
