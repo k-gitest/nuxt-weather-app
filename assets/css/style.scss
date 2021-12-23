@@ -29,15 +29,31 @@ th{
 .nav_top_tab{
   display: flex;
   text-align: center;
+  margin:0;
+  padding:0;
   
   li {
     background-color: gray;
     color: white;
-    width: 140px;
-    height: 50px;
     border: 1px solid white;
-    padding: 10px;
+    padding: .5rem;
   }
+}
+.nav_top_map{
+  border:#ccc 1px solid;
+  margin:0.5rem;
+  border-radius: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.content {
+  width: 100%;
+  border:1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 ul{
   list-style-type: none;

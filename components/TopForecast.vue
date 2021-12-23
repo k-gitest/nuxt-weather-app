@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    {{topWeathers}}
+
     <div>
       <ul class="nav_top_tab">
         
@@ -17,26 +17,39 @@
       </ul>
       <div class="content">
         <div v-show="tab === 0" class="content-item">
-          <p>お気に入りのコンテンツです</p>
-          
-           
-          
-        </div>
-        <div v-show="tab === 1" class="content-item">
-          <p>設定の画面です</p>
-          
+          <div class="row">
           <template v-for="(weekArea,num) in topWeathers">
-          
-          {{topWeathers[num].timeWeathers.areas[0].area.name}}<br>
-          <template v-if="day === 0">
-            <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
+            
+              <div class="nav_top_map col-2">
+                <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
+                <template v-if="day === 0">
+                  <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
+                  <p>
+                  <span class="text-primary">-</span>
+                  /
+                  <span class="text-danger">-</span>
+                  </p>
+                </template>
+                <template v-if="day !== 0">
+                  <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].weekWeathers.areas[0].weatherCodes[day-1]][0])" /><br>
+                  
+                  <template v-if="day === 1">
+                  <span class="text-primary">{{ topWeathers[num].timeTemps.areas[0].temps[0] }}</span>
+                  /
+                  <span class="text-danger">{{ topWeathers[num].timeTemps.areas[0].temps[1] }}</span>
+                  </template>
+                  <template v-else>
+                    <span class="text-primary">{{ topWeathers[num].weekTemps.areas[0].tempsMin[day-1] }}</span>
+                    /
+                    <span class="text-danger">{{ topWeathers[num].weekTemps.areas[0].tempsMax[day-1] }}</span>
+                  </template>
+                  
+                </template>
+                
+              </div>
+            
           </template>
-          <template v-if="day !== 0">
-            <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[0].weekWeathers.areas[0].weatherCodes[day-1]][0])" /><br>
-          </template>
-          
-          </template>
-          
+          </div>
         </div>
         <div v-show="tab === 2" class="content-item">
           <p>サブスクのコンテンツです</p>
@@ -47,7 +60,7 @@
       </div>
     </div>
     
-    
+    <!--
     <template v-for="topWeather in topWeathers">
       <table border=1 class="table">
         <thead>
@@ -99,7 +112,7 @@
         </tbody>
       </table>
     </template>
-
+    -->
     
     <template v-for="topWeather in topWeathers">
       <table border=1 class="table">
@@ -207,7 +220,7 @@ export default{
   data(){
     return{
       WeatherCodes: WeatherCodes,
-      tab:1,
+      tab:0,
       day:0,
     }
   },
