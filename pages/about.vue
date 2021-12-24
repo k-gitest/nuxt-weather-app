@@ -2,8 +2,6 @@
 
     <div v-cloak>
       <h1>About Page</h1>
-      <h2>{{ subtitle }}</h2>
-
       <TopForecast />
       <Centers />
 

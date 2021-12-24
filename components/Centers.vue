@@ -3,20 +3,23 @@
     <template v-for="center in centers">
     <h2>{{ center.name }}</h2>
     <ul class="list-group list-group-horizontal row">
-      <li class="col-4" v-for="item in center.children">
-        <nuxt-link :to="`forecast/${ item }`">
-          {{ offices[item].name }}
-        </nuxt-link><br>
+      <li class="col-4 pb-1" v-for="item in center.children">
 
-        <button class="btn btn-success" @click="areaMenu(item)">地域</button>
+        <button class="btn btn-success w-100" @click="areaMenu(item)">{{ offices[item].name }}</button>
         
-        <div v-if="isActive.indexOf(item) >= 0" class="areamodal-back">
+        <div v-if="isActive.indexOf(item) >= 0" class="areamodal-back" @click.self="areaMenu(item)">
           <div class="container areamodal">
             <div class="row areamodal-content">
+              <div class="col-12">
+              <nuxt-link :to="`forecast/${ item }`">
+                    {{ offices[item].name }}全域
+              </nuxt-link>
+              </div>
               <template v-for="office_child in offices[item].children">
                 <template v-for="class10_child in class10s[office_child].children">
                   
                 <div class="col-6">
+                  
                   <h3 class="h5">{{ class15s[class10_child].name }}</h3>
                   <ul class="list-group list-group-horizontal row">
                     <template v-for="(class15_child,child_code) in class15s[class10_child].children">
@@ -50,6 +53,13 @@
 import axios from 'axios'
 
 export default{
+  head(){
+    return {
+      bodyAttrs: {
+        class: this.isActive ? 'lock' : ''
+      }
+    }
+  },
   data(){
     return{
       isActive:[],
@@ -66,9 +76,6 @@ export default{
       }else {
         this.isActive.push(item)
       }
-    },
-    areaMenuDetail:function(item){
-      this.areaDetail = item.map(f=>{return this.class20s[f].name})
     },
     
   },
