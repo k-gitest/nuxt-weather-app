@@ -56,13 +56,14 @@ export default{
   head(){
     return {
       bodyAttrs: {
-        class: this.isActive ? 'lock' : ''
+        class: this.isLock ? 'lock' : ''
       }
     }
   },
   data(){
     return{
       isActive:[],
+      isLock:false,
     }
   },
   async fetch(){
@@ -73,8 +74,10 @@ export default{
     areaMenu: function(item){
       if (this.isActive.indexOf(item) >= 0) {
         this.isActive = this.isActive.filter(n => n !== item)
+        this.isLock = false
       }else {
         this.isActive.push(item)
+        this.isLock = true
       }
     },
     
