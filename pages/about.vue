@@ -1,7 +1,6 @@
 <template>
 
     <div v-cloak>
-      <h1>About Page</h1>
       <TopForecast />
       <Centers />
 

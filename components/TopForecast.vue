@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1>全国の天気</h1>
 
     <div>
       <ul class="nav_top_tab">
@@ -20,33 +21,34 @@
 
           <template v-for="(weekArea,num) in topWeathers">
             
-              <div class="nav_top_map col-2">
-                <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
-                <template v-if="day === 0">
-                  <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
-                  <ul class="temp">
-                    <li><span class="text-primary">-</span></li>
-                    <li><span class="text-danger">-</span></li>
-                  </ul>
-                </template>
-                <template v-if="day !== 0">
-                  <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].weekWeathers.areas[0].weatherCodes[day-1]][0])" /><br>
-                  
-                  <template v-if="day === 1">
+              <div class="col-2 nav_top_map_wrap">
+                <div class="nav_top_map">
+                  <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
+                  <template v-if="day === 0">
+                    <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
                     <ul class="temp">
-                      <li><span class="text-primary">{{ topWeathers[num].timeTemps.areas[0].temps[0] }}</span></li>
-                      <li><span class="text-danger">{{ topWeathers[num].timeTemps.areas[0].temps[1] }}</span></li>
+                      <li><span class="text-primary">-</span></li>
+                      <li><span class="text-danger">-</span></li>
                     </ul>
                   </template>
-                  <template v-else>
-                    <ul class="temp">
-                      <li><span class="text-primary">{{ topWeathers[num].weekTemps.areas[0].tempsMin[day-1] }}</span></li>
-                      <li><span class="text-danger">{{ topWeathers[num].weekTemps.areas[0].tempsMax[day-1] }}</span></li>
-                    </ul>
+                  <template v-if="day !== 0">
+                    <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].weekWeathers.areas[0].weatherCodes[day-1]][0])" /><br>
+                    
+                    <template v-if="day === 1">
+                      <ul class="temp">
+                        <li><span class="text-primary">{{ topWeathers[num].timeTemps.areas[0].temps[0] }}</span></li>
+                        <li><span class="text-danger">{{ topWeathers[num].timeTemps.areas[0].temps[1] }}</span></li>
+                      </ul>
+                    </template>
+                    <template v-else>
+                      <ul class="temp">
+                        <li><span class="text-primary">{{ topWeathers[num].weekTemps.areas[0].tempsMin[day-1] }}</span></li>
+                        <li><span class="text-danger">{{ topWeathers[num].weekTemps.areas[0].tempsMax[day-1] }}</span></li>
+                      </ul>
+                    </template>
+                    
                   </template>
-                  
-                </template>
-                
+                </div>
               </div>
             
           </template>
