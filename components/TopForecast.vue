@@ -16,13 +16,12 @@
         </template>
 
       </ul>
-      <div class="nav_top_content container">
-        <div v-show="tab === 0" class="content-item row">
+      <div class="nav_top_content">
+        <div v-show="tab === 0" class="content-item">
 
           <template v-for="(weekArea,num) in topWeathers">
-            
-              <div class="col-2 nav_top_map_wrap">
-                <div class="nav_top_map">
+
+                <div class="nav_top_map" :style="`top:` + topArea[num].top + `;left:` + topArea[num].left + `;`">
                   <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
                   <template v-if="day === 0">
                     <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
@@ -49,10 +48,11 @@
                     
                   </template>
                 </div>
-              </div>
-            
+          
           </template>
-
+          <div class="area_top_map_wrap">
+        <img src="@/assets/img/map_jp.svg" class="area_top_map" />
+        </div>
         </div>
       </div>
     </div>
@@ -221,6 +221,121 @@ export default{
       WeatherCodes: WeatherCodes,
       tab:0,
       day:0,
+      topArea:[
+          //釧路
+          {
+            top:"0%",
+            left:"75%",
+          },
+          //旭川
+          /*
+          {
+            top:"10%",
+            left:"70%",
+          },
+          */
+          //札幌
+          {
+            top:"0%",
+            left:"50%",
+          },
+          //青森
+          {
+            top:"20%",
+            left:"60%",
+          },
+          //秋田
+          {
+            top:"20%",
+            left:"50%",
+          },
+          //仙台
+          {
+            top:"40%",
+            left:"70%",
+          },
+          //新潟
+          {
+            top:"40%",
+            left:"60%",
+          },
+          //金沢
+          {
+            top:"40%",
+            left:"50%",
+          },
+          //東京
+          {
+            top:"65%",
+            left:"70%",
+          },
+          //宇都宮
+          /*
+          {
+            top:"60%",
+            left:"80%",
+          },
+          */
+          //長野
+          {
+            top:"60%",
+            left:"60%",
+          },
+          //名古屋
+          {
+            top:"80%",
+            left:"55%",
+          },
+          //大阪
+          {
+            top:"80%",
+            left:"45%",
+          },
+          //高松
+          /*
+          {
+            top:"80%",
+            left:"45%",
+          },
+          */
+          //松江
+          {
+            top:"50%",
+            left:"45%",
+          },
+          //広島
+          {
+            top:"50%",
+            left:"35%",
+          },
+          //高知
+          {
+            top:"80%",
+            left:"35%",
+          },
+          //福岡
+          {
+            top:"55%",
+            left:"20%",
+          },
+          //鹿児島
+          {
+            top:"80%",
+            left:"20%",
+          },
+          //那覇
+          {
+            top:"80%",
+            left:"0%",
+          },
+          //石垣
+          /*
+          {
+            top:"70%",
+            left:"0%",
+          },
+          */
+        ],
     }
   },
   

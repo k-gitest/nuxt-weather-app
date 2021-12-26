@@ -471,7 +471,7 @@ export const mutations = {
       }
     }
     
-    if(param.topIndex && state.topWeathers.length < 21){
+    if(param.topIndex && state.topWeathers.length < 17){
       topAreaName(param.area)
       //console.log(Array.isArray(param.items[0].timeSeries[0]))
       /*
@@ -519,7 +519,7 @@ export const actions = {
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
     const area = [
       '014100', //釧路
-      '012000', //旭川
+      //'012000', //旭川
       '016000', //札幌
       '020000', //青森
       '050000', //秋田
@@ -527,11 +527,11 @@ export const actions = {
       '150000', //新潟
       '170000', //金沢
       '130000', //東京
-      '090000', //宇都宮
+      //'090000', //宇都宮
       '200000', //長野
       '230000', //名古屋
       '270000', //大阪
-      '370000', //高松
+      //'370000', //高松
       '320000', //松江
       '340000', //広島
       '390000', //高知
@@ -539,7 +539,7 @@ export const actions = {
       '460100', //鹿児島
       //'460040', //奄美
       '471000', //那覇
-      '474000', //石垣
+      //'474000', //石垣
     ]
 
     

@@ -59,22 +59,33 @@ th{
   //width: 100%;
   border:1px solid #ccc;
   border-top:none;
-  border-radius:0 0 .5rem .5rem;
+  border-radius: 0 0 .5rem .5rem;
   
   .content-item{
-    display: flex;
-    align-items: center;
-    //justify-content: center;
-    height: 100%;
+    height: auto;
+    //background:url(@/assets/img/map_jp.svg) no-repeat center/contain;
+    //padding-top:calc(450 / 350 * 100%);
+    position: relative;
   }
 }
-.nav_top_map_wrap{
-  padding: .5rem;
+.area_top_map_wrap{
+  width:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:4rem;
+}
+.area_top_map{
+  max-width:350px;
+  min-width:250px;
+  height:auto;
 }
 .nav_top_map{
+  position: absolute;
+  height:auto;
   border:#ccc 1px solid;
-  //margin: .5rem;
   border-radius: .5rem;
+  background:#fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,6 +98,7 @@ th{
   }
   img{
     width: 70%;
+    height:auto;
     //max-width: 70%;
   }
   span{
