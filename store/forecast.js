@@ -284,13 +284,13 @@ export const mutations = {
         return arr.indexOf(f) == index && index !== arr.lastIndexOf(f)
       })
       
-      console.log(isWeek, noneWeek, timeArea, weekArea )
+      //console.log(isWeek, noneWeek, timeArea, weekArea )
       
       //直近と週間のエリア数が同じもしくは週間エリア数が１の場合
       if(timeLength === weekLength || weekLength === 1){
         //console.log('yes')
         param.items[1].timeSeries[0].areas = param.items[1].timeSeries[0].areas.filter(f=>{
-          console.log(f.area.code, timeCode, param.area)
+          //console.log(f.area.code, timeCode, param.area)
           if(f.area.code === timeCode)return f
           if(f.area.code === param.area)return f
           if(f.area.code === '014000')return f
@@ -379,8 +379,8 @@ export const mutations = {
       if(index === 1)state.popTime = m.timeDefines
     })
     
-    param.items[1].timeSeries.filter((m,index)=>{
-      state.weekTime[index] = m.timeDefines
+    param.items[1].timeSeries.map((m,index)=>{
+      state.weekTime.push(m.timeDefines)
     })
     
     param.items[1].timeSeries.map(f=>{
