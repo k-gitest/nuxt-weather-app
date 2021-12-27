@@ -242,7 +242,7 @@ export default{
           //札幌
           {
             top:"2%",
-            left:"60%",
+            left:"65%",
           },
           //青森
           {
@@ -252,7 +252,7 @@ export default{
           //秋田
           {
             top:"20%",
-            left:"50%",
+            left:"60%",
           },
           //仙台
           {
@@ -262,7 +262,7 @@ export default{
           //新潟
           {
             top:"40%",
-            left:"58%",
+            left:"56%",
           },
           //金沢
           {
@@ -321,7 +321,7 @@ export default{
           //福岡
           {
             top:"50%",
-            left:"10%",
+            left:"15%",
           },
           //鹿児島
           {
