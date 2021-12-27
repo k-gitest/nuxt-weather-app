@@ -11,7 +11,7 @@ ul{
   list-style-type: none;
 }
 table{
-  font-size:0.85rem;
+  font-size: 0.85rem;
   word-break: break-all;
 }
 th{
@@ -27,19 +27,19 @@ th{
   
   td{
     text-align: center;
-    vertical-align:middle;
+    vertical-align: middle;
   }
   .td_item{
     position: sticky;
     left: 0;
-    background-color:#fff;
+    background-color: #fff;
   }
 }
 .nav_top_tab{
   display: flex;
   text-align: center;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
   overflow-x: auto;
   border-radius: .5rem .5rem 0 0;
   
@@ -49,23 +49,44 @@ th{
     color: white;
     //border: 1px solid white;
     padding: .5rem;
-    cursor:pointer;
+    cursor: pointer;
   }
   .clickBtn {
     background-color: darken(#198754, 5%);
   }
 }
 .nav_top_content {
-  //width: 100%;
-  border:1px solid #ccc;
-  border-top:none;
+  border: 1px solid #ccc;
+  border-top: none;
   border-radius: 0 0 .5rem .5rem;
   
   .content-item{
+    //background: #ccc;
     height: auto;
     //background:url(@/assets/img/map_jp.svg) no-repeat center/contain;
     //padding-top:calc(450 / 350 * 100%);
     position: relative;
+  }
+}
+.map_item_wrap{
+  position: absolute;
+  //top: 50%;
+  //left: 50%;
+  //transform: translate(-50%, -50%);
+  //  -webkit-transform: translate(-50%, -50%);
+  //  -ms-transform: translate(-50%, -50%);
+  //max-width: 430px;
+  //min-width: 250px;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  //border:solid 1px #ccc;
+  
+  .map_item_inner{
+    position:relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,10%);
   }
 }
 .area_top_map_wrap{
@@ -73,18 +94,18 @@ th{
   display: flex;
   align-items: center;
   justify-content: center;
-  padding:4rem;
+  padding: 4rem;
 }
 .area_top_map{
-  max-width:350px;
-  min-width:250px;
-  height:auto;
+  max-width: 350px;
+  min-width: 250px;
+  height: auto;
 }
 .nav_top_map{
-  width:50px;
+  width: 40px;
   position: absolute;
-  height:auto;
-  border:#ccc 1px solid;
+  height: auto;
+  border: #ccc 1px solid;
   border-radius: .5rem;
   background:#fff;
   display: flex;
@@ -103,7 +124,7 @@ th{
     //max-width: 70%;
   }
   span{
-    padding: 0 .3rem;
+    padding: 0 .1rem;
   }
   .temp{
     margin: 0;
@@ -111,7 +132,7 @@ th{
     display: flex;
     
     li{
-      font-size: 80%;
+      font-size: 70%;
     }
     li:first-child:after{
       content: '/';
