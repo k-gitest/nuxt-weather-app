@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <h1>全国の天気</h1>
-
     <div>
       <ul class="nav_top_tab">
         
@@ -23,35 +22,35 @@
           <div class="map_item_wrap">
             <div class="map_item_inner">
               <template v-for="(weekArea,num) in topWeathers">
-    
-                    <div class="nav_top_map" :style="`top:` + topArea[num].top + `;left:` + topArea[num].left + `;`">
-                      <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
-                      <template v-if="day === 0">
-                        <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
+                <nuxt-link :to="`./forecast/${weekArea.id}`">
+                  <div class="nav_top_map" :style="`top:` + topArea[num].top + `;left:` + topArea[num].left + `;`">
+                    <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
+                    <template v-if="day === 0">
+                      <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
+                      <ul class="temp">
+                        <li><span class="text-primary">-</span></li>
+                        <li><span class="text-danger">-</span></li>
+                      </ul>
+                    </template>
+                    <template v-if="day !== 0">
+                      <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].weekWeathers.areas[0].weatherCodes[day-1]][0])" /><br>
+                      
+                      <template v-if="day === 1">
                         <ul class="temp">
-                          <li><span class="text-primary">-</span></li>
-                          <li><span class="text-danger">-</span></li>
+                          <li><span class="text-primary">{{ topWeathers[num].timeTemps.areas[0].temps[0] }}</span></li>
+                          <li><span class="text-danger">{{ topWeathers[num].timeTemps.areas[0].temps[1] }}</span></li>
                         </ul>
                       </template>
-                      <template v-if="day !== 0">
-                        <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].weekWeathers.areas[0].weatherCodes[day-1]][0])" /><br>
-                        
-                        <template v-if="day === 1">
-                          <ul class="temp">
-                            <li><span class="text-primary">{{ topWeathers[num].timeTemps.areas[0].temps[0] }}</span></li>
-                            <li><span class="text-danger">{{ topWeathers[num].timeTemps.areas[0].temps[1] }}</span></li>
-                          </ul>
-                        </template>
-                        <template v-else>
-                          <ul class="temp">
-                            <li><span class="text-primary">{{ topWeathers[num].weekTemps.areas[0].tempsMin[day-1] }}</span></li>
-                            <li><span class="text-danger">{{ topWeathers[num].weekTemps.areas[0].tempsMax[day-1] }}</span></li>
-                          </ul>
-                        </template>
-                        
+                      <template v-else>
+                        <ul class="temp">
+                          <li><span class="text-primary">{{ topWeathers[num].weekTemps.areas[0].tempsMin[day-1] }}</span></li>
+                          <li><span class="text-danger">{{ topWeathers[num].weekTemps.areas[0].tempsMax[day-1] }}</span></li>
+                        </ul>
                       </template>
-                    </div>
-              
+                      
+                    </template>
+                  </div>
+                </nuxt-link>
               </template>
             </div>
           </div>
@@ -262,7 +261,7 @@ export default{
           //新潟
           {
             top:"40%",
-            left:"56%",
+            left:"57%",
           },
           //金沢
           {
@@ -306,12 +305,12 @@ export default{
           //松江
           {
             top:"30%",
-            left:"30%",
+            left:"29%",
           },
           //広島
           {
             top:"50%",
-            left:"30%",
+            left:"29%",
           },
           //高知
           {
@@ -321,7 +320,7 @@ export default{
           //福岡
           {
             top:"50%",
-            left:"15%",
+            left:"14%",
           },
           //鹿児島
           {
@@ -360,7 +359,7 @@ export default{
     },
     weekTimes: function(){
       return this.$store.getters['forecast/weekTime']
-    }
+    },
   },
 }
 
