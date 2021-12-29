@@ -345,6 +345,7 @@ export default{
   
   async fetch(){
     await this.$store.dispatch('forecast/forecastTop')
+    await this.$store.dispatch('forecast/forecastAll')
   },
   
   computed:{

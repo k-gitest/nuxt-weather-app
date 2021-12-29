@@ -541,7 +541,6 @@ export const actions = {
       '471000', //那覇
       //'474000', //石垣
     ]
-
     
     for(const f of area){
       await axios.get(url + f + '.json')
@@ -613,6 +612,54 @@ export const actions = {
       // エラー
       console.log(e)
     })
+  },
+  
+  forecastAll: async function({commit}){
+    
+    const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
+    const area = [
+      '014100', //釧路
+      //'012000', //旭川
+      '016000', //札幌
+      '020000', //青森
+      '050000', //秋田
+      '040000', //仙台
+      '150000', //新潟
+      '170000', //金沢
+      '130000', //東京
+      //'090000', //宇都宮
+      '200000', //長野
+      '230000', //名古屋
+      '270000', //大阪
+      //'370000', //高松
+      '320000', //松江
+      '340000', //広島
+      '390000', //高知
+      '400000', //福岡
+      '460100', //鹿児島
+      //'460040', //奄美
+      '471000', //那覇
+      //'474000', //石垣
+    ]
+
+    const areaAll = await Promise.all(
+
+      area.map(f=>axios.get(url + f + '.json')
+      .then(res=>{
+        const param = {
+         items : res.data,
+         area: f,
+         topIndex: true,
+        }
+        return param
+      }))
+    )
+    .then(res => res)
+    .catch((e) => console.log(e));
+    
+    console.log(areaAll.length)
+    commit('setTop', areaAll)
+    
   }
   
     
