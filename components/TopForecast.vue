@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>全国の天気</h1>
-    <div>
+    <div class="pb-1">
       <ul class="nav_top_tab">
         
         <template v-for="(time,timenum) in timeNow">

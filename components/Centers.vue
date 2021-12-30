@@ -1,7 +1,11 @@
 <template>
   <div class="container">
     <template v-for="center in centers">
-    <h2>{{ center.name }}</h2>
+
+    <button class="btn btn-success w-100 mb-1" @click="areaMenu(center, 0)">{{ center.name }}</button>
+    <div v-if="isActive.indexOf(center) >= 0"  class="areamodal-back" @click.self="areaMenu(center)">
+      <div class="container areamodal">
+            <div class="row areamodal-content">
     <ul class="list-group list-group-horizontal row">
       <li class="col-4 pb-1" v-for="item in center.children">
 
@@ -45,6 +49,10 @@
       </li>
     </ul>
     
+</div>
+<div @click="areaMenu(center, 0)" class="btn btn-success">閉じる</div>
+</div>
+    </div>
     </template>
   </div>
 </template>
@@ -71,13 +79,13 @@ export default{
   },
   methods:{
 
-    areaMenu: function(item){
+    areaMenu: function(item, lockNum){
       if (this.isActive.indexOf(item) >= 0) {
         this.isActive = this.isActive.filter(n => n !== item)
-        this.isLock = false
+        if(lockNum === 0)this.isLock = false
       }else {
         this.isActive.push(item)
-        this.isLock = true
+        if(lockNum === 0)this.isLock = true
       }
     },
     
