@@ -11,6 +11,7 @@
         <div class="container areamodal">
           
           <div class="row areamodal-content">
+            <h2>{{ center.name }}</h2>
             <ul class="list-group list-group-horizontal row">
               <li class="col-md-6 col-lg-4 pb-1" v-for="item in center.children">
         
@@ -19,8 +20,9 @@
                 <div v-if="isActive.indexOf(item) >= 0" class="areamodal-back" @click.self="areaMenu(item)">
                   <div class="container areamodal">
                     <div class="row areamodal-content">
-                      <div class="col-12">
-                      <nuxt-link :to="`forecast/${ item }`">
+                      <h2>{{ offices[item].name }}</h2>
+                      <div class="col-12 pb-1">
+                      <nuxt-link class="btn btn-success w-100" :to="`forecast/${ item }`">
                             {{ offices[item].name }}全域
                       </nuxt-link>
                       </div>
@@ -28,11 +30,10 @@
                         <template v-for="class10_child in class10s[office_child].children">
                           
                         <div class="col-12">
-                          
                           <h3 class="h5">{{ class15s[class10_child].name }}</h3>
                           <ul class="list-group list-group-horizontal row">
                             <template v-for="(class15_child,child_code) in class15s[class10_child].children">
-                            <li class="col-md-6 col-lg-4 p-1">
+                            <li class="col-md-6 col-lg-4 pb-1">
                               
                             <nuxt-link class="btn btn-success w-100" :to="`forecast/${ item }?area_detail=${class15_child}`">
                               {{ class20s[class15_child].name }}
@@ -46,7 +47,7 @@
                         </template>
                       </template>
                     </div>
-                    <div @click="areaMenu(item)" class="btn btn-success">閉じる</div>
+                    <div @click="areaMenu(item)" class="btn btn-success">戻る</div>
                   </div>
                   
                 </div>
