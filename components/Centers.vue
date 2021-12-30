@@ -1,59 +1,66 @@
 <template>
   <div class="container">
-    <template v-for="center in centers">
+    <div class="row">
+      <template v-for="center in centers">
+      
+      <div class="col-6">
+      <button class="btn btn-success w-100 mb-1" @click="areaMenu(center, 0)">{{ center.name }}</button>
+      </div>
 
-    <button class="btn btn-success w-100 mb-1" @click="areaMenu(center, 0)">{{ center.name }}</button>
-    <div v-if="isActive.indexOf(center) >= 0"  class="areamodal-back" @click.self="areaMenu(center)">
-      <div class="container areamodal">
-            <div class="row areamodal-content">
-    <ul class="list-group list-group-horizontal row">
-      <li class="col-4 pb-1" v-for="item in center.children">
-
-        <button class="btn btn-success w-100" @click="areaMenu(item)">{{ offices[item].name }}</button>
-        
-        <div v-if="isActive.indexOf(item) >= 0" class="areamodal-back" @click.self="areaMenu(item)">
-          <div class="container areamodal">
-            <div class="row areamodal-content">
-              <div class="col-12">
-              <nuxt-link :to="`forecast/${ item }`">
-                    {{ offices[item].name }}全域
-              </nuxt-link>
-              </div>
-              <template v-for="office_child in offices[item].children">
-                <template v-for="class10_child in class10s[office_child].children">
-                  
-                <div class="col-6">
-                  
-                  <h3 class="h5">{{ class15s[class10_child].name }}</h3>
-                  <ul class="list-group list-group-horizontal row">
-                    <template v-for="(class15_child,child_code) in class15s[class10_child].children">
-                    <li class="col-6">
-                      
-                    <nuxt-link :to="`forecast/${ item }?area_detail=${class15_child}`">
-                      {{ class20s[class15_child].name }}
-                    </nuxt-link><br>
-                  
-                    </li>
-                    </template>
-                  </ul>
-                </div>
-  
-                </template>
-              </template>
-            </div>
-            <div @click="areaMenu(item)" class="btn btn-success">閉じる</div>
-          </div>
+      <div v-if="isActive.indexOf(center) >= 0"  class="areamodal-back" @click.self="areaMenu(center, 0)">
+        <div class="container areamodal">
           
-        </div>
+          <div class="row areamodal-content">
+            <ul class="list-group list-group-horizontal row">
+              <li class="col-md-6 col-lg-4 pb-1" v-for="item in center.children">
         
-      </li>
-    </ul>
-    
-</div>
-<div @click="areaMenu(center, 0)" class="btn btn-success">閉じる</div>
-</div>
+                <button class="btn btn-success w-100" @click="areaMenu(item)">{{ offices[item].name }}</button>
+                
+                <div v-if="isActive.indexOf(item) >= 0" class="areamodal-back" @click.self="areaMenu(item)">
+                  <div class="container areamodal">
+                    <div class="row areamodal-content">
+                      <div class="col-12">
+                      <nuxt-link :to="`forecast/${ item }`">
+                            {{ offices[item].name }}全域
+                      </nuxt-link>
+                      </div>
+                      <template v-for="office_child in offices[item].children">
+                        <template v-for="class10_child in class10s[office_child].children">
+                          
+                        <div class="col-12">
+                          
+                          <h3 class="h5">{{ class15s[class10_child].name }}</h3>
+                          <ul class="list-group list-group-horizontal row">
+                            <template v-for="(class15_child,child_code) in class15s[class10_child].children">
+                            <li class="col-md-6 col-lg-4 p-1">
+                              
+                            <nuxt-link class="btn btn-success w-100" :to="`forecast/${ item }?area_detail=${class15_child}`">
+                              {{ class20s[class15_child].name }}
+                            </nuxt-link><br>
+                          
+                            </li>
+                            </template>
+                          </ul>
+                        </div>
+          
+                        </template>
+                      </template>
+                    </div>
+                    <div @click="areaMenu(item)" class="btn btn-success">閉じる</div>
+                  </div>
+                  
+                </div>
+                
+              </li>
+            </ul>
+          </div>
+              
+          <div @click="areaMenu(center, 0)" class="btn btn-success">閉じる</div>
+        
+        </div>
+      </div>
+      </template>
     </div>
-    </template>
   </div>
 </template>
 
