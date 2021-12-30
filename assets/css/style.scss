@@ -84,6 +84,25 @@ th{
     background: rgba(0,0,0,0);
   }
 }
+.areaMapSVG_wrap{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+}
+.areaMapSVG{
+  width: 100%;
+  max-width: 350px;
+  min-width: 250px;
+  height: auto;
+  
+  svg{
+    width: 100%;
+    height: auto;
+    fill: #198754;
+  }
+}
 .area_top_map_wrap{
   width:100%;
   display: flex;
