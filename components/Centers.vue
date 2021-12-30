@@ -3,7 +3,7 @@
     <div class="row">
       <template v-for="center in centers">
       
-      <div class="col-6">
+      <div class="col-md-6 col-lg-4">
       <button class="btn btn-success w-100 mb-1" @click="areaMenu(center, 0)">{{ center.name }}</button>
       </div>
 
