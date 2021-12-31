@@ -76,6 +76,7 @@ th{
   min-width: 250px;
   height: calc(294px/350px * 100%);
   min-height: 210px;
+  pointer-events: none;
   
   .map_item_inner{
     position:relative;
@@ -103,6 +104,7 @@ th{
     fill: #198754;
   }
 }
+/*
 .area_top_map_wrap{
   width:100%;
   display: flex;
@@ -115,7 +117,10 @@ th{
   min-width: 250px;
   height: auto;
 }
+*/
+
 .nav_top_map{
+  pointer-events: auto;
   width: 40px;
   position: absolute;
   height: auto;
@@ -182,4 +187,11 @@ th{
   height:auto;
   padding:1rem 0;
   overflow-y: auto;
+}
+g{
+  &:hover {
+    path {
+      fill: darken(#198754, 5%);
+    }
+  }
 }
