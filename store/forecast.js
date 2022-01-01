@@ -154,11 +154,20 @@ function topAreaNameChange(area){
     case '020000':
       return '青森'
     break
+    case '030000':
+      return '盛岡'
+    break
     case '050000':
       return '秋田'
     break
     case '040000':
       return '仙台'
+    break
+    case '060000':
+      return '山形'
+    break
+    case '070000':
+      return '福島'
     break
     case '150000':
       return '新潟'
@@ -169,20 +178,83 @@ function topAreaNameChange(area){
     case '130000':
       return '東京'
     break
+    case '080000':
+      return '水戸'
+    break
     case '090000':
       return '宇都宮'
+    break
+    case '100000':
+      return '前橋'
+    break
+    case '110000':
+      return 'さいたま'
+    break
+    case '120000':
+      return '千葉'
+    break
+    case '140000':
+      return '横浜'
+    break
+    case '160000':
+      return '富山'
+    break
+    case '180000':
+      return '福井'
+    break
+    case '190000':
+      return '甲府'
     break
     case '200000':
       return '長野'
     break
+    case '210000':
+      return '岐阜'
+    break
+    case '220000':
+      return '静岡'
+    break
     case '230000':
       return '名古屋'
+    break
+    case '240000':
+      return '津'
+    break
+    case '250000':
+      return '大津'
+    break
+    case '260000':
+      return '京都'
     break
     case '270000':
       return '大阪'
     break
+    case '280000':
+      return '神戸'
+    break
+    case '290000':
+      return '奈良'
+    break
+    case '300000':
+      return '和歌山'
+    break
+    case '310000':
+      return '鳥取'
+    break
+    case '330000':
+      return '岡山'
+    break
+    case '350000':
+      return '山口'
+    break
+    case '360000':
+      return '徳島'
+    break
     case '370000':
       return '高松'
+    break
+    case '380000':
+      return '松山'
     break
     case '320000':
       return '松江'
@@ -195,6 +267,21 @@ function topAreaNameChange(area){
     break
     case '400000':
       return '福岡'
+    break
+    case '410000':
+      return '佐賀'
+    break
+    case '420000':
+      return '長崎'
+    break
+    case '430000':
+      return '熊本'
+    break
+    case '440000':
+      return '大分'
+    break
+    case '450000':
+      return '宮崎'
     break
     case '460100':
       return '鹿児島'
