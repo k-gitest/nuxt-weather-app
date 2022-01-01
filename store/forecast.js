@@ -139,7 +139,7 @@ function dateformat(date, long, index){ //日付配列、変換分岐、昼夜�
   }
 }
 
-function topAreaName(area){
+function topAreaNameChange(area){
   console.log(area)
   switch(area){
     case '014100':
@@ -594,9 +594,14 @@ export const mutations = {
             return dateformat(e,3,index)
           })
       })
-      console.log(state.topWeathers.length, param.length)
+      //console.log(state.topWeathers.length, param.length)
       if(f.topIndex &&  param.length){
-        f.items[1].timeSeries[0].areas[0].area.name = topAreaName(f.area)
+        //f.items[1].timeSeries[0].areas.length = 1
+        const mapAreaName = topAreaNameChange(f.area)
+        console.log(mapAreaName)
+        if(mapAreaName){
+          f.items[1].timeSeries[0].areas[0].area.name = mapAreaName
+        }
         console.log(f.items[1].timeSeries[0].areas[0].area.name)
         let topForecast = {
           id: f.area,
