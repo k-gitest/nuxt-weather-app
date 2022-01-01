@@ -139,6 +139,76 @@ function dateformat(date, long, index){ //日付配列、変換分岐、昼夜�
   }
 }
 
+function topAreaName(area){
+  console.log(area)
+  switch(area){
+    case '014100':
+      return '釧路'
+    break
+    case '012000':
+      return '旭川'
+    break
+    case '016000':
+      return '札幌'
+    break
+    case '020000':
+      return '青森'
+    break
+    case '050000':
+      return '秋田'
+    break
+    case '040000':
+      return '仙台'
+    break
+    case '150000':
+      return '新潟'
+    break
+    case '170000':
+      return '金沢'
+    break
+    case '130000':
+      return '東京'
+    break
+    case '090000':
+      return '宇都宮'
+    break
+    case '200000':
+      return '長野'
+    break
+    case '230000':
+      return '名古屋'
+    break
+    case '270000':
+      return '大阪'
+    break
+    case '370000':
+      return '高松'
+    break
+    case '320000':
+      return '松江'
+    break
+    case '340000':
+      return '広島'
+    break
+    case '390000':
+      return '高知'
+    break
+    case '400000':
+      return '福岡'
+    break
+    case '460100':
+      return '鹿児島'
+    break
+    case '471000':
+      return '那覇'
+    break
+    case '474000':
+      return '石垣'
+    break
+  }
+}
+
+
 export const mutations = {
 
   setArea: function(state, {areadata}){
@@ -503,8 +573,45 @@ export const mutations = {
     }
   },
   
-  setTopMap: function(state,{areaAll}){
-    console.log(areaAll)
+  setTopMap: function(state,{param}){
+    //console.log(param.length)
+    state.topWeathers = []
+    param.filter(f=>{
+      //console.log(f)
+      
+      f.items.filter(item=>{
+        if(item.reportDatetime){
+          item.reportDatetime = dateformat(item.reportDatetime, 1)
+        }
+      })
+      
+      f.items[1].timeSeries.map((m,index)=>{
+        state.weekTime.push(m.timeDefines)
+      })
+      
+      f.items[1].timeSeries.map(m=>{
+          m.timeDefines = m.timeDefines.map((e,index)=>{
+            return dateformat(e,3,index)
+          })
+      })
+      console.log(state.topWeathers.length, param.length)
+      if(f.topIndex &&  param.length){
+        f.items[1].timeSeries[0].areas[0].area.name = topAreaName(f.area)
+        console.log(f.items[1].timeSeries[0].areas[0].area.name)
+        let topForecast = {
+          id: f.area,
+          'timeWeathers': f.items[0].timeSeries[0],
+          'timeTemps': f.items[0].timeSeries[2],
+          'timePops': f.items[0].timeSeries[1],
+          'weekWeathers': f.items[1].timeSeries[0],
+          'weekTemps': f.items[1].timeSeries[1]
+        }
+        console.log(topForecast)
+        state.topWeathers.push(topForecast)
+      }
+      
+    })
+    
   },
 
 }
@@ -646,24 +753,24 @@ export const actions = {
       //'474000', //石垣
     ]
 
-    const areaAll = await Promise.all(
+    const param = await Promise.all(
 
       mapArea.map(f=>axios.get(url + f + '.json')
       .then(res=>{
-        const param = {
+        const areaAll = {
          items : res.data,
          area: f,
          topIndex: true,
         }
-        return param
+        return areaAll
       }))
     )
     .then(res => res)
     .catch((e) => console.log(e));
     
-    console.log(areaAll.length)
-    console.log(areaAll)
-    commit('setTopMap', {areaAll})
+    //console.log(param.length)
+    //console.log(param)
+    commit('setTopMap', {param})
     
   }
   
