@@ -501,7 +501,11 @@ export const mutations = {
       state.topWeathers.push(topForecast)
 
     }
-  }
+  },
+  
+  setTopMap: function(state,{areaAll}){
+    console.log(areaAll)
+  },
 
 }
 
@@ -614,8 +618,8 @@ export const actions = {
     })
   },
   
-  forecastAll: async function({commit}){
-    
+  forecastAll: async function({commit},{mapArea}){
+
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
     const area = [
       '014100', //釧路
@@ -644,7 +648,7 @@ export const actions = {
 
     const areaAll = await Promise.all(
 
-      area.map(f=>axios.get(url + f + '.json')
+      mapArea.map(f=>axios.get(url + f + '.json')
       .then(res=>{
         const param = {
          items : res.data,
@@ -658,7 +662,8 @@ export const actions = {
     .catch((e) => console.log(e));
     
     console.log(areaAll.length)
-    commit('setTop', areaAll)
+    console.log(areaAll)
+    commit('setTopMap', {areaAll})
     
   }
   

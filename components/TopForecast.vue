@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>全国の天気</h1>
+    
     <div class="pb-1">
       <ul class="nav_top_tab">
         
@@ -81,7 +82,7 @@
                         c-0.259,2.25,1.377,4.087,3.637,4.087h11.203c2.264,0,4.322-1.837,4.583-4.087l3.365-29.179c0.259-2.244-1.38-4.084-3.637-4.084
                         h-11.2c-2.266,0-4.322,1.84-4.586,4.084L0.027,289.443z" />
                 </g>
-                <a xlink:href="#">
+                <a xlink:href="#" @click="map_hokkaido(centers['010200'].children)">
                   <g class="hokkaido">
                       <path 
                           d="M261.561 0c-2.262 0-4.324 1.834-4.583 4.079l-6.417 55.63c-.26 2.247-.561 4.082-.672 4.082-.117 0-.419 1.834-.676 4.078l-.78 6.776c-.265 2.247 1.373 4.082 3.638 4.082h15.686c2.256 0 4.314-1.835 4.574-4.082l.391-3.335c.256-2.25 2.318-4.082 4.58-4.082h61.281c2.259 0 4.32-1.843 4.577-4.09l6.813-59.06C350.234 1.834 348.594 0 346.335 0h-84.774z" />
@@ -426,7 +427,8 @@ export default{
   
   async fetch(){
     await this.$store.dispatch('forecast/forecastTop')
-    await this.$store.dispatch('forecast/forecastAll')
+    //await this.$store.dispatch('forecast/forecastAll')
+    await this.$store.dispatch('forecast/forecastIndex')
   },
   
   computed:{
@@ -442,6 +444,16 @@ export default{
     weekTimes: function(){
       return this.$store.getters['forecast/weekTime']
     },
+    centers: function(){
+      return this.$store.getters['forecast/centers']
+    },
+  },
+  
+  methods: {
+    map_hokkaido: function(mapArea){
+        this.$store.dispatch('forecast/forecastAll', {mapArea})
+    },
+
   },
 }
 
