@@ -22,10 +22,11 @@
           <div class="map_item_wrap">
             
             <div class="map_item_inner">
-              <button v-if="areaTab !== 0" class="btn btn-success area_map_all" @click="map_area(null,true); areaTab = 0">戻る</button>
+              <button v-if="areaTab !== 0" class="btn btn-success area_map_all" @click="map_area(null,areaTab); areaTab = 0">戻る</button>
               <template v-for="(weekArea,num) in topWeathers">
+                {{weekArea.topArea[num].top}}
                 <nuxt-link :to="`./forecast/${weekArea.id}`">
-                  <div class="nav_top_map" :style="`top:` + topArea[areaTab][num].top + `;left:` + topArea[areaTab][num].left + `;`">
+                  <div class="nav_top_map" :style="`top:` + weekArea.topArea[num].top + `;left:` + weekArea.topArea[num].left + `;`">
                     <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
                     <template v-if="day === 0">
                       <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
@@ -84,11 +85,11 @@
                         h-11.2c-2.266,0-4.322,1.84-4.586,4.084L0.027,289.443z" />
                 </g>
 
-                <g class="hokkaido" :class="{hokkaido_zoom: areaTab === 1}" v-show="areaTab === 0 || areaTab === 1" @click="map_area(centers['010200'].children);areaTab = 1">
+                <g class="hokkaido" :class="{hokkaido_zoom: areaTab === 1}" v-show="areaTab === 0 || areaTab === 1" @click="map_area(centers['010200'].children, 1);areaTab = 1">
                     <path 
                         d="M261.561 0c-2.262 0-4.324 1.834-4.583 4.079l-6.417 55.63c-.26 2.247-.561 4.082-.672 4.082-.117 0-.419 1.834-.676 4.078l-.78 6.776c-.265 2.247 1.373 4.082 3.638 4.082h15.686c2.256 0 4.314-1.835 4.574-4.082l.391-3.335c.256-2.25 2.318-4.082 4.58-4.082h61.281c2.259 0 4.32-1.843 4.577-4.09l6.813-59.06C350.234 1.834 348.594 0 346.335 0h-84.774z" />
                 </g>
-                <g class="tohoku" :class="{tohoku_zoom: areaTab === 2}" v-show="areaTab === 0 || areaTab === 2" @click="map_area(centers['010200'].children);areaTab = 2">
+                <g class="tohoku" :class="{tohoku_zoom: areaTab === 2}" v-show="areaTab === 0 || areaTab === 2" @click="map_area(centers['010200'].children, 2);areaTab = 2">
                     <path
                         d="M312.656 83.217h-21.658c-2.259 0-4.324 1.834-4.58 4.075l-.533 4.604c-.259 2.241-2.32 4.081-4.58 4.081h-29.469c-2.258 0-4.32 1.84-4.58 4.082l-8.408 72.896h67.566l9.883-85.662c.26-2.242-1.379-4.076-3.641-4.076z" />
                 </g>
@@ -300,8 +301,8 @@ export default{
   
   async fetch(){
     await this.$store.dispatch('forecast/forecastTop')
-    //await this.$store.dispatch('forecast/forecastAll')
-    await this.$store.dispatch('forecast/forecastIndex')
+    await this.$store.dispatch('forecast/forecastAll',{mapArea:null, areaTab:0})
+    //await this.$store.dispatch('forecast/forecastIndex')
   },
   
   computed:{
@@ -326,8 +327,8 @@ export default{
   },
   
   methods: {
-    map_area: function(mapArea){
-        this.$store.dispatch('forecast/forecastAll', {mapArea})
+    map_area:async function(mapArea, areaTab){
+        await this.$store.dispatch('forecast/forecastAll', {mapArea, areaTab})
     },
     
   },

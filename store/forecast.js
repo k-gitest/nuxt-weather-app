@@ -119,7 +119,7 @@ export const state = () => ({
       [
         //釧路
         {
-          top: "35%",
+          top: "5%",
           left: "85%",
         },
         //札幌
@@ -147,7 +147,61 @@ export const state = () => ({
           top:"40%",
           left:"57%",
         },
-      
+        //金沢
+        {
+          top:"40%",
+          left:"43%",
+        },
+        //東京
+        {
+          top:"65%",
+          left:"75%",
+        },
+        //長野
+        {
+          top:"60%",
+          left:"60%",
+        },
+        //名古屋
+        {
+          top:"80%",
+          left:"57%",
+        },
+        //大阪
+        {
+          top:"75%",
+          left:"43%",
+        },
+        //松江
+        {
+          top:"30%",
+          left:"29%",
+        },
+        //広島
+        {
+          top:"50%",
+          left:"29%",
+        },
+        //高知
+        {
+          top:"80%",
+          left:"30%",
+        },
+        //福岡
+        {
+          top:"50%",
+          left:"14%",
+        },
+        //鹿児島
+        {
+          top:"80%",
+          left:"15%",
+        },
+        //那覇
+        {
+          top:"80%",
+          left:"0%",
+        },
       ],
       [
         //釧路
@@ -850,8 +904,10 @@ export const mutations = {
           f.items[1].timeSeries[0].areas[0].area.name = mapAreaName
         }
         console.log(f.items[1].timeSeries[0].areas[0].area.name)
+        console.log(f.areaTab)
         let topForecast = {
           id: f.area,
+          topArea: state.topArea[f.areaTab],
           'timeWeathers': f.items[0].timeSeries[0],
           'timeTemps': f.items[0].timeSeries[2],
           'timePops': f.items[0].timeSeries[1],
@@ -977,8 +1033,8 @@ export const actions = {
     })
   },
   
-  forecastAll: async function({commit},{mapArea}){
-    console.log(mapArea)
+  forecastAll: async function({commit},{mapArea,areaTab}){
+    console.log(mapArea, areaTab)
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
     const area = [
       '014100', //釧路
@@ -1017,6 +1073,7 @@ export const actions = {
          items : res.data,
          area: f,
          topIndex: true,
+         areaTab: areaTab,
         }
         return areaAll
       }))
