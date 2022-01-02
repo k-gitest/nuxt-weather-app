@@ -18,10 +18,11 @@
       </ul>
       
       <div class="nav_top_content">
-        <div v-show="tab === 0" class="content-item">
-          
+        <div class="content-item">
           <div class="map_item_wrap">
+            
             <div class="map_item_inner">
+              <button v-if="areaTab !== 0" class="btn btn-success area_map_all" @click="map_area(null,true); areaTab = 0">戻る</button>
               <template v-for="(weekArea,num) in topWeathers">
                 <nuxt-link :to="`./forecast/${weekArea.id}`">
                   <div class="nav_top_map" :style="`top:` + topArea[num].top + `;left:` + topArea[num].left + `;`">
@@ -61,7 +62,7 @@
           </div>
           -->
           <div class="areaMapSVG_wrap">
-            <div class="areaMapSVG">
+            <div class="areaMapSVG" v-show="areaTab === 0">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
                 <g class="map_all">
                     <path display="inline" d="M261.561,0c-2.262,0-4.324,1.834-4.583,4.079l-6.417,55.63
@@ -82,58 +83,158 @@
                         c-0.259,2.25,1.377,4.087,3.637,4.087h11.203c2.264,0,4.322-1.837,4.583-4.087l3.365-29.179c0.259-2.244-1.38-4.084-3.637-4.084
                         h-11.2c-2.266,0-4.322,1.84-4.586,4.084L0.027,289.443z" />
                 </g>
-                <a xlink:href="#" @click="map_area(centers['010200'].children)">
+                <a xlink:href="#" @click="map_area(centers['010200'].children);areaTab = 1">
                   <g class="hokkaido">
                       <path 
                           d="M261.561 0c-2.262 0-4.324 1.834-4.583 4.079l-6.417 55.63c-.26 2.247-.561 4.082-.672 4.082-.117 0-.419 1.834-.676 4.078l-.78 6.776c-.265 2.247 1.373 4.082 3.638 4.082h15.686c2.256 0 4.314-1.835 4.574-4.082l.391-3.335c.256-2.25 2.318-4.082 4.58-4.082h61.281c2.259 0 4.32-1.843 4.577-4.09l6.813-59.06C350.234 1.834 348.594 0 346.335 0h-84.774z" />
                   </g>
                 </a>
                 <a xlink:href="#">
-                  <g class="shikoku" @click="map_area(centers['010800'].children)">
+                  <g class="shikoku" @click="map_area(centers['010800'].children);areaTab = 7">
                       <path 
                           d="M92.832 287.885c-.253 2.244 1.383 4.079 3.637 4.079h55.064c2.261 0 4.324-1.835 4.583-4.079l3.842-33.325c.259-2.241-1.379-4.082-3.642-4.082h-55.058c-2.26 0-4.322 1.841-4.582 4.082l-3.844 33.325z" />
                   </g>
                 </a>
                 <a xlink:href="#">
-                  <g class="kyusyu" @click="map_area(centers['010900'].children)">
+                  <g class="kyusyu" @click="map_area(centers['010900'].children);areaTab = 8">
                       <path 
                           d="M7.313 226.287c-.256 2.244 1.38 4.079 3.643 4.079h18.669c2.257 0 3.894 1.843 3.64 4.084L27.1 287.885c-.258 2.244 1.376 4.079 3.639 4.079h42.572c2.263 0 4.32-1.835 4.582-4.079l12.023-104.229c.263-2.241-1.376-4.081-3.64-4.081H16.812c-2.263 0-4.322 1.84-4.582 4.081l-4.917 42.631z" />
                   </g>
                 </a>
                 <a xlink:href="#">
-                  <g class="okinawa" @click="map_area(centers['011100'].children)">
+                  <g class="okinawa" @click="map_area(centers['011100'].children);areaTab = 9">
                       <path
                           d="M.027 289.443c-.259 2.25 1.377 4.087 3.637 4.087h11.203c2.264 0 4.322-1.837 4.583-4.087l3.365-29.179c.259-2.244-1.38-4.084-3.637-4.084h-11.2c-2.266 0-4.322 1.84-4.586 4.084L.027 289.443z" />
                   </g>
                 </a>
                 <a xlink:href="#">
-                  <g class="chugoku" @click="map_area(centers['010700'].children)">
+                  <g class="chugoku" @click="map_area(centers['010700'].children);areaTab = 6">
                       <path
                           d="m104.52 184.098-4.897 46.821c-.233 2.25 1.424 4.09 3.69 4.09h46.245l5.445-54.995h-45.948c-2.261 0-4.301 1.834-4.535 4.084z" />
                   </g>
                 </a>
                 <a xlink:href="#">
-                  <g class="kansai" @click="map_area(centers['010600'].children)">
+                  <g class="kansai" @click="map_area(centers['010600'].children);areaTab = 5">
                       <path
                           d="m215.229 250.332-27.045-70.318h-33.181l-5.445 54.995h22.586c2.262 0 3.862 1.834 3.561 4.07l-2.823 20.772c-.305 2.236 1.296 4.073 3.554 4.073h33.117c2.26 0 4.324-1.843 4.578-4.084" />
                   </g>
                 </a>
-                <a xlink:href="#" @click="map_area(centers['010400'].children)">
+                <a xlink:href="#" @click="map_area(centers['010400'].children);areaTab = 4">
                   <g class="tokai">
                       <path
                           d="M219.645 180.014c-2.262 0-3.898-1.846-3.637-4.093l.826-7.204c.262-2.25-1.379-4.084-3.641-4.084h-11.197c-2.264 0-4.32 1.834-4.582 4.084l-.832 7.204c-.256 2.247-2.321 4.093-4.583 4.093h-3.815l27.045 70.318.799-6.918c.26-2.247 2.321-4.084 4.583-4.084h35.08l-23.522-59.316h-12.524z" />
                   </g>
                 </a>
+                <a xlink:href="#" @click="map_area(centers['010300'].children);areaTab = 3">
+                  <g class="kanto">
+                      <path
+                          d="M306.414 172.954h-67.566l-.342 2.967c-.259 2.247-2.32 4.093-4.586 4.093h-1.752l23.522 59.316h19.536c2.259 0 3.899 1.837 3.641 4.084l-.955 8.269c-.262 2.245 1.383 4.079 3.639 4.079h11.201c2.256 0 4.321-1.834 4.58-4.079" />
+                  </g>
+                </a>
+                <a xlink:href="#" @click="map_area(centers['010200'].children);areaTab = 2">
+                  <g class="tohoku">
+                      <path
+                          d="M312.656 83.217h-21.658c-2.259 0-4.324 1.834-4.58 4.075l-.533 4.604c-.259 2.241-2.32 4.081-4.58 4.081h-29.469c-2.258 0-4.32 1.84-4.58 4.082l-8.408 72.896h67.566l9.883-85.662c.26-2.242-1.379-4.076-3.641-4.076z" />
+                  </g>
+                </a>
+              </svg>
+            </div>
+            
+            <div class="areaMapSVG" v-show="areaTab === 1">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
+                
+                <a xlink:href="#" @click="map_area(centers['010200'].children)">
+                  <g class="hokkaido">
+                      <path 
+                          d="M261.561 0c-2.262 0-4.324 1.834-4.583 4.079l-6.417 55.63c-.26 2.247-.561 4.082-.672 4.082-.117 0-.419 1.834-.676 4.078l-.78 6.776c-.265 2.247 1.373 4.082 3.638 4.082h15.686c2.256 0 4.314-1.835 4.574-4.082l.391-3.335c.256-2.25 2.318-4.082 4.58-4.082h61.281c2.259 0 4.32-1.843 4.577-4.09l6.813-59.06C350.234 1.834 348.594 0 346.335 0h-84.774z" />
+                  </g>
+                </a>
+              </svg>
+            </div>
+            <div class="areaMapSVG" v-show="areaTab === 2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
+                
+                <a xlink:href="#" @click="map_area(centers['010200'].children)">
+                  <g class="tohoku">
+                      <path
+                          d="M312.656 83.217h-21.658c-2.259 0-4.324 1.834-4.58 4.075l-.533 4.604c-.259 2.241-2.32 4.081-4.58 4.081h-29.469c-2.258 0-4.32 1.84-4.58 4.082l-8.408 72.896h67.566l9.883-85.662c.26-2.242-1.379-4.076-3.641-4.076z" />
+                  </g>
+                </a>
+              </svg>
+            </div>
+            <div class="areaMapSVG" v-show="areaTab === 3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
+                
                 <a xlink:href="#" @click="map_area(centers['010300'].children)">
                   <g class="kanto">
                       <path
                           d="M306.414 172.954h-67.566l-.342 2.967c-.259 2.247-2.32 4.093-4.586 4.093h-1.752l23.522 59.316h19.536c2.259 0 3.899 1.837 3.641 4.084l-.955 8.269c-.262 2.245 1.383 4.079 3.639 4.079h11.201c2.256 0 4.321-1.834 4.58-4.079" />
                   </g>
                 </a>
-                <a xlink:href="#" @click="map_area(centers['010200'].children)">
-                  <g class="tohoku">
+              </svg>
+            </div>
+            <div class="areaMapSVG" v-show="areaTab === 4">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
+                
+                <a xlink:href="#" @click="map_area(centers['010400'].children);areaTab = 4">
+                  <g class="tokai">
                       <path
-                          d="M312.656 83.217h-21.658c-2.259 0-4.324 1.834-4.58 4.075l-.533 4.604c-.259 2.241-2.32 4.081-4.58 4.081h-29.469c-2.258 0-4.32 1.84-4.58 4.082l-8.408 72.896h67.566l9.883-85.662c.26-2.242-1.379-4.076-3.641-4.076z" />
+                          d="M219.645 180.014c-2.262 0-3.898-1.846-3.637-4.093l.826-7.204c.262-2.25-1.379-4.084-3.641-4.084h-11.197c-2.264 0-4.32 1.834-4.582 4.084l-.832 7.204c-.256 2.247-2.321 4.093-4.583 4.093h-3.815l27.045 70.318.799-6.918c.26-2.247 2.321-4.084 4.583-4.084h35.08l-23.522-59.316h-12.524z" />
+                  </g>
+                </a>
+              </svg>
+            </div>
+            <div class="areaMapSVG" v-show="areaTab === 5">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
+                
+                <a xlink:href="#">
+                  <g class="kansai" @click="map_area(centers['010600'].children)">
+                      <path
+                          d="m215.229 250.332-27.045-70.318h-33.181l-5.445 54.995h22.586c2.262 0 3.862 1.834 3.561 4.07l-2.823 20.772c-.305 2.236 1.296 4.073 3.554 4.073h33.117c2.26 0 4.324-1.843 4.578-4.084" />
+                  </g>
+                </a>
+              </svg>
+            </div>
+            <div class="areaMapSVG" v-show="areaTab === 6">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
+                
+                <a xlink:href="#">
+                  <g class="chugoku" @click="map_area(centers['010700'].children);areaTab = 6">
+                      <path
+                          d="m104.52 184.098-4.897 46.821c-.233 2.25 1.424 4.09 3.69 4.09h46.245l5.445-54.995h-45.948c-2.261 0-4.301 1.834-4.535 4.084z" />
+                  </g>
+                </a>
+              </svg>
+            </div>
+            <div class="areaMapSVG" v-show="areaTab === 7">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
+                
+                <a xlink:href="#">
+                  <g class="shikoku" @click="map_area(centers['010800'].children);areaTab = 7">
+                      <path 
+                          d="M92.832 287.885c-.253 2.244 1.383 4.079 3.637 4.079h55.064c2.261 0 4.324-1.835 4.583-4.079l3.842-33.325c.259-2.241-1.379-4.082-3.642-4.082h-55.058c-2.26 0-4.322 1.841-4.582 4.082l-3.844 33.325z" />
+                  </g>
+                </a>
+              </svg>
+            </div>
+            <div class="areaMapSVG" v-show="areaTab === 8">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
+                
+                <a xlink:href="#">
+                  <g class="kyusyu" @click="map_area(centers['010900'].children);areaTab = 8">
+                      <path 
+                          d="M7.313 226.287c-.256 2.244 1.38 4.079 3.643 4.079h18.669c2.257 0 3.894 1.843 3.64 4.084L27.1 287.885c-.258 2.244 1.376 4.079 3.639 4.079h42.572c2.263 0 4.32-1.835 4.582-4.079l12.023-104.229c.263-2.241-1.376-4.081-3.64-4.081H16.812c-2.263 0-4.322 1.84-4.582 4.081l-4.917 42.631z" />
+                  </g>
+                </a>
+              </svg>
+            </div>
+            <div class="areaMapSVG" v-show="areaTab === 9">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
+                
+                <a xlink:href="#">
+                  <g class="okinawa" @click="map_area(centers['011100'].children);areaTab = 9">
+                      <path
+                          d="M.027 289.443c-.259 2.25 1.377 4.087 3.637 4.087h11.203c2.264 0 4.322-1.837 4.583-4.087l3.365-29.179c.259-2.244-1.38-4.084-3.637-4.084h-11.2c-2.266 0-4.322 1.84-4.586 4.084L.027 289.443z" />
                   </g>
                 </a>
               </svg>
@@ -305,8 +406,9 @@ export default{
   data(){
     return{
       WeatherCodes: WeatherCodes,
-      tab:0,
+      areaTab:0,
       day:0,
+
       topArea:[
           //釧路
           {
@@ -453,7 +555,7 @@ export default{
     map_area: function(mapArea){
         this.$store.dispatch('forecast/forecastAll', {mapArea})
     },
-
+    
   },
 }
 

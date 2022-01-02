@@ -818,7 +818,7 @@ export const actions = {
   },
   
   forecastAll: async function({commit},{mapArea}){
-
+    console.log(mapArea)
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
     const area = [
       '014100', //釧路
@@ -845,8 +845,12 @@ export const actions = {
       //'474000', //石垣
     ]
 
+    if(!mapArea){
+      mapArea = area
+    }
+    
     const param = await Promise.all(
-
+      
       mapArea.map(f=>axios.get(url + f + '.json')
       .then(res=>{
         const areaAll = {
@@ -859,7 +863,7 @@ export const actions = {
     )
     .then(res => res)
     .catch((e) => console.log(e));
-    
+
     //console.log(param.length)
     //console.log(param)
     commit('setTopMap', {param})
