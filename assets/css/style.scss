@@ -189,6 +189,7 @@ th{
   overflow-y: auto;
 }
 g{
+  cursor: pointer;
   transform: scale(1) translate(0, 0);
   transition: all 300ms 0s ease;
   
@@ -240,8 +241,5 @@ g{
   transition: all 300ms 0s ease; 
 }
 
-.display_none{
-  display: none;
-}
 
 
