@@ -189,6 +189,9 @@ th{
   overflow-y: auto;
 }
 g{
+  transform: scale(1) translate(0, 0);
+  transition: all 300ms 0s ease;
+  
   &:hover {
     path {
       fill: darken(#198754, 5%);
@@ -198,15 +201,45 @@ g{
 .area_map_all{
   pointer-events: auto;
 }
-.hokkaido{
-  transform: scale(1) translate(0, 0);
-  transition: all 300ms 0s ease;
-}
+
 .hokkaido_zoom{
   //transform: scale(5);
   transform: scale(2) translate(-60%, 15%);
   transition: all 300ms 0s ease;
 }
+.tohoku_zoom{
+  transform: scale(2) translate(-55%, -20%);
+  transition: all 300ms 0s ease;
+}
+.kanto_zoom{
+  transform: scale(2) translate(-53%, -45%);
+  transition: all 300ms 0s ease;
+}
+.tokai_zoom{
+  transform: scale(2) translate(-38%, -45%);
+  transition: all 300ms 0s ease;
+}
+.kansai_zoom{
+  transform: scale(2) translate(-25%, -50%);
+  transition: all 300ms 0s ease;
+}
+.chugoku_zoom{
+  transform: scale(2) translate(-10%, -45%);
+  transition: all 300ms 0s ease;  
+}
+.okinawa_zoom{
+  transform: scale(2) translate(20%, -67%);
+  transition: all 300ms 0s ease;
+}
+.kyusyu_zoom{
+  transform: scale(2) translate(10%, -55%);
+  transition: all 300ms 0s ease;
+}
+.shikoku_zoom{
+  transform: scale(2) translate(-10%, -65%);
+  transition: all 300ms 0s ease; 
+}
+
 .display_none{
   display: none;
 }
