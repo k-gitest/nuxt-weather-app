@@ -62,9 +62,9 @@
           </div>
           -->
           <div class="areaMapSVG_wrap">
-            <div class="areaMapSVG" v-show="areaTab === 0">
+            <div class="areaMapSVG">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
-                <g class="map_all">
+                <g class="map_all" v-show="areaTab === 0">
                     <path display="inline" d="M261.561,0c-2.262,0-4.324,1.834-4.583,4.079l-6.417,55.63
                         c-0.26,2.247-0.561,4.082-0.672,4.082c-0.117,0-0.419,1.834-0.676,4.078l-0.78,6.776c-0.265,2.247,1.373,4.082,3.638,4.082h15.686
                         c2.256,0,4.314-1.835,4.574-4.082l0.391-3.335c0.256-2.25,2.318-4.082,4.58-4.082h61.281c2.259,0,4.32-1.843,4.577-4.09
@@ -84,7 +84,7 @@
                         h-11.2c-2.266,0-4.322,1.84-4.586,4.084L0.027,289.443z" />
                 </g>
                 <a xlink:href="#" @click="map_area(centers['010200'].children);areaTab = 1">
-                  <g class="hokkaido">
+                  <g class="hokkaido" :class="{hokkaido_zoom: areaTab === 1}">
                       <path 
                           d="M261.561 0c-2.262 0-4.324 1.834-4.583 4.079l-6.417 55.63c-.26 2.247-.561 4.082-.672 4.082-.117 0-.419 1.834-.676 4.078l-.78 6.776c-.265 2.247 1.373 4.082 3.638 4.082h15.686c2.256 0 4.314-1.835 4.574-4.082l.391-3.335c.256-2.25 2.318-4.082 4.58-4.082h61.281c2.259 0 4.32-1.843 4.577-4.09l6.813-59.06C350.234 1.834 348.594 0 346.335 0h-84.774z" />
                   </g>
@@ -139,18 +139,19 @@
                 </a>
               </svg>
             </div>
-            
+            <!--
             <div class="areaMapSVG" v-show="areaTab === 1">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
                 
                 <a xlink:href="#" @click="map_area(centers['010200'].children)">
-                  <g class="hokkaido">
+                  <g :class="{hokkaido_zoom: areaTab === 1}">
                       <path 
                           d="M261.561 0c-2.262 0-4.324 1.834-4.583 4.079l-6.417 55.63c-.26 2.247-.561 4.082-.672 4.082-.117 0-.419 1.834-.676 4.078l-.78 6.776c-.265 2.247 1.373 4.082 3.638 4.082h15.686c2.256 0 4.314-1.835 4.574-4.082l.391-3.335c.256-2.25 2.318-4.082 4.58-4.082h61.281c2.259 0 4.32-1.843 4.577-4.09l6.813-59.06C350.234 1.834 348.594 0 346.335 0h-84.774z" />
                   </g>
                 </a>
               </svg>
             </div>
+            -->
             <div class="areaMapSVG" v-show="areaTab === 2">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 293.53" overflow="visible">
                 
