@@ -26,7 +26,9 @@
               <template v-for="(weekArea,num) in topWeathers">
 
                 <nuxt-link :to="`./forecast/${weekArea.id}`">
+
                   <div class="nav_top_map" :style="`top:` + weekArea.topArea[num].top + `;left:` + weekArea.topArea[num].left + `;`">
+
                     <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
                     <template v-if="day === 0">
                       <img :src="require(`@/assets/img/`+WeatherCodes[topWeathers[num].timeWeathers.areas[0].weatherCodes[0]][0])" /><br>
@@ -295,7 +297,6 @@ export default{
       areaTab:0,
       day:0,
 
-
     }
   },
   
@@ -324,6 +325,7 @@ export default{
     topArea: function(){
       return this.$store.getters['forecast/topArea']
     }
+
   },
   
   methods: {
