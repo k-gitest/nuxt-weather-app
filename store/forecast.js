@@ -154,56 +154,7 @@ export const state = () => ({
           top:"40%",
           left:"43%",
         },
-        //東京
-        {
-          top:"65%",
-          left:"75%",
-        },
-        //長野
-        {
-          top:"60%",
-          left:"60%",
-        },
-        //名古屋
-        {
-          top:"80%",
-          left:"57%",
-        },
-        //大阪
-        {
-          top:"75%",
-          left:"43%",
-        },
-        //松江
-        {
-          top:"30%",
-          left:"29%",
-        },
-        //広島
-        {
-          top:"50%",
-          left:"29%",
-        },
-        //高知
-        {
-          top:"80%",
-          left:"30%",
-        },
-        //福岡
-        {
-          top:"50%",
-          left:"14%",
-        },
-        //鹿児島
-        {
-          top:"80%",
-          left:"15%",
-        },
-        //那覇
-        {
-          top:"80%",
-          left:"0%",
-        },
+        
       ],
       [
         /*東北　6個*/
@@ -574,7 +525,7 @@ function dateformat(date, long, index){ //日付配列、変換分岐、昼夜�
 }
 
 function topAreaNameChange(area){
-  console.log(area)
+  //console.log(area)
   switch(area){
     case '014100':
       return '釧路'
@@ -1119,12 +1070,12 @@ export const mutations = {
       if(f.topIndex &&  param.length){
         //f.items[1].timeSeries[0].areas.length = 1
         const mapAreaName = topAreaNameChange(f.area)
-        console.log(mapAreaName)
+        //console.log(mapAreaName)
         if(mapAreaName){
           f.items[1].timeSeries[0].areas[0].area.name = mapAreaName
         }
-        console.log(f.items[1].timeSeries[0].areas[0].area.name)
-        console.log(f.areaTab)
+        //console.log(f.items[1].timeSeries[0].areas[0].area.name)
+        //console.log(f.areaTab)
         let topForecast = {
           id: f.area,
           topArea: state.topArea[f.areaTab],
@@ -1134,7 +1085,7 @@ export const mutations = {
           'weekWeathers': f.items[1].timeSeries[0],
           'weekTemps': f.items[1].timeSeries[1]
         }
-        console.log(topForecast)
+        //console.log(topForecast)
         state.topWeathers.push(topForecast)
       }
       
@@ -1254,7 +1205,7 @@ export const actions = {
   },
   
   forecastAll: async function({commit},{mapArea,areaTab}){
-    console.log(mapArea, areaTab)
+    //console.log(mapArea, areaTab)
     const url = 'https://www.jma.go.jp/bosai/forecast/data/forecast/'
     const area = [
       '014100', //釧路
@@ -1285,6 +1236,11 @@ export const actions = {
       mapArea = area
     }
     
+    mapArea = mapArea.filter(f=>{
+      if(f !== '014030' && f !== '460040') return f
+    })
+    
+    console.log(mapArea)
     const param = await Promise.all(
       
       mapArea.map(f=>axios.get(url + f + '.json')

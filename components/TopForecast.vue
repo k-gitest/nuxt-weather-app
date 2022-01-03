@@ -85,7 +85,7 @@
                         h-11.2c-2.266,0-4.322,1.84-4.586,4.084L0.027,289.443z" />
                 </g>
 
-                <g class="hokkaido" :class="{hokkaido_zoom: areaTab === 1}" v-show="areaTab === 0 || areaTab === 1" @click="areaTab = 1;map_area(centers['010200'].children, areaTab)">
+                <g class="hokkaido" :class="{hokkaido_zoom: areaTab === 1}" v-show="areaTab === 0 || areaTab === 1" @click="areaTab = 1;map_area(centers['010100'].children, areaTab)">
                     <path 
                         d="M261.561 0c-2.262 0-4.324 1.834-4.583 4.079l-6.417 55.63c-.26 2.247-.561 4.082-.672 4.082-.117 0-.419 1.834-.676 4.078l-.78 6.776c-.265 2.247 1.373 4.082 3.638 4.082h15.686c2.256 0 4.314-1.835 4.574-4.082l.391-3.335c.256-2.25 2.318-4.082 4.58-4.082h61.281c2.259 0 4.32-1.843 4.577-4.09l6.813-59.06C350.234 1.834 348.594 0 346.335 0h-84.774z" />
                 </g>
