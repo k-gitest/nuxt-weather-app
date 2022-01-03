@@ -24,7 +24,7 @@
             <div class="map_item_inner">
               <button v-if="areaTab !== 0" class="btn btn-success area_map_all" @click="areaTab = 0;map_area(null,areaTab)">戻る</button>
               <template v-for="(weekArea,num) in topWeathers">
-                {{weekArea.topArea[num].top}}
+
                 <nuxt-link :to="`./forecast/${weekArea.id}`">
                   <div class="nav_top_map" :style="`top:` + weekArea.topArea[num].top + `;left:` + weekArea.topArea[num].left + `;`">
                     <p>{{topWeathers[num].weekWeathers.areas[0].area.name}}</p>
@@ -113,11 +113,11 @@
                     <path 
                         d="M92.832 287.885c-.253 2.244 1.383 4.079 3.637 4.079h55.064c2.261 0 4.324-1.835 4.583-4.079l3.842-33.325c.259-2.241-1.379-4.082-3.642-4.082h-55.058c-2.26 0-4.322 1.841-4.582 4.082l-3.844 33.325z" />
                 </g>
-                <g class="kyusyu" :class="{kyusyu_zoom: areaTab === 8}" @click="areaTab = 8;map_area(centers['010900'].children), areaTab" v-show="areaTab === 0 || areaTab === 8">
+                <g class="kyusyu" :class="{kyusyu_zoom: areaTab === 8}" @click="areaTab = 8;map_area(centers['010900'].children, areaTab)" v-show="areaTab === 0 || areaTab === 8">
                     <path 
                         d="M7.313 226.287c-.256 2.244 1.38 4.079 3.643 4.079h18.669c2.257 0 3.894 1.843 3.64 4.084L27.1 287.885c-.258 2.244 1.376 4.079 3.639 4.079h42.572c2.263 0 4.32-1.835 4.582-4.079l12.023-104.229c.263-2.241-1.376-4.081-3.64-4.081H16.812c-2.263 0-4.322 1.84-4.582 4.081l-4.917 42.631z" />
                 </g>
-                <g class="okinawa" :class="{okinawa_zoom: areaTab === 9}" @click="map_area(centers['011100'].children);areaTab = 9" v-show="areaTab === 0 || areaTab === 9">
+                <g class="okinawa" :class="{okinawa_zoom: areaTab === 9}" @click="areaTab = 9;map_area(centers['011100'].children, areaTab)" v-show="areaTab === 0 || areaTab === 9">
                     <path
                         d="M.027 289.443c-.259 2.25 1.377 4.087 3.637 4.087h11.203c2.264 0 4.322-1.837 4.583-4.087l3.365-29.179c.259-2.244-1.38-4.084-3.637-4.084h-11.2c-2.266 0-4.322 1.84-4.586 4.084L.027 289.443z" />
                 </g>
