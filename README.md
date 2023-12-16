@@ -11,6 +11,7 @@ vueがver3になりnuxt3も選択視野となったことから最終的に頓�
 nuxt2と気象庁jsonデータで構築されたwebアプリケーションプロジェクトです。
 
 気象庁jsonデータにひまわりやナウキャストデータを併用し地理院タイルに表示するアプリケーション開発は以下。
+
 [ひまわりやナウキャストを地理院タイルに表示](https://github.com/k-gitest/weather-leaf-app-prototype)
 
 ## 要件
