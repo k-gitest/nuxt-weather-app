@@ -1,69 +1,82 @@
-# myapp
+## 目的
 
-## Build Setup
+天気系サービスのexpressとnuxt2へのリプレイスプロジェクトがあったが、
+vueがver3になりnuxt3も選択視野となったことから最終的に頓挫する。
 
-```bash
-# install dependencies
-$ npm install
+気象庁がjsonデータのapi利用を限定的ではあるが許可していた。
+折角なので、そのデータを利用し途中までだったnuxt2アプリを作り、読み込み動作を検証する。
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+## app概要
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+nuxt2と気象庁jsonデータで構築されたwebアプリケーションプロジェクトです。
 
-# generate static project
-$ npm run generate
-```
+気象庁jsonデータにひまわりやナウキャストデータを併用し地理院タイルに表示するアプリケーション開発は以下。
+[ひまわりやナウキャストを地理院タイルに表示](https://github.com/k-gitest/weather-leaf-app-prototype)
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+## 要件
 
-## Special Directories
+* リアルタイム性を考慮してSSRで開発
+* nuxtでapiデータを呼び出し表示する
+* api通信はstore（vuex）を使用する
+* データの加工は必ずstore内で行いpages内では行わない 
+* URIはエリアコードに合わせる
+* 天気画像名は天気コードに合わせる
+* 簡易地図を設置し主要都市の天気を表示
+* 都道府県から市区町村を選択し任意の天気を表示
+* 市区町村は都道府県ボタンを押すと開くモーダル内に表示する
+* 3日間と7日間を併せて週間天気予報とする
+* 信頼度・気温・風・波・降水確率と概況も表示する
+* 3日天気と週間天気は同一ページ内に表示する
+* 今日の天気の永続化はしない
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+## 開発環境
 
-### `assets`
+* nuxt 2.15.7
+* axios 0.24.0
+* bootstrap 5.0.0
+* sass 1.43.4
+* sass-loader 10.1.1
+* chart.js 2.9.3
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+## ディレクトリ構成
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+<pre>
+myapp...プロジェクトディレクトリ
+  ├── app ...js設定ファイル
+  ├── assets ...アセットファイル
+  │     ├── css ...cssファイル 
+  │     └── img ...画像ファイル
+  ├── components ...表示用コンポーネント
+  ├── layouts ...レイアウト用コンポーネント
+  ├── pages ...表示用ルートディレクトリ
+  ├── plugins ...プラグイン設定ファイル
+  └── store ...api呼び出しデータ加工・状態管理
+</pre>
 
-### `components`
+### 課題
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
+* 気象庁jsonデータは非公式であるためapiについて何の説明もない
+* 開発の前に先ずapiとデータの仕様を解析しなければならない
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
+## ポイント
 
-### `layouts`
+* 癖のあるデータ設計であるため扱い難い
+* 今日の天気予報は値がないので表示したい場合はDBを用意する必要がある
+* エリアコードの変更やデータの抜けなども混在しており把握しておく必要がある
+* 上記の理由で一部地域だけ特定の処理をする必要がある
+* 簡易地図の主要都市天気表示などすると全データを読み込む必要がある
+* 「今夜」という画像コードがある
+* 前述の理由から処理が膨大になるのでstore内で分割した方が良い
+* スクロールが発生するのでrouter.scrollBehavior.jsを使用し、エリアコードのURIを監視し画面遷移するためwatchQueryを使う
 
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
+## 結論
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
+気象庁の天気予報データが使えると話題になったが、癖のあるデータ設計を見て嫌になる人が多いのも納得だった。
 
+慣れると扱い易いデータ設計だが、解析し慣れるまでの時間の方が開発時間よりも圧倒的に長くなってしまった。
 
-### `pages`
+慣れたのでひまわり画像やナウキャストなどのデータと組み合わせたアプリケーションも開発した。そちらのデータも癖があるが先に天気予報データを理解していたので直ぐに慣れた。
 
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
+癖があるデータなので使用していると直ぐ分かる。有名なところとしてはNHKの気象ページが使用している。
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+環境問題の高まりから世界各国で気象データを利用したアプリケーションを開発したりapi提供しているので、もしかしたらこの経験が役立つ時がくる･･･かもしれな･･･い
